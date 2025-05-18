@@ -29,12 +29,16 @@ const ParticlesBackground = ({
     canvas.width = canvas.offsetWidth;
     canvas.height = canvas.offsetHeight;
 
+    // Store width and height values to avoid null checks later
+    const canvasWidth = canvas.width;
+    const canvasHeight = canvas.height;
+
     // particle configuration
     const particlesArray: Particle[] = [];
     for (let i = 0; i < quantity; i++) {
       const size = Math.random() * 3 + 1; // ukuran lebih kecil
-      const x = Math.random() * canvas.width;
-      const y = Math.random() * canvas.height;
+      const x = Math.random() * canvasWidth;
+      const y = Math.random() * canvasHeight;
       const directionX = Math.random() * 0.8 - 0.4; // pergerakan lebih lambat
       const directionY = Math.random() * 0.8 - 0.4;
       const opacity = Math.random() * 0.3 + 0.1; // opacity lebih rendah
@@ -48,7 +52,8 @@ const ParticlesBackground = ({
           size,
           color,
           opacity,
-          canvas
+          canvasWidth,
+          canvasHeight
         )
       );
     }
@@ -57,10 +62,10 @@ const ParticlesBackground = ({
     function animate() {
       requestAnimationFrame(animate);
 
-      // Add null check for ctx
-      if (!ctx) return;
+      // Safety check - both canvas and ctx should exist at this point
+      if (!ctx || !canvas) return;
 
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.clearRect(0, 0, canvasWidth, canvasHeight);
 
       for (let i = 0; i < particlesArray.length; i++) {
         particlesArray[i].update();
@@ -68,7 +73,7 @@ const ParticlesBackground = ({
       }
 
       // connect particles when close
-      connectParticles(particlesArray, ctx, canvas);
+      connectParticles(particlesArray, ctx, canvasWidth, canvasHeight);
     }
 
     animate();
@@ -112,7 +117,8 @@ class Particle {
   size: number;
   color: string;
   opacity: number;
-  canvas: HTMLCanvasElement;
+  canvasWidth: number;
+  canvasHeight: number;
 
   constructor(
     x: number,
@@ -122,7 +128,8 @@ class Particle {
     size: number,
     color: string,
     opacity: number,
-    canvas: HTMLCanvasElement
+    canvasWidth: number,
+    canvasHeight: number
   ) {
     this.x = x;
     this.y = y;
@@ -131,7 +138,8 @@ class Particle {
     this.size = size;
     this.color = color;
     this.opacity = opacity;
-    this.canvas = canvas;
+    this.canvasWidth = canvasWidth;
+    this.canvasHeight = canvasHeight;
   }
 
   // draw particle
@@ -147,10 +155,10 @@ class Particle {
   // update particle
   update() {
     // bounce off edges
-    if (this.x > this.canvas.width || this.x < 0) {
+    if (this.x > this.canvasWidth || this.x < 0) {
       this.directionX = -this.directionX;
     }
-    if (this.y > this.canvas.height || this.y < 0) {
+    if (this.y > this.canvasHeight || this.y < 0) {
       this.directionY = -this.directionY;
     }
 
@@ -163,7 +171,8 @@ class Particle {
 function connectParticles(
   particles: Particle[],
   ctx: CanvasRenderingContext2D,
-  canvas: HTMLCanvasElement
+  canvasWidth: number,
+  canvasHeight: number
 ) {
   const maxDistance = 80; // jarak koneksi lebih pendek
 
