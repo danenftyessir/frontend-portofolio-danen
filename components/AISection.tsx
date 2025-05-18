@@ -4,12 +4,10 @@ import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/components/ui/toast";
 import { AIResponseCard } from "@/components/AIResponseCard";
 
-// url backend dari environment variable atau fallback ke default
 const API_URL =
   process.env.NEXT_PUBLIC_BACKEND_URL ||
   "https://portofolio-danen-backend.up.railway.app";
 
-// komponen ai section yang diperbaiki
 const AISection = () => {
   const [userPrompt, setUserPrompt] = useState("");
   const [aiResponse, setAiResponse] = useState("");
@@ -18,17 +16,21 @@ const AISection = () => {
   const [useMock, setUseMock] = useState(false);
   const [backendStatus, setBackendStatus] = useState("checking");
   const [previousQuestions, setPreviousQuestions] = useState<string[]>([]);
+  const [sessionId, setSessionId] = useState<string>(""); // track session id
+  const [conversationHistory, setConversationHistory] = useState<
+    Array<{ question: string; response: string; timestamp: number }>
+  >([]);
   const { toast } = useToast();
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
-  // preset pertanyaan yang relevan dengan profile
+  // preset pertanyaan yang lebih engaging dan natural
   const presetQuestions = [
-    "Apa keahlian utama kamu?",
-    "Ceritakan tentang proyek terbaik kamu",
-    "Apa hobi yang kamu sukai?",
-    "Ceritakan tentang pengalamanmu dengan data science",
-    "Apa rencana karir kamu ke depan?",
-    "Bagaimana pendidikan kamu?",
+    "Kenapa saya harus merekrut kamu ke tim data science kami?",
+    "Apa yang membuat kamu berbeda dari kandidat lain?",
+    "Ceritakan tentang proyek terbaik yang pernah kamu kerjakan",
+    "Gimana pengalaman kamu dengan data science selama ini?",
+    "Apa keahlian teknis yang paling kamu banggakan?",
+    "Bagaimana kamu mengatasi tantangan dalam coding?",
   ];
 
   // cek koneksi ke backend saat komponen dimuat
@@ -54,7 +56,12 @@ const AISection = () => {
     };
 
     checkBackend();
-  }, []);
+
+    // generate session id jika belum ada
+    if (!sessionId) {
+      setSessionId(crypto.randomUUID());
+    }
+  }, [sessionId]);
 
   // fungsi untuk mengirim pertanyaan ke backend
   const askAI = async (question: string) => {
@@ -76,7 +83,6 @@ const AISection = () => {
       setPreviousQuestions((prev) => [question, ...prev].slice(0, 5));
     }
 
-    // pilih endpoint berdasarkan mode
     const endpoint = useMock ? `${API_URL}/ask-mock` : `${API_URL}/ask`;
 
     try {
@@ -85,13 +91,15 @@ const AISection = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ question }),
+        body: JSON.stringify({
+          question,
+          session_id: sessionId, // kirim session id untuk konteks
+        }),
       });
 
       if (!response.ok) {
         const responseText = await response.text();
 
-        // parse response sebagai JSON jika memungkinkan
         let errorDetail;
         try {
           errorDetail = JSON.parse(responseText).detail;
@@ -120,10 +128,13 @@ const AISection = () => {
         return;
       }
 
-      // parse response sebagai JSON
       const data = await response.json();
 
-      // perbaikan formatting respons - hapus spasi berlebih & normalisasi
+      // update session id jika dapat dari response
+      if (data.session_id && data.session_id !== sessionId) {
+        setSessionId(data.session_id);
+      }
+
       const cleanedResponse = data.response
         .replace(/\s+/g, " ")
         .replace(/\s+\./g, ".")
@@ -143,6 +154,18 @@ const AISection = () => {
         .trim();
 
       setAiResponse(cleanedResponse);
+
+      // simpan ke conversation history
+      setConversationHistory((prev) =>
+        [
+          ...prev,
+          {
+            question,
+            response: cleanedResponse,
+            timestamp: Date.now(),
+          },
+        ].slice(-10)
+      ); // keep last 10 exchanges
     } catch (error) {
       console.error("Error:", error);
 
@@ -205,11 +228,24 @@ const AISection = () => {
     }
   };
 
+  // fungsi untuk clear conversation
+  const clearConversation = () => {
+    setAiResponse("");
+    setConversationHistory([]);
+    setPreviousQuestions([]);
+    setSessionId(crypto.randomUUID()); // generate new session
+    setUserPrompt("");
+    toast({
+      title: "Percakapan Dibersihkan",
+      description: "Memulai sesi percakapan baru",
+    });
+  };
+
   return (
     <div>
       <h2 className="mb-6 text-center text-3xl font-bold">Tanya AI Asisten</h2>
       <div className="rounded-xl bg-white p-6 shadow-md">
-        {/* status backend & toggle mode */}
+        {/* header dengan status dan controls */}
         <div className="mb-4 flex items-center justify-between">
           <div className="flex items-center gap-2">
             <span
@@ -228,34 +264,80 @@ const AISection = () => {
                 ? "Backend tidak terhubung"
                 : "Mengecek status..."}
             </span>
+            {conversationHistory.length > 0 && (
+              <span className="ml-3 text-xs text-slate-500">
+                {conversationHistory.length} exchange
+                {conversationHistory.length !== 1 ? "s" : ""}
+              </span>
+            )}
           </div>
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={toggleMode}
-            className="text-xs"
-          >
-            <span
-              className={`mr-1.5 inline-block h-2 w-2 rounded-full ${
-                useMock ? "bg-amber-500" : "bg-green-500"
-              }`}
-            ></span>
-            Mode: {useMock ? "Offline" : "Online"}
-          </Button>
+          <div className="flex items-center gap-2">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={toggleMode}
+              className="text-xs"
+            >
+              <span
+                className={`mr-1.5 inline-block h-2 w-2 rounded-full ${
+                  useMock ? "bg-amber-500" : "bg-green-500"
+                }`}
+              ></span>
+              Mode: {useMock ? "Offline" : "Online"}
+            </Button>
+            {conversationHistory.length > 0 && (
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={clearConversation}
+                className="text-xs text-red-600 hover:text-red-700 hover:bg-red-50"
+              >
+                Clear Chat
+              </Button>
+            )}
+          </div>
         </div>
+
+        {/* conversation context display (if there's history) */}
+        {conversationHistory.length > 0 && (
+          <div className="mb-4 rounded-lg border border-indigo-100 bg-indigo-50 p-3">
+            <p className="text-xs text-indigo-600 font-medium mb-1">
+              Konteks Percakapan:
+            </p>
+            <p className="text-sm text-indigo-800">
+              {conversationHistory.length > 1
+                ? `Melanjutkan dari: "${conversationHistory[
+                    conversationHistory.length - 1
+                  ].question.substring(0, 50)}..."`
+                : `Memulai percakapan dengan: "${conversationHistory[0].question.substring(
+                    0,
+                    50
+                  )}..."`}
+            </p>
+          </div>
+        )}
 
         {/* Input area dengan styling yang lebih menarik */}
         <div className="mb-4 overflow-hidden rounded-lg border border-slate-200 bg-slate-50 shadow-inner transition-all focus-within:border-indigo-300 focus-within:ring-1 focus-within:ring-indigo-300">
           <Textarea
             ref={textareaRef}
-            placeholder="Tanyakan sesuatu tentang saya..."
+            placeholder={
+              conversationHistory.length > 0
+                ? "Lanjutkan percakapan..."
+                : "Tanyakan sesuatu tentang saya... (misal: Kenapa saya harus merekrut kamu?)"
+            }
             value={userPrompt}
             onChange={(e) => setUserPrompt(e.target.value)}
             onKeyDown={handleKeyDown}
             className="min-h-[130px] max-h-[200px] resize-y border-0 bg-transparent transition-all duration-300 focus-visible:ring-0"
           />
-          <div className="border-t border-slate-200 bg-slate-100 px-3 py-2 text-xs text-slate-500">
-            Tekan Ctrl+Enter untuk kirim
+          <div className="border-t border-slate-200 bg-slate-100 px-3 py-2 text-xs text-slate-500 flex justify-between items-center">
+            <span>Tekan Ctrl+Enter untuk kirim</span>
+            {sessionId && (
+              <span className="font-mono">
+                Session: {sessionId.substring(0, 8)}...
+              </span>
+            )}
           </div>
         </div>
 
@@ -270,9 +352,9 @@ const AISection = () => {
                 <button
                   key={i}
                   onClick={() => selectPreviousQuestion(q)}
-                  className="rounded-full border border-slate-200 bg-white px-3 py-1 text-xs text-slate-700 transition-colors hover:bg-slate-50 hover:text-indigo-600"
+                  className="rounded-full border border-slate-200 bg-white px-3 py-1 text-xs text-slate-700 transition-colors hover:bg-slate-50 hover:text-indigo-600 hover:border-indigo-200"
                 >
-                  {q.length > 20 ? q.substring(0, 20) + "..." : q}
+                  {q.length > 30 ? q.substring(0, 30) + "..." : q}
                 </button>
               ))}
             </div>
@@ -281,8 +363,15 @@ const AISection = () => {
 
         {/* Preset questions dengan UI yang lebih menarik */}
         <div className="mb-4">
-          <p className="mb-2 text-xs text-slate-500">Pertanyaan umum:</p>
-          <div className="flex flex-wrap gap-2">
+          <p className="mb-2 text-xs text-slate-500 flex items-center">
+            <span>Pertanyaan rekomendasi:</span>
+            {conversationHistory.length > 0 && (
+              <span className="ml-2 text-indigo-600">
+                (untuk melanjutkan percakapan)
+              </span>
+            )}
+          </p>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
             {presetQuestions.map((question, index) => (
               <Button
                 key={index}
@@ -292,9 +381,9 @@ const AISection = () => {
                   setUserPrompt(question);
                   askAI(question);
                 }}
-                className="text-xs border-slate-200 hover:bg-indigo-50 hover:text-indigo-600 hover:border-indigo-200 transition-colors duration-300"
+                className="text-xs border-slate-200 hover:bg-indigo-50 hover:text-indigo-600 hover:border-indigo-200 transition-all duration-300 text-left justify-start h-auto py-2 px-3"
               >
-                {question}
+                <span className="truncate">{question}</span>
               </Button>
             ))}
           </div>
@@ -352,7 +441,7 @@ const AISection = () => {
                 >
                   <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
                 </svg>
-                Tanya
+                {conversationHistory.length > 0 ? "Lanjutkan" : "Mulai Chat"}
               </span>
             )}
           </Button>
@@ -397,6 +486,29 @@ const AISection = () => {
                 </li>
                 <li>Koneksi internet tersedia untuk menghubungi API OpenAI</li>
               </ul>
+            </div>
+          </div>
+        )}
+
+        {/* conversation summary (jika ada history) */}
+        {conversationHistory.length > 3 && (
+          <div className="mt-6 rounded-lg border border-slate-200 bg-slate-50 p-4">
+            <h4 className="text-sm font-medium text-slate-700 mb-2">
+              Ringkasan Percakapan
+            </h4>
+            <div className="space-y-2">
+              {conversationHistory.slice(-3).map((exchange, index) => (
+                <div key={index} className="text-xs">
+                  <div className="text-slate-600">
+                    <span className="font-medium">Q:</span>{" "}
+                    {exchange.question.substring(0, 60)}...
+                  </div>
+                  <div className="text-slate-500 ml-3">
+                    <span className="font-medium">A:</span>{" "}
+                    {exchange.response.substring(0, 80)}...
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         )}
