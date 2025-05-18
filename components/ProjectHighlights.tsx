@@ -1,5 +1,16 @@
 import React from "react";
 
+// Interface untuk komponen ProjectCard
+interface ProjectCardProps {
+  title: string;
+  description: string;
+  icon: React.ReactNode;
+  bgColorClass: string;
+  technologies: string[];
+  detailLink: string;
+  style?: React.CSSProperties;
+}
+
 // komponen kartu proyek dengan tata letak yang lebih konsisten
 const ProjectCard = ({
   title,
@@ -8,9 +19,13 @@ const ProjectCard = ({
   bgColorClass,
   technologies,
   detailLink,
-}) => {
+  style,
+}: ProjectCardProps) => {
   return (
-    <div className="rounded-xl border border-slate-200 bg-white overflow-hidden shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-lg animate-on-scroll opacity-0 flex flex-col h-full">
+    <div
+      className="rounded-xl border border-slate-200 bg-white overflow-hidden shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-lg animate-on-scroll opacity-0 flex flex-col h-full"
+      style={style}
+    >
       {/* Header dengan background gradient dan icon */}
       <div className={`flex h-48 items-center justify-center ${bgColorClass}`}>
         {icon}
@@ -53,10 +68,20 @@ const ProjectCard = ({
   );
 };
 
+// Interface untuk data proyek
+interface Project {
+  title: string;
+  description: string;
+  bgColorClass: string;
+  icon: React.ReactNode;
+  technologies: string[];
+  detailLink: string;
+}
+
 // komponen section project highlights dengan kartu seragam
 const ProjectHighlights = () => {
   // data proyek
-  const projects = [
+  const projects: Project[] = [
     {
       title: "Algoritma Pencarian Little Alchemy 2",
       description:
