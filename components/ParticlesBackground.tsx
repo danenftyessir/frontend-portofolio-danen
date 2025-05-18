@@ -23,7 +23,7 @@ const ParticlesBackground = ({
     if (!canvas) return;
 
     const ctx = canvas.getContext("2d");
-    if (!ctx) return;
+    if (!ctx) return; // Early return if context is null
 
     // set canvas full width/height (bukan lebih besar dari viewport)
     canvas.width = canvas.offsetWidth;
@@ -56,6 +56,10 @@ const ParticlesBackground = ({
     // animation loop
     function animate() {
       requestAnimationFrame(animate);
+
+      // Add null check for ctx
+      if (!ctx) return;
+
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
       for (let i = 0; i < particlesArray.length; i++) {
