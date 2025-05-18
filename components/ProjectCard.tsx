@@ -1,6 +1,7 @@
 import React from "react";
 
-const ProjectCard = ({
+// Definisi komponen dengan props
+export const ProjectCard = ({
   title,
   description,
   bgGradient,
@@ -53,8 +54,7 @@ const ProjectCard = ({
   );
 };
 
-// Implementasi di page.tsx
-
+// Export komponen highlight section
 export const ProjectHighlightsSection = () => {
   return (
     <section className="w-full bg-white px-4 py-20">
