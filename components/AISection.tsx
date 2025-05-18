@@ -17,9 +17,9 @@ const AISection = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const [useMock, setUseMock] = useState(false);
   const [backendStatus, setBackendStatus] = useState("checking");
-  const [previousQuestions, setPreviousQuestions] = useState([]);
+  const [previousQuestions, setPreviousQuestions] = useState<string[]>([]);
   const { toast } = useToast();
-  const textareaRef = useRef(null);
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   // preset pertanyaan yang relevan dengan profile
   const presetQuestions = [
@@ -57,7 +57,7 @@ const AISection = () => {
   }, []);
 
   // fungsi untuk mengirim pertanyaan ke backend
-  const askAI = async (question) => {
+  const askAI = async (question: string) => {
     if (!question.trim()) {
       toast({
         title: "Error",
@@ -187,7 +187,7 @@ const AISection = () => {
   };
 
   // fungsi untuk handle keydown
-  const handleKeyDown = (e) => {
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     // kirim pertanyaan dengan Ctrl+Enter
     if (e.key === "Enter" && (e.ctrlKey || e.metaKey)) {
       e.preventDefault();
@@ -196,7 +196,7 @@ const AISection = () => {
   };
 
   // fungsi untuk menampilkan pertanyaan dari history
-  const selectPreviousQuestion = (question) => {
+  const selectPreviousQuestion = (question: string) => {
     setUserPrompt(question);
     // focus ke textarea dan posisikan cursor di akhir
     if (textareaRef.current) {
