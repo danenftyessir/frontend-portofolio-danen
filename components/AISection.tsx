@@ -8,6 +8,14 @@ const API_URL =
   process.env.NEXT_PUBLIC_BACKEND_URL ||
   "https://portofolio-danen-backend.up.railway.app";
 
+// definisikan tipe untuk history percakapan
+interface ConversationItem {
+  question: string;
+  response: string;
+  timestamp: number;
+  category?: string;
+}
+
 const AISection = () => {
   const [userPrompt, setUserPrompt] = useState("");
   const [aiResponse, setAiResponse] = useState("");
@@ -16,21 +24,21 @@ const AISection = () => {
   const [useMock, setUseMock] = useState(false);
   const [backendStatus, setBackendStatus] = useState("checking");
   const [previousQuestions, setPreviousQuestions] = useState<string[]>([]);
-  const [sessionId, setSessionId] = useState<string>(""); // track session id
+  const [sessionId, setSessionId] = useState<string>("");
   const [conversationHistory, setConversationHistory] = useState<
-    Array<{ question: string; response: string; timestamp: number }>
+    ConversationItem[]
   >([]);
+  const [suggestedFollowups, setSuggestedFollowups] = useState<string[]>([]);
+  const [lastQuestionCategory, setLastQuestionCategory] = useState<string>("");
   const { toast } = useToast();
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
-  // preset pertanyaan yang lebih engaging dan natural
-  const presetQuestions = [
+  // preset pertanyaan (4 pertanyaan saja sesuai permintaan)
+  const recommendedQuestions = [
     "Kenapa saya harus merekrut kamu ke tim data science kami?",
-    "Apa yang membuat kamu berbeda dari kandidat lain?",
     "Ceritakan tentang proyek terbaik yang pernah kamu kerjakan",
-    "Gimana pengalaman kamu dengan data science selama ini?",
-    "Apa keahlian teknis yang paling kamu banggakan?",
-    "Bagaimana kamu mengatasi tantangan dalam coding?",
+    "Kamu suka lagu apa?",
+    "Makanan favorit kamu apa?",
   ];
 
   // cek koneksi ke backend saat komponen dimuat
@@ -49,7 +57,7 @@ const AISection = () => {
           setUseMock(true);
         }
       } catch (error) {
-        console.error("Error connecting to backend:", error);
+        console.error("error connecting to backend:", error);
         setBackendStatus("error");
         setUseMock(true);
       }
@@ -63,8 +71,83 @@ const AISection = () => {
     }
   }, [sessionId]);
 
+  // ambil suggested followups
+  useEffect(() => {
+    const fetchSuggestedFollowups = async () => {
+      if (!sessionId || conversationHistory.length === 0) return;
+
+      try {
+        const response = await fetch(
+          `${API_URL}/suggested-followups/${sessionId}`
+        );
+        if (response.ok) {
+          const data = await response.json();
+          if (data.suggested_followups && data.suggested_followups.length > 0) {
+            // ambil maksimal 2 followups saja
+            setSuggestedFollowups(data.suggested_followups.slice(0, 2));
+          }
+        }
+      } catch (error) {
+        console.error("error fetching suggested followups:", error);
+      }
+    };
+
+    fetchSuggestedFollowups();
+  }, [sessionId, conversationHistory]);
+
+  // validasi pertanyaan - diperbaiki untuk pertanyaan singkat
+  const isGibberishQuestion = (question: string): boolean => {
+    // pertanyaan terlalu pendek tetapi bukan kata kunci yang dikenal
+    if (question.split(/\s+/).length < 2) {
+      const validShortQueries = ["python", "react", "java", "next"];
+      return !validShortQueries.some((q) => question.toLowerCase().includes(q));
+    }
+
+    // deteksi karakter berulang yang tidak normal
+    const hasRepeatingChars = /(.)\1{3,}/.test(question);
+    if (hasRepeatingChars) return true;
+
+    // pertanyaan valid
+    return false;
+  };
+
+  // tingkatkan pertanyaan dengan konteks jika diperlukan
+  const enhanceQuestionWithContext = (question: string): string => {
+    const lowerQuestion = question.toLowerCase();
+
+    // jika sudah "ceritakan" dan ada kata kunci teknologi, langsung terima
+    if (
+      lowerQuestion.includes("ceritakan") &&
+      (lowerQuestion.includes("python") ||
+        lowerQuestion.includes("react") ||
+        lowerQuestion.includes("data science"))
+    ) {
+      return question;
+    }
+
+    // untuk pertanyaan sangat singkat, tambah konteks
+    if (
+      lowerQuestion === "python" ||
+      (lowerQuestion.includes("python") && question.split(/\s+/).length < 3)
+    ) {
+      return "Ceritakan pengalamanmu dengan Python dan bagaimana kamu menggunakannya dalam proyek";
+    }
+
+    // untuk teknologi lain
+    for (const tech of ["react", "javascript", "java", "next.js"]) {
+      if (
+        lowerQuestion === tech ||
+        (lowerQuestion.includes(tech) && question.split(/\s+/).length < 3)
+      ) {
+        return `Ceritakan pengalamanmu dengan ${tech} dan proyek apa yang sudah kamu buat`;
+      }
+    }
+
+    return question;
+  };
+
   // fungsi untuk mengirim pertanyaan ke backend
-  const askAI = async (question: string) => {
+  const askAI = async (question: string, skipHistory = false) => {
     if (!question.trim()) {
       toast({
         title: "Error",
@@ -79,8 +162,14 @@ const AISection = () => {
     setErrorMessage("");
 
     // simpan pertanyaan ke history
-    if (!previousQuestions.includes(question)) {
+    if (!skipHistory && !previousQuestions.includes(question)) {
       setPreviousQuestions((prev) => [question, ...prev].slice(0, 5));
+    }
+
+    // tingkatkan pertanyaan jika perlu
+    let processedQuestion = question;
+    if (question.split(/\s+/).length < 3) {
+      processedQuestion = enhanceQuestionWithContext(question);
     }
 
     const endpoint = useMock ? `${API_URL}/ask-mock` : `${API_URL}/ask`;
@@ -92,8 +181,8 @@ const AISection = () => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          question,
-          session_id: sessionId, // kirim session id untuk konteks
+          question: processedQuestion,
+          session_id: sessionId,
         }),
       });
 
@@ -116,7 +205,7 @@ const AISection = () => {
             description: "Beralih ke mode offline untuk sementara",
           });
           setUseMock(true);
-          await askAI(question);
+          await askAI(processedQuestion, true); // skip adding to history again
           return;
         } else {
           toast({
@@ -138,34 +227,76 @@ const AISection = () => {
       const cleanedResponse = data.response
         .replace(/\s+/g, " ")
         .replace(/\s+\./g, ".")
-        .replace(/\s+,/g, ",")
-        .replace(/,\s+/g, ", ")
-        .replace(/\.\s+/g, ". ")
-        .replace(/\s+!/g, "!")
-        .replace(/!\s+/g, "! ")
-        .replace(/\s+\?/g, "?")
-        .replace(/\?\s+/g, "? ")
-        .replace(/\s+:/g, ":")
-        .replace(/:\s+/g, ": ")
-        .replace(/\s+;/g, ";")
-        .replace(/;\s+/g, "; ")
-        .replace(/\s+$/g, "")
-        .replace(/^\s+/g, "")
         .trim();
 
+      // cek apakah respons adalah gibberish tapi pertanyaan valid
+      if (
+        cleanedResponse.includes("Hmm, maaf aku tidak mengerti") &&
+        !isGibberishQuestion(processedQuestion)
+      ) {
+        // coba lagi dengan pertanyaan yang ditingkatkan
+        const enhancedQuestion = enhanceQuestionWithContext(processedQuestion);
+        if (enhancedQuestion !== processedQuestion) {
+          setUserPrompt(enhancedQuestion);
+          await askAI(enhancedQuestion, true);
+          return;
+        }
+      }
+
       setAiResponse(cleanedResponse);
+
+      // deteksi kategori dari pertanyaan (sederhana)
+      const detectedCategory = processedQuestion
+        .toLowerCase()
+        .includes("python")
+        ? "teknologi"
+        : processedQuestion.toLowerCase().includes("proyek")
+        ? "proyek"
+        : processedQuestion.toLowerCase().includes("lagu")
+        ? "lagu_favorit"
+        : processedQuestion.toLowerCase().includes("makanan")
+        ? "makanan_favorit"
+        : "general";
+
+      setLastQuestionCategory(detectedCategory);
 
       // simpan ke conversation history
       setConversationHistory((prev) =>
         [
           ...prev,
           {
-            question,
+            question: processedQuestion,
             response: cleanedResponse,
             timestamp: Date.now(),
+            category: detectedCategory,
           },
         ].slice(-10)
-      ); // keep last 10 exchanges
+      ); // simpan 10 percakapan terakhir
+
+      // reset userPrompt setelah mendapatkan respons
+      setUserPrompt("");
+
+      // cek apakah ada followups yang disarankan
+      const fetchSuggestedFollowups = async () => {
+        try {
+          const response = await fetch(
+            `${API_URL}/suggested-followups/${sessionId}`
+          );
+          if (response.ok) {
+            const data = await response.json();
+            if (
+              data.suggested_followups &&
+              data.suggested_followups.length > 0
+            ) {
+              setSuggestedFollowups(data.suggested_followups.slice(0, 2));
+            }
+          }
+        } catch (error) {
+          console.error("error fetching followups:", error);
+        }
+      };
+
+      fetchSuggestedFollowups();
     } catch (error) {
       console.error("Error:", error);
 
@@ -176,7 +307,7 @@ const AISection = () => {
           description: "Beralih ke mode offline untuk sementara",
         });
         setUseMock(true);
-        await askAI(question);
+        await askAI(processedQuestion, true);
         return;
       }
 
@@ -206,12 +337,16 @@ const AISection = () => {
 
   // fungsi untuk regenerate respons
   const regenerateResponse = () => {
-    askAI(userPrompt);
+    if (conversationHistory.length > 0) {
+      const lastQuestion =
+        conversationHistory[conversationHistory.length - 1].question;
+      askAI(lastQuestion, true); // skip adding to history
+    }
   };
 
   // fungsi untuk handle keydown
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
-    // kirim pertanyaan dengan Ctrl+Enter
+    // kirim pertanyaan dengan Ctrl+Enter atau Command+Enter
     if (e.key === "Enter" && (e.ctrlKey || e.metaKey)) {
       e.preventDefault();
       askAI(userPrompt);
@@ -221,24 +356,29 @@ const AISection = () => {
   // fungsi untuk menampilkan pertanyaan dari history
   const selectPreviousQuestion = (question: string) => {
     setUserPrompt(question);
-    // focus ke textarea dan posisikan cursor di akhir
+    // focus ke textarea
     if (textareaRef.current) {
       textareaRef.current.focus();
       textareaRef.current.setSelectionRange(question.length, question.length);
     }
   };
 
-  // fungsi untuk clear conversation
+  // fungsi untuk clear conversation dengan konfirmasi
   const clearConversation = () => {
-    setAiResponse("");
-    setConversationHistory([]);
-    setPreviousQuestions([]);
-    setSessionId(crypto.randomUUID()); // generate new session
-    setUserPrompt("");
-    toast({
-      title: "Percakapan Dibersihkan",
-      description: "Memulai sesi percakapan baru",
-    });
+    if (conversationHistory.length > 0) {
+      if (window.confirm("Hapus riwayat percakapan dan mulai sesi baru?")) {
+        setAiResponse("");
+        setConversationHistory([]);
+        setPreviousQuestions([]);
+        setSuggestedFollowups([]);
+        setSessionId(crypto.randomUUID());
+        setUserPrompt("");
+        toast({
+          title: "Percakapan Dihapus",
+          description: "Sesi percakapan baru telah dimulai",
+        });
+      }
+    }
   };
 
   return (
@@ -266,8 +406,7 @@ const AISection = () => {
             </span>
             {conversationHistory.length > 0 && (
               <span className="ml-3 text-xs text-slate-500">
-                {conversationHistory.length} exchange
-                {conversationHistory.length !== 1 ? "s" : ""}
+                {conversationHistory.length} percakapan dalam sesi ini
               </span>
             )}
           </div>
@@ -290,15 +429,30 @@ const AISection = () => {
                 variant="outline"
                 size="sm"
                 onClick={clearConversation}
-                className="text-xs text-red-600 hover:text-red-700 hover:bg-red-50"
+                className="text-xs text-red-600 hover:text-red-700 hover:bg-red-50 flex items-center gap-1"
+                title="Hapus riwayat percakapan dan mulai sesi baru"
               >
-                Clear Chat
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="mr-2 h-4 w-4"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path d="M3 6h18"></path>
+                  <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path>
+                  <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path>
+                </svg>
+                Hapus & Mulai Baru
               </Button>
             )}
           </div>
         </div>
 
-        {/* conversation context display (if there's history) */}
+        {/* context display jika ada percakapan sebelumnya */}
         {conversationHistory.length > 0 && (
           <div className="mb-4 rounded-lg border border-indigo-100 bg-indigo-50 p-3">
             <p className="text-xs text-indigo-600 font-medium mb-1">
@@ -308,22 +462,29 @@ const AISection = () => {
               {conversationHistory.length > 1
                 ? `Melanjutkan dari: "${conversationHistory[
                     conversationHistory.length - 1
-                  ].question.substring(0, 50)}..."`
+                  ].question.substring(0, 50)}${
+                    conversationHistory[conversationHistory.length - 1].question
+                      .length > 50
+                      ? "..."
+                      : ""
+                  }"`
                 : `Memulai percakapan dengan: "${conversationHistory[0].question.substring(
                     0,
                     50
-                  )}..."`}
+                  )}${
+                    conversationHistory[0].question.length > 50 ? "..." : ""
+                  }"`}
             </p>
           </div>
         )}
 
-        {/* Input area dengan styling yang lebih menarik */}
+        {/* textarea untuk input pertanyaan */}
         <div className="mb-4 overflow-hidden rounded-lg border border-slate-200 bg-slate-50 shadow-inner transition-all focus-within:border-indigo-300 focus-within:ring-1 focus-within:ring-indigo-300">
           <Textarea
             ref={textareaRef}
             placeholder={
               conversationHistory.length > 0
-                ? "Lanjutkan percakapan..."
+                ? "Lanjutkan percakapan atau tanyakan hal baru..."
                 : "Tanyakan sesuatu tentang saya... (misal: Kenapa saya harus merekrut kamu?)"
             }
             value={userPrompt}
@@ -331,24 +492,19 @@ const AISection = () => {
             onKeyDown={handleKeyDown}
             className="min-h-[130px] max-h-[200px] resize-y border-0 bg-transparent transition-all duration-300 focus-visible:ring-0"
           />
-          <div className="border-t border-slate-200 bg-slate-100 px-3 py-2 text-xs text-slate-500 flex justify-between items-center">
+          <div className="border-t border-slate-200 bg-slate-100 px-3 py-2 text-xs text-slate-500">
             <span>Tekan Ctrl+Enter untuk kirim</span>
-            {sessionId && (
-              <span className="font-mono">
-                Session: {sessionId.substring(0, 8)}...
-              </span>
-            )}
           </div>
         </div>
 
-        {/* Sejarah pertanyaan sebelumnya */}
+        {/* pertanyaan sebelumnya */}
         {previousQuestions.length > 0 && (
           <div className="mb-4">
             <p className="mb-2 text-xs text-slate-500">
               Pertanyaan sebelumnya:
             </p>
             <div className="flex flex-wrap gap-2">
-              {previousQuestions.map((q, i) => (
+              {previousQuestions.slice(0, 3).map((q, i) => (
                 <button
                   key={i}
                   onClick={() => selectPreviousQuestion(q)}
@@ -361,18 +517,54 @@ const AISection = () => {
           </div>
         )}
 
-        {/* Preset questions dengan UI yang lebih menarik */}
-        <div className="mb-4">
-          <p className="mb-2 text-xs text-slate-500 flex items-center">
-            <span>Pertanyaan rekomendasi:</span>
-            {conversationHistory.length > 0 && (
-              <span className="ml-2 text-indigo-600">
-                (untuk melanjutkan percakapan)
+        {/* suggested followups */}
+        {suggestedFollowups.length > 0 && (
+          <div className="mb-4">
+            <p className="mb-2 text-xs text-slate-500 flex items-center">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="mr-1 text-indigo-500"
+              >
+                <circle cx="12" cy="12" r="10"></circle>
+                <polyline points="12 16 16 12 12 8"></polyline>
+                <line x1="8" y1="12" x2="16" y2="12"></line>
+              </svg>
+              <span className="font-medium text-indigo-600">
+                Pertanyaan lanjutan:
               </span>
-            )}
-          </p>
+            </p>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+              {suggestedFollowups.map((question, index) => (
+                <Button
+                  key={index}
+                  variant="outline"
+                  size="sm"
+                  onClick={() => {
+                    setUserPrompt(question);
+                    askAI(question);
+                  }}
+                  className="text-xs border-indigo-200 bg-indigo-50 hover:bg-indigo-100 hover:text-indigo-700 hover:border-indigo-300 transition-all duration-300 text-left justify-start h-auto py-2 px-3"
+                >
+                  <span className="truncate">{question}</span>
+                </Button>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* hanya tampilkan 4 pertanyaan rekomendasi */}
+        <div className="mb-4">
+          <p className="mb-2 text-xs text-slate-500">Pertanyaan rekomendasi:</p>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-            {presetQuestions.map((question, index) => (
+            {recommendedQuestions.map((question, index) => (
               <Button
                 key={index}
                 variant="outline"
@@ -381,7 +573,13 @@ const AISection = () => {
                   setUserPrompt(question);
                   askAI(question);
                 }}
-                className="text-xs border-slate-200 hover:bg-indigo-50 hover:text-indigo-600 hover:border-indigo-200 transition-all duration-300 text-left justify-start h-auto py-2 px-3"
+                className={`text-xs border-slate-200 
+                  ${
+                    index < 2
+                      ? "hover:bg-indigo-50 hover:text-indigo-600 hover:border-indigo-200"
+                      : "hover:bg-purple-50 hover:text-purple-600 hover:border-purple-200"
+                  } 
+                  transition-all duration-300 text-left justify-start h-auto py-2 px-3`}
               >
                 <span className="truncate">{question}</span>
               </Button>
@@ -389,6 +587,7 @@ const AISection = () => {
           </div>
         </div>
 
+        {/* tombol aksi */}
         <div className="flex justify-end space-x-2">
           <Button
             variant="outline"
@@ -447,7 +646,7 @@ const AISection = () => {
           </Button>
         </div>
 
-        {/* AI Response Card */}
+        {/* AI response card */}
         {(aiResponse || isLoading) && (
           <AIResponseCard
             response={aiResponse}
@@ -457,6 +656,7 @@ const AISection = () => {
           />
         )}
 
+        {/* error message */}
         {errorMessage && (
           <div className="mt-6 rounded-lg bg-red-50 p-4 text-red-700">
             <div className="flex items-center gap-2 font-medium">
@@ -477,39 +677,6 @@ const AISection = () => {
               <h3>Error</h3>
             </div>
             <div className="mt-2 text-sm">{errorMessage}</div>
-            <div className="mt-3 text-sm">
-              <p>Periksa apakah:</p>
-              <ul className="mt-1 list-disc pl-5">
-                <li>Backend server berjalan di {API_URL}</li>
-                <li>
-                  API key OpenAI sudah dikonfigurasi dengan benar di file .env
-                </li>
-                <li>Koneksi internet tersedia untuk menghubungi API OpenAI</li>
-              </ul>
-            </div>
-          </div>
-        )}
-
-        {/* conversation summary (jika ada history) */}
-        {conversationHistory.length > 3 && (
-          <div className="mt-6 rounded-lg border border-slate-200 bg-slate-50 p-4">
-            <h4 className="text-sm font-medium text-slate-700 mb-2">
-              Ringkasan Percakapan
-            </h4>
-            <div className="space-y-2">
-              {conversationHistory.slice(-3).map((exchange, index) => (
-                <div key={index} className="text-xs">
-                  <div className="text-slate-600">
-                    <span className="font-medium">Q:</span>{" "}
-                    {exchange.question.substring(0, 60)}...
-                  </div>
-                  <div className="text-slate-500 ml-3">
-                    <span className="font-medium">A:</span>{" "}
-                    {exchange.response.substring(0, 80)}...
-                  </div>
-                </div>
-              ))}
-            </div>
           </div>
         )}
       </div>

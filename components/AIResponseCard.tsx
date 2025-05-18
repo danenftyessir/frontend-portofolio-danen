@@ -29,7 +29,7 @@ const AIResponseCard = ({
     setIsCompleted(false);
   }, [response]);
 
-  // efek typing dengan kecepatan yang konsisten berdasarkan karakter
+  // efek typing dengan kecepatan yang konsisten
   useEffect(() => {
     if (!isTyping || !response) return;
 
@@ -57,7 +57,7 @@ const AIResponseCard = ({
     }
   }, [currentIndex, response, isTyping]);
 
-  // memposisikan kursor dan auto-scroll
+  // scroll otomatis saat mengetik
   useEffect(() => {
     if (containerRef.current && isTyping) {
       containerRef.current.scrollTop = containerRef.current.scrollHeight;
@@ -111,15 +111,13 @@ const AIResponseCard = ({
     });
   };
 
-  // pilih pesan loading yang lebih informatif
+  // pesan loading yang lebih informatif
   const getLoadingMessage = () => {
     const messages = [
       "Memproses pertanyaan...",
       "Menganalisis konteks...",
       "Menyusun respons interaktif...",
-      "Menghubungkan dengan knowledge base...",
       "Menyiapkan jawaban personal...",
-      "Mengekstrak insight yang relevan...",
     ];
 
     return messages[Math.floor(Math.random() * messages.length)];
@@ -128,7 +126,7 @@ const AIResponseCard = ({
   // copy response to clipboard
   const copyToClipboard = () => {
     navigator.clipboard.writeText(response).then(() => {
-      // visual feedback bisa ditambah di sini
+      // bisa tambah visual feedback di sini
     });
   };
 
@@ -265,7 +263,7 @@ const AIResponseCard = ({
         )}
       </div>
 
-      {/* footer dengan additional info jika diperlukan */}
+      {/* footer dengan informasi tambahan */}
       {isCompleted && response && (
         <div className="border-t bg-slate-50 px-4 py-2">
           <div className="flex items-center justify-between text-xs text-slate-500">
