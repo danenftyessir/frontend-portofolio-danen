@@ -177,3 +177,37 @@ code {
   padding: 0.15em 0.3em;
   border-radius: 0.25em;
 }
+
+/* utility untuk text clipping */
+.line-clamp-2 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+/* smooth scrollbar untuk history */
+.conversation-history::-webkit-scrollbar {
+  width: 4px;
+}
+
+.conversation-history::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+
+.conversation-history::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 2px;
+}
+
+.conversation-history::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* utility untuk text clipping */
+.line-clamp-2 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
