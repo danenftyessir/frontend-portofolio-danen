@@ -8,16 +8,21 @@ const API_URL =
   process.env.NEXT_PUBLIC_BACKEND_URL ||
   "https://portofolio-danen-backend.up.railway.app";
 
-// tipe untuk history percakapan
 interface ConversationItem {
   question: string;
   response: string;
   timestamp: number;
   category?: string;
+  relatedTopics?: string[];
+}
+
+interface AIApiResponse {
+  response: string;
+  session_id: string;
+  related_topics?: string[];
 }
 
 const AISection = () => {
-  // state variables
   const [userPrompt, setUserPrompt] = useState("");
   const [aiResponse, setAiResponse] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -31,23 +36,24 @@ const AISection = () => {
   >([]);
   const [historyVisible, setHistoryVisible] = useState(false);
   const [suggestedFollowups, setSuggestedFollowups] = useState<string[]>([]);
-  const [lastQuestionCategory, setLastQuestionCategory] = useState<string>("");
+  const [relatedTopics, setRelatedTopics] = useState<string[]>([]);
+  const [ragStatus, setRagStatus] = useState<string>("unknown");
 
-  // Modal position
   const [modalPosition, setModalPosition] = useState({ x: 0, y: 0 });
 
   const { toast } = useToast();
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
-  // preset pertanyaan
   const recommendedQuestions = [
     "Kenapa saya harus merekrut kamu ke tim data science kami?",
     "Ceritakan tentang proyek terbaik yang pernah kamu kerjakan",
     "Kamu suka lagu apa?",
     "Makanan favorit kamu apa?",
+    "Bagaimana pengalaman jadi asisten praktikum?",
+    "Ceritakan tentang Rush Hour Solver project",
   ];
 
-  // cek koneksi backend
+  // check backend dan rag status
   useEffect(() => {
     const checkBackend = async () => {
       try {
@@ -56,8 +62,14 @@ const AISection = () => {
         });
 
         if (response.ok) {
+          const data = await response.json();
           setBackendStatus("connected");
           setUseMock(false);
+
+          // check rag status
+          if (data.rag_status) {
+            setRagStatus(data.rag_status);
+          }
         } else {
           setBackendStatus("error");
           setUseMock(true);
@@ -69,37 +81,26 @@ const AISection = () => {
       }
     };
 
+    const checkRagStatus = async () => {
+      try {
+        const response = await fetch(`${API_URL}/rag-status`);
+        if (response.ok) {
+          const data = await response.json();
+          setRagStatus(data.status);
+        }
+      } catch (error) {
+        console.error("error checking rag status:", error);
+      }
+    };
+
     checkBackend();
+    checkRagStatus();
 
     if (!sessionId) {
       setSessionId(crypto.randomUUID());
     }
   }, [sessionId]);
 
-  // ambil suggested followups
-  useEffect(() => {
-    const fetchSuggestedFollowups = async () => {
-      if (!sessionId || conversationHistory.length === 0) return;
-
-      try {
-        const response = await fetch(
-          `${API_URL}/suggested-followups/${sessionId}`
-        );
-        if (response.ok) {
-          const data = await response.json();
-          if (data.suggested_followups && data.suggested_followups.length > 0) {
-            setSuggestedFollowups(data.suggested_followups.slice(0, 2));
-          }
-        }
-      } catch (error) {
-        console.error("error fetching suggested followups:", error);
-      }
-    };
-
-    fetchSuggestedFollowups();
-  }, [sessionId, conversationHistory]);
-
-  // validasi pertanyaan
   const isGibberishQuestion = (question: string): boolean => {
     if (question.split(/\s+/).length < 2) {
       const validShortQueries = ["python", "react", "java", "next"];
@@ -112,7 +113,6 @@ const AISection = () => {
     return false;
   };
 
-  // tingkatkan pertanyaan dengan konteks
   const enhanceQuestionWithContext = (question: string): string => {
     const lowerQuestion = question.toLowerCase();
 
@@ -144,7 +144,6 @@ const AISection = () => {
     return question;
   };
 
-  // kirim pertanyaan ke backend
   const askAI = async (question: string, skipHistory = false) => {
     if (!question.trim()) {
       toast({
@@ -158,6 +157,7 @@ const AISection = () => {
     setIsLoading(true);
     setAiResponse("");
     setErrorMessage("");
+    setRelatedTopics([]);
 
     if (!skipHistory && !previousQuestions.includes(question)) {
       setPreviousQuestions((prev) => [question, ...prev].slice(0, 5));
@@ -211,7 +211,7 @@ const AISection = () => {
         return;
       }
 
-      const data = await response.json();
+      const data: AIApiResponse = await response.json();
 
       if (data.session_id && data.session_id !== sessionId) {
         setSessionId(data.session_id);
@@ -236,7 +236,11 @@ const AISection = () => {
 
       setAiResponse(cleanedResponse);
 
-      // deteksi kategori
+      // set related topics dari rag system
+      if (data.related_topics && data.related_topics.length > 0) {
+        setRelatedTopics(data.related_topics);
+      }
+
       const detectedCategory = processedQuestion
         .toLowerCase()
         .includes("python")
@@ -249,9 +253,6 @@ const AISection = () => {
         ? "makanan_favorit"
         : "general";
 
-      setLastQuestionCategory(detectedCategory);
-
-      // simpan ke history
       setConversationHistory((prev) =>
         [
           ...prev,
@@ -260,13 +261,14 @@ const AISection = () => {
             response: cleanedResponse,
             timestamp: Date.now(),
             category: detectedCategory,
+            relatedTopics: data.related_topics,
           },
         ].slice(-20)
       );
 
       setUserPrompt("");
 
-      // ambil suggested followups
+      // fetch suggested followups
       const fetchSuggestedFollowups = async () => {
         try {
           const response = await fetch(
@@ -315,7 +317,6 @@ const AISection = () => {
     }
   };
 
-  // toggle mode
   const toggleMode = () => {
     setUseMock(!useMock);
     toast({
@@ -324,7 +325,6 @@ const AISection = () => {
     });
   };
 
-  // regenerate respons
   const regenerateResponse = () => {
     if (conversationHistory.length > 0) {
       const lastQuestion =
@@ -333,7 +333,6 @@ const AISection = () => {
     }
   };
 
-  // handle keydown
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === "Enter" && (e.ctrlKey || e.metaKey)) {
       e.preventDefault();
@@ -341,7 +340,6 @@ const AISection = () => {
     }
   };
 
-  // select pertanyaan sebelumnya
   const selectPreviousQuestion = (question: string) => {
     setUserPrompt(question);
     if (textareaRef.current) {
@@ -350,7 +348,6 @@ const AISection = () => {
     }
   };
 
-  // clear conversation
   const clearConversation = () => {
     if (conversationHistory.length > 0) {
       if (window.confirm("Hapus riwayat percakapan dan mulai sesi baru?")) {
@@ -358,6 +355,7 @@ const AISection = () => {
         setConversationHistory([]);
         setPreviousQuestions([]);
         setSuggestedFollowups([]);
+        setRelatedTopics([]);
         setSessionId(crypto.randomUUID());
         setUserPrompt("");
         toast({
@@ -368,7 +366,6 @@ const AISection = () => {
     }
   };
 
-  // clear history
   const clearHistory = () => {
     if (conversationHistory.length > 0) {
       if (window.confirm("hapus semua riwayat percakapan?")) {
@@ -381,7 +378,6 @@ const AISection = () => {
     }
   };
 
-  // select question from history
   const selectQuestionFromHistory = (question: string) => {
     setUserPrompt(question);
     if (textareaRef.current) {
@@ -391,7 +387,22 @@ const AISection = () => {
     setHistoryVisible(false);
   };
 
-  // format waktu untuk history
+  const selectRelatedTopic = (topic: string) => {
+    const topicQuestions = {
+      "Keahlian Python": "Ceritakan lebih detail tentang keahlian Python kamu",
+      "Rush Hour Puzzle Solver":
+        "Bagaimana cara kerja Rush Hour Solver yang kamu buat?",
+      "Web Development": "Apa saja teknologi web development yang kamu kuasai?",
+      "Street Food Enthusiast":
+        "Rekomendasi street food favorit di Jakarta dong",
+      "Selera Musik": "Lagu apa yang lagi sering kamu dengerin?",
+    };
+
+    const question = topicQuestions[topic] || `Ceritakan tentang ${topic}`;
+    setUserPrompt(question);
+    askAI(question);
+  };
+
   const formatTime = (timestamp: number) => {
     return new Date(timestamp).toLocaleTimeString("id-ID", {
       hour: "2-digit",
@@ -399,14 +410,11 @@ const AISection = () => {
     });
   };
 
-  // IMPLEMENTASI DRAG YANG SEDERHANA
-
-  // variabel tracking
+  // drag functionality untuk modal
   let isDragging = false;
   let offsetX = 0;
   let offsetY = 0;
 
-  // fungsi untuk memulai drag
   const onMouseDown = (e: React.MouseEvent) => {
     if ((e.target as HTMLElement).tagName === "BUTTON") return;
 
@@ -420,7 +428,6 @@ const AISection = () => {
     document.body.style.userSelect = "none";
   };
 
-  // fungsi untuk drag
   const onMouseMove = (e: MouseEvent) => {
     if (!isDragging) return;
 
@@ -430,7 +437,6 @@ const AISection = () => {
     setModalPosition({ x, y });
   };
 
-  // fungsi untuk mengakhiri drag
   const onMouseUp = () => {
     isDragging = false;
     document.removeEventListener("mousemove", onMouseMove);
@@ -438,7 +444,6 @@ const AISection = () => {
     document.body.style.userSelect = "";
   };
 
-  // Reset posisi modal ke tengah saat pertama kali dibuka
   useEffect(() => {
     if (historyVisible) {
       const centerX = (window.innerWidth - 320) / 2;
@@ -446,7 +451,6 @@ const AISection = () => {
       setModalPosition({ x: centerX, y: centerY });
     }
 
-    // cleanup event listeners
     return () => {
       document.removeEventListener("mousemove", onMouseMove);
       document.removeEventListener("mouseup", onMouseUp);
@@ -477,6 +481,21 @@ const AISection = () => {
                 ? "Backend tidak terhubung"
                 : "Mengecek status..."}
             </span>
+
+            {/* rag status indicator */}
+            {ragStatus && ragStatus !== "unknown" && (
+              <div className="flex items-center gap-1 ml-3">
+                <span
+                  className={`inline-block h-2 w-2 rounded-full ${
+                    ragStatus === "healthy" || ragStatus === "initialized"
+                      ? "bg-blue-500"
+                      : "bg-orange-500"
+                  }`}
+                ></span>
+                <span className="text-xs text-slate-500">RAG: {ragStatus}</span>
+              </div>
+            )}
+
             {conversationHistory.length > 0 && (
               <span className="ml-3 text-xs text-slate-500">
                 {conversationHistory.length} percakapan dalam sesi ini
@@ -525,7 +544,7 @@ const AISection = () => {
           </div>
         </div>
 
-        {/* context display jika ada percakapan sebelumnya */}
+        {/* context display */}
         {conversationHistory.length > 0 && (
           <div className="mb-4 rounded-lg border border-indigo-100 bg-indigo-50 p-3">
             <p className="text-xs text-indigo-600 font-medium mb-1">
@@ -551,7 +570,7 @@ const AISection = () => {
           </div>
         )}
 
-        {/* textarea untuk input pertanyaan */}
+        {/* textarea input */}
         <div className="mb-4 overflow-hidden rounded-lg border border-slate-200 bg-slate-50 shadow-inner transition-all focus-within:border-indigo-300 focus-within:ring-1 focus-within:ring-indigo-300">
           <Textarea
             ref={textareaRef}
@@ -569,6 +588,44 @@ const AISection = () => {
             <span>Tekan Ctrl+Enter untuk kirim</span>
           </div>
         </div>
+
+        {/* related topics dari rag */}
+        {relatedTopics.length > 0 && (
+          <div className="mb-4">
+            <p className="mb-2 text-xs text-slate-500 flex items-center">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="mr-1 text-blue-500"
+              >
+                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
+              </svg>
+              <span className="font-medium text-blue-600">
+                Topik terkait yang mungkin menarik:
+              </span>
+            </p>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
+              {relatedTopics.map((topic, index) => (
+                <Button
+                  key={index}
+                  variant="outline"
+                  size="sm"
+                  onClick={() => selectRelatedTopic(topic)}
+                  className="text-xs border-blue-200 bg-blue-50 hover:bg-blue-100 hover:text-blue-700 hover:border-blue-300 transition-all duration-300 text-left justify-start h-auto py-2 px-3"
+                >
+                  <span className="truncate">{topic}</span>
+                </Button>
+              ))}
+            </div>
+          </div>
+        )}
 
         {/* pertanyaan sebelumnya */}
         {previousQuestions.length > 0 && (
@@ -662,7 +719,6 @@ const AISection = () => {
 
         {/* tombol aksi */}
         <div className="flex items-center justify-between w-full">
-          {/* tombol riwayat di kiri */}
           <Button
             variant="outline"
             onClick={() => setHistoryVisible(true)}
@@ -683,10 +739,8 @@ const AISection = () => {
             riwayat ({conversationHistory.length})
           </Button>
 
-          {/* spacer */}
           <div className="flex-1"></div>
 
-          {/* tombol reset dan lanjutkan di kanan */}
           <Button
             variant="outline"
             onClick={() => setUserPrompt("")}
@@ -779,7 +833,7 @@ const AISection = () => {
         )}
       </div>
 
-      {/* modal riwayat percakapan - dengan drag sederhana */}
+      {/* modal riwayat percakapan dengan drag */}
       {historyVisible && (
         <div
           className="fixed w-80 max-h-96 bg-white rounded-lg shadow-lg border border-slate-200 z-50"
@@ -788,13 +842,11 @@ const AISection = () => {
             top: `${modalPosition.y}px`,
           }}
         >
-          {/* header dengan drag */}
           <div
             className="flex items-center justify-between px-4 py-3 border-b border-slate-100 bg-slate-50 rounded-t-lg cursor-grab"
             onMouseDown={onMouseDown}
           >
             <div className="flex items-center gap-2">
-              {/* Drag indicator */}
               <div className="flex flex-col gap-0.5 opacity-60">
                 <div className="w-3 h-0.5 bg-slate-400 rounded-full"></div>
                 <div className="w-3 h-0.5 bg-slate-400 rounded-full"></div>
@@ -832,7 +884,6 @@ const AISection = () => {
             </div>
           </div>
 
-          {/* content */}
           <div className="max-h-80 overflow-y-auto">
             {conversationHistory.length === 0 ? (
               <div className="px-4 py-8 text-center">
@@ -860,7 +911,6 @@ const AISection = () => {
                     key={conversationHistory.length - 1 - index}
                     className="mb-3 last:mb-0 p-3 rounded-md border border-slate-100 hover:bg-slate-50 transition-colors"
                   >
-                    {/* header item */}
                     <div className="flex items-center justify-between mb-2">
                       <span className="text-xs font-medium text-indigo-600">
                         #{conversationHistory.length - index}
@@ -873,19 +923,30 @@ const AISection = () => {
                       </button>
                     </div>
 
-                    {/* pertanyaan */}
                     <p className="text-sm text-slate-700 mb-2 leading-relaxed">
                       {item.question}
                     </p>
 
-                    {/* jawaban preview */}
                     <p className="text-xs text-slate-500 line-clamp-2 leading-relaxed">
                       {item.response.length > 80
                         ? `${item.response.substring(0, 80)}...`
                         : item.response}
                     </p>
 
-                    {/* metadata */}
+                    {/* related topics dari history */}
+                    {item.relatedTopics && item.relatedTopics.length > 0 && (
+                      <div className="mt-2 flex flex-wrap gap-1">
+                        {item.relatedTopics.slice(0, 2).map((topic, i) => (
+                          <span
+                            key={i}
+                            className="text-xs bg-blue-100 text-blue-600 px-1.5 py-0.5 rounded-full"
+                          >
+                            {topic}
+                          </span>
+                        ))}
+                      </div>
+                    )}
+
                     <div className="flex items-center justify-between mt-2 pt-2 border-t border-slate-100">
                       <span className="text-xs text-slate-400">
                         {formatTime(item.timestamp)}
