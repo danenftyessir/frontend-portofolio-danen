@@ -388,7 +388,7 @@ const AISection = () => {
   };
 
   const selectRelatedTopic = (topic: string) => {
-    const topicQuestions = {
+    const topicQuestions: Record<string, string> = {
       "Keahlian Python": "Ceritakan lebih detail tentang keahlian Python kamu",
       "Rush Hour Puzzle Solver":
         "Bagaimana cara kerja Rush Hour Solver yang kamu buat?",
