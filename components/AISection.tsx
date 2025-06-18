@@ -171,123 +171,139 @@ const AISection = () => {
     const endpoint = useMock ? `${API_URL}/ask-mock` : `${API_URL}/ask`;
 
     try {
-      const response = await fetch(endpoint, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          question: processedQuestion,
-          session_id: sessionId,
-        }),
-      });
+      // check if browser supports streaming
+      const supportsStreaming =
+        typeof EventSource !== "undefined" ||
+        typeof Response.prototype.body !== "undefined";
 
-      if (!response.ok) {
-        const responseText = await response.text();
-        let errorDetail;
-        try {
-          errorDetail = JSON.parse(responseText).detail;
-        } catch (e) {
-          errorDetail = responseText || "Gagal mendapatkan respons";
-        }
-
-        setErrorMessage(`Error: ${errorDetail}`);
-
-        if (!useMock) {
-          toast({
-            title: "Info",
-            description: "Beralih ke mode offline untuk sementara",
-          });
-          setUseMock(true);
-          await askAI(processedQuestion, true);
-          return;
-        } else {
-          toast({
-            title: "Error",
-            description: "Terjadi kesalahan saat menghubungi backend",
-            variant: "destructive",
-          });
-        }
-        return;
-      }
-
-      const data: AIApiResponse = await response.json();
-
-      if (data.session_id && data.session_id !== sessionId) {
-        setSessionId(data.session_id);
-      }
-
-      const cleanedResponse = data.response
-        .replace(/\s+/g, " ")
-        .replace(/\s+\./g, ".")
-        .trim();
-
-      if (
-        cleanedResponse.includes("Hmm, maaf aku tidak mengerti") &&
-        !isGibberishQuestion(processedQuestion)
-      ) {
-        const enhancedQuestion = enhanceQuestionWithContext(processedQuestion);
-        if (enhancedQuestion !== processedQuestion) {
-          setUserPrompt(enhancedQuestion);
-          await askAI(enhancedQuestion, true);
-          return;
-        }
-      }
-
-      setAiResponse(cleanedResponse);
-
-      // set related topics dari rag system
-      if (data.related_topics && data.related_topics.length > 0) {
-        setRelatedTopics(data.related_topics);
-      }
-
-      const detectedCategory = processedQuestion
-        .toLowerCase()
-        .includes("python")
-        ? "teknologi"
-        : processedQuestion.toLowerCase().includes("proyek")
-        ? "proyek"
-        : processedQuestion.toLowerCase().includes("lagu")
-        ? "lagu_favorit"
-        : processedQuestion.toLowerCase().includes("makanan")
-        ? "makanan_favorit"
-        : "general";
-
-      setConversationHistory((prev) =>
-        [
-          ...prev,
-          {
-            question: processedQuestion,
-            response: cleanedResponse,
-            timestamp: Date.now(),
-            category: detectedCategory,
-            relatedTopics: data.related_topics,
+      if (supportsStreaming && !useMock) {
+        // streaming request
+        const response = await fetch(endpoint, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "text/event-stream",
           },
-        ].slice(-20)
-      );
+          body: JSON.stringify({
+            question: processedQuestion,
+            session_id: sessionId,
+            conversation_history: conversationHistory.slice(-3).map((conv) => ({
+              question: conv.question,
+              response: conv.response,
+            })),
+          }),
+        });
 
-      setUserPrompt("");
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
 
-      // fetch suggested followups
-      const fetchSuggestedFollowups = async () => {
-        try {
-          const response = await fetch(
-            `${API_URL}/suggested-followups/${sessionId}`
-          );
-          if (response.ok) {
-            const data = await response.json();
-            if (
-              data.suggested_followups &&
-              data.suggested_followups.length > 0
-            ) {
-              setSuggestedFollowups(data.suggested_followups.slice(0, 2));
+        // check if response is streaming
+        const contentType = response.headers.get("content-type");
+        if (contentType && contentType.includes("text/event-stream")) {
+          // handle streaming response
+          const reader = response.body?.getReader();
+          const decoder = new TextDecoder();
+          let fullResponse = "";
+
+          if (reader) {
+            while (true) {
+              const { done, value } = await reader.read();
+              if (done) break;
+
+              const chunk = decoder.decode(value);
+              const lines = chunk.split("\n");
+
+              for (const line of lines) {
+                if (line.startsWith("data: ")) {
+                  try {
+                    const data = JSON.parse(line.slice(6));
+                    if (data.chunk) {
+                      fullResponse += data.chunk;
+                      setAiResponse(fullResponse);
+                    }
+                    if (data.done) {
+                      // streaming complete
+                      const sessionIdHeader =
+                        response.headers.get("x-session-id");
+                      if (sessionIdHeader) {
+                        setSessionId(sessionIdHeader);
+                      }
+                    }
+                  } catch (e) {
+                    console.error("error parsing stream data:", e);
+                  }
+                }
+              }
             }
           }
-        } catch (error) {
-          console.error("error fetching followups:", error);
-        }
-      };
 
+          // save to history
+          setConversationHistory((prev) =>
+            [
+              ...prev,
+              {
+                question: processedQuestion,
+                response: fullResponse,
+                timestamp: Date.now(),
+                category: response.headers.get("x-message-type") || "general",
+              },
+            ].slice(-20)
+          );
+
+          setUserPrompt("");
+        } else {
+          // fallback to regular json response
+          const data = await response.json();
+          handleRegularResponse(data, processedQuestion);
+        }
+      } else {
+        // non-streaming request
+        const response = await fetch(endpoint, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            question: processedQuestion,
+            session_id: sessionId,
+          }),
+        });
+
+        if (!response.ok) {
+          const responseText = await response.text();
+          let errorDetail;
+          try {
+            errorDetail = JSON.parse(responseText).detail;
+          } catch (e) {
+            errorDetail = responseText || "Gagal mendapatkan respons";
+          }
+
+          setErrorMessage(`Error: ${errorDetail}`);
+
+          if (!useMock) {
+            toast({
+              title: "Info",
+              description: "Beralih ke mode offline untuk sementara",
+            });
+            setUseMock(true);
+            await askAI(processedQuestion, true);
+            return;
+          } else {
+            toast({
+              title: "Error",
+              description: "Terjadi kesalahan saat menghubungi backend",
+              variant: "destructive",
+            });
+          }
+          return;
+        }
+
+        const data = await response.json();
+        handleRegularResponse(data, processedQuestion);
+      }
+
+      // fetch suggested followups
       fetchSuggestedFollowups();
     } catch (error) {
       console.error("Error:", error);
@@ -317,6 +333,80 @@ const AISection = () => {
     }
   };
 
+  const handleRegularResponse = (
+    data: AIApiResponse,
+    processedQuestion: string
+  ) => {
+    if (data.session_id && data.session_id !== sessionId) {
+      setSessionId(data.session_id);
+    }
+
+    const cleanedResponse = data.response
+      .replace(/\s+/g, " ")
+      .replace(/\s+\./g, ".")
+      .trim();
+
+    if (
+      cleanedResponse.includes("Hmm, maaf aku tidak mengerti") &&
+      !isGibberishQuestion(processedQuestion)
+    ) {
+      const enhancedQuestion = enhanceQuestionWithContext(processedQuestion);
+      if (enhancedQuestion !== processedQuestion) {
+        setUserPrompt(enhancedQuestion);
+        askAI(enhancedQuestion, true);
+        return;
+      }
+    }
+
+    setAiResponse(cleanedResponse);
+
+    // set related topics dari rag system
+    if (data.related_topics && data.related_topics.length > 0) {
+      setRelatedTopics(data.related_topics);
+    }
+
+    const detectedCategory = processedQuestion.toLowerCase().includes("python")
+      ? "teknologi"
+      : processedQuestion.toLowerCase().includes("proyek")
+      ? "proyek"
+      : processedQuestion.toLowerCase().includes("lagu")
+      ? "lagu_favorit"
+      : processedQuestion.toLowerCase().includes("makanan")
+      ? "makanan_favorit"
+      : "general";
+
+    setConversationHistory((prev) =>
+      [
+        ...prev,
+        {
+          question: processedQuestion,
+          response: cleanedResponse,
+          timestamp: Date.now(),
+          category: detectedCategory,
+          relatedTopics: data.related_topics,
+        },
+      ].slice(-20)
+    );
+
+    setUserPrompt("");
+  };
+
+  const fetchSuggestedFollowups = async () => {
+    try {
+      const response = await fetch(
+        `${API_URL}/suggested-followups/${sessionId}`
+      );
+      if (response.ok) {
+        const data = await response.json();
+        if (data.suggested_followups && data.suggested_followups.length > 0) {
+          setSuggestedFollowups(data.suggested_followups.slice(0, 2));
+        }
+      }
+    } catch (error) {
+      console.error("error fetching followups:", error);
+    }
+  };
+  
   const toggleMode = () => {
     setUseMock(!useMock);
     toast({
