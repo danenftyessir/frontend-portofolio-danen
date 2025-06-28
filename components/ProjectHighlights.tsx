@@ -1,196 +1,212 @@
+"use client";
+
 import React from "react";
+import { motion } from "framer-motion";
 
-// Interface untuk komponen ProjectCard
-interface ProjectCardProps {
-  title: string;
-  description: string;
-  icon: React.ReactNode;
-  bgColorClass: string;
-  technologies: string[];
-  detailLink: string;
-  style?: React.CSSProperties;
+const projectsData = [
+  {
+    icon: "🧩",
+    title: "rush hour solver",
+    type: "algorithm project",
+    description:
+      "implementasi multiple pathfinding algorithms (a*, dijkstra, ucs, greedy best-first) untuk menyelesaikan rush hour puzzle dengan visualisasi step-by-step",
+    tech: ["Python", "Algorithm Design", "Pathfinding", "Visualization"],
+    features: [
+      "optimal solution finding",
+      "multiple algorithm comparison",
+      "interactive visualization",
+      "performance optimization",
+    ],
+    year: "2023",
+    status: "completed",
+    color: "from-orange-500 to-red-600",
+  },
+  {
+    icon: "🔍",
+    title: "little alchemy search",
+    type: "search optimization",
+    description:
+      "algoritma pencarian optimal untuk game little alchemy menggunakan bfs, dfs, dan graph theory untuk menemukan kombinasi recipe terbaik",
+    tech: ["Graph Theory", "BFS", "DFS", "Optimization"],
+    features: [
+      "recipe combination solver",
+      "shortest path finding",
+      "game state optimization",
+      "efficient search algorithms",
+    ],
+    year: "2023",
+    status: "completed",
+    color: "from-purple-500 to-pink-600",
+  },
+  {
+    icon: "🎯",
+    title: "iq puzzler solver",
+    type: "backtracking engine",
+    description:
+      "solver untuk iq puzzler game menggunakan backtracking algorithm dengan optimasi pruning untuk menyelesaikan puzzle kompleks",
+    tech: ["Java", "Backtracking", "Constraint Satisfaction", "Optimization"],
+    features: [
+      "puzzle piece placement",
+      "constraint satisfaction solving",
+      "backtracking with pruning",
+      "multiple solution finding",
+    ],
+    year: "2023",
+    status: "completed",
+    color: "from-green-500 to-teal-600",
+  },
+  {
+    icon: "🤖",
+    title: "ai portfolio assistant",
+    type: "fullstack ai app",
+    description:
+      "portfolio interaktif dengan ai assistant yang dilatih menggunakan knowledge base personal. built with next.js frontend dan fastapi backend",
+    tech: ["Next.js", "FastAPI", "AI/ML", "TypeScript", "Tailwind"],
+    features: [
+      "interactive ai chat",
+      "knowledge base integration",
+      "responsive design",
+      "real-time conversations",
+    ],
+    year: "2024-2025",
+    status: "in progress",
+    color: "from-blue-500 to-indigo-600",
+  },
+];
+
+interface ProjectHighlightsProps {
+  variant?: "dark" | "light";
 }
 
-// komponen kartu proyek dengan tata letak yang lebih konsisten
-const ProjectCard = ({
-  title,
-  description,
-  icon,
-  bgColorClass,
-  technologies,
-  detailLink,
-  style,
-}: ProjectCardProps) => {
+export const ProjectHighlights = ({
+  variant = "light",
+}: ProjectHighlightsProps) => {
   return (
-    <div
-      className="rounded-xl border border-slate-200 bg-white overflow-hidden shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-lg animate-on-scroll opacity-0 flex flex-col h-full"
-      style={style}
+    <motion.div
+      initial={{ y: 50, opacity: 0 }}
+      whileInView={{ y: 0, opacity: 1 }}
+      transition={{ duration: 0.8, delay: 0.2 }}
+      className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-3xl p-12 shadow-xl border border-gray-200 dark:border-gray-600"
     >
-      {/* Header dengan background gradient dan icon */}
-      <div className={`flex h-48 items-center justify-center ${bgColorClass}`}>
-        {icon}
+      <div className="text-center mb-12">
+        <h3 className="text-3xl md:text-4xl font-bold text-gray-800 dark:text-white mb-4 font-mono">
+          🧩 featured projects
+        </h3>
+        <p className="text-lg text-gray-600 dark:text-gray-300 font-mono">
+          beberapa project yang paling challenging dan educational
+        </p>
       </div>
 
-      {/* Konten kartu */}
-      <div className="p-6 flex flex-col flex-grow">
-        {/* Judul proyek */}
-        <h3 className="mb-2 text-lg font-semibold">{title}</h3>
+      <div className="grid md:grid-cols-2 gap-8">
+        {projectsData.map((project, index) => (
+          <motion.div
+            key={index}
+            initial={{ scale: 0, opacity: 0 }}
+            whileInView={{ scale: 1, opacity: 1 }}
+            transition={{ delay: index * 0.1, duration: 0.5 }}
+            whileHover={{ scale: 1.02, y: -5 }}
+            className="bg-gray-50 dark:bg-gray-700/50 rounded-2xl p-6 border border-gray-200 dark:border-gray-600 cursor-pointer group h-full flex flex-col"
+          >
+            {/* project header */}
+            <div className="flex items-start gap-4 mb-4">
+              <div
+                className={`text-4xl p-3 rounded-xl bg-gradient-to-r ${project.color} bg-opacity-20 group-hover:scale-110 transition-transform duration-300`}
+              >
+                {project.icon}
+              </div>
+              <div className="flex-1">
+                <h4 className="text-xl font-bold text-gray-800 dark:text-white mb-1 font-mono group-hover:text-gray-600 dark:group-hover:text-gray-300 transition-colors">
+                  {project.title}
+                </h4>
+                <div className="flex items-center gap-2 mb-2">
+                  <span
+                    className={`px-3 py-1 bg-gradient-to-r ${project.color} bg-opacity-20 text-gray-700 dark:text-gray-300 rounded-full text-xs font-semibold font-mono`}
+                  >
+                    {project.type}
+                  </span>
+                  <span
+                    className={`px-2 py-1 text-xs font-mono font-semibold ${
+                      project.status === "completed"
+                        ? "text-green-600 dark:text-green-400"
+                        : "text-blue-600 dark:text-blue-400"
+                    }`}
+                  >
+                    {project.status}
+                  </span>
+                </div>
+                <p className="text-xs text-gray-500 dark:text-gray-400 font-mono">
+                  {project.year}
+                </p>
+              </div>
+            </div>
 
-        {/* Deskripsi proyek */}
-        <p className="mb-4 text-slate-600">{description}</p>
+            {/* project description */}
+            <p className="text-sm text-gray-700 dark:text-gray-300 mb-6 leading-relaxed flex-grow">
+              {project.description}
+            </p>
 
-        {/* Badge teknologi */}
-        <div className="mb-4 flex flex-wrap gap-2">
-          {technologies.map((tech, index) => (
-            <span
-              key={index}
-              className="rounded-full bg-indigo-100 px-2 py-1 text-xs text-indigo-800"
-            >
-              {tech}
-            </span>
-          ))}
-        </div>
+            {/* project features */}
+            <div className="mb-6">
+              <h5 className="text-sm font-semibold text-gray-800 dark:text-white mb-3 font-mono">
+                key features:
+              </h5>
+              <ul className="space-y-2">
+                {project.features.map((feature, featureIndex) => (
+                  <li
+                    key={featureIndex}
+                    className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400"
+                  >
+                    <span className="text-green-500 text-xs">✓</span>
+                    <span className="font-mono">{feature}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
 
-        {/* Spacer untuk mendorong tombol detail ke bawah */}
-        <div className="flex-grow"></div>
+            {/* tech stack */}
+            <div>
+              <h5 className="text-sm font-semibold text-gray-800 dark:text-white mb-3 font-mono">
+                tech stack:
+              </h5>
+              <div className="flex flex-wrap gap-2">
+                {project.tech.map((tech, techIndex) => (
+                  <span
+                    key={techIndex}
+                    className="px-3 py-1 bg-gray-200 dark:bg-gray-600 text-gray-700 dark:text-gray-300 text-xs rounded-full font-mono font-medium"
+                  >
+                    {tech}
+                  </span>
+                ))}
+              </div>
+            </div>
+          </motion.div>
+        ))}
+      </div>
 
-        {/* Tombol lihat detail - selalu di posisi bawah */}
-        <a
-          href={detailLink}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-sm font-medium text-indigo-600 transition-colors hover:text-indigo-800 mt-2"
+      {/* call to action */}
+      <motion.div
+        initial={{ y: 20, opacity: 0 }}
+        whileInView={{ y: 0, opacity: 1 }}
+        transition={{ delay: 0.6, duration: 0.5 }}
+        className="text-center mt-12 pt-8 border-t border-gray-200 dark:border-gray-600"
+      >
+        <p className="text-gray-600 dark:text-gray-300 font-mono mb-4">
+          tertarik untuk mengetahui lebih detail tentang project-project ini?
+        </p>
+        <motion.button
+          onClick={() =>
+            document
+              .getElementById("ai-section")
+              ?.scrollIntoView({ behavior: "smooth" })
+          }
+          className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-indigo-500 to-purple-600 text-white rounded-xl font-semibold font-mono transition-all duration-300 hover:scale-105 hover:shadow-lg"
+          whileHover={{ y: -2 }}
+          whileTap={{ y: 0 }}
         >
-          Lihat Detail →
-        </a>
-      </div>
-    </div>
+          <span>🤖</span>
+          <span>tanya ai assistant saya!</span>
+        </motion.button>
+      </motion.div>
+    </motion.div>
   );
 };
-
-// Interface untuk data proyek
-interface Project {
-  title: string;
-  description: string;
-  bgColorClass: string;
-  icon: React.ReactNode;
-  technologies: string[];
-  detailLink: string;
-}
-
-// komponen section project highlights dengan kartu seragam
-const ProjectHighlights = () => {
-  // data proyek
-  const projects: Project[] = [
-    {
-      title: "Algoritma Pencarian Little Alchemy 2",
-      description:
-        "Implementasi BFS, DFS, dan Bidirectional Search untuk mencari kombinasi recipe dalam permainan Little Alchemy 2.",
-      bgColorClass: "bg-gradient-to-r from-blue-600 to-indigo-700",
-      icon: (
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="64"
-          height="64"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="white"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        >
-          <path d="M3 17l9 5 9-5-9-5-9 5"></path>
-          <path d="M3 7l9 5 9-5-9-5-9 5"></path>
-          <path d="M3 12l9 5 9-5"></path>
-          <line x1="12" y1="22" x2="12" y2="17"></line>
-          <line x1="12" y1="12" x2="12" y2="7"></line>
-          <line x1="12" y1="7" x2="12" y2="2"></line>
-        </svg>
-      ),
-      technologies: ["Go", "Next.js", "Strategi Algoritma"],
-      detailLink: "https://github.com/UburUburLembur/Tubes2_EldenBoys/",
-    },
-    {
-      title: "Rush Hour Puzzle Solver",
-      description:
-        "Program yang menyelesaikan puzzle Rush Hour dengan algoritma pathfinding seperti UCS, Greedy Best-First Search, A*, dan Dijkstra.",
-      bgColorClass: "bg-gradient-to-r from-emerald-500 to-teal-500",
-      icon: (
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="64"
-          height="64"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="white"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        >
-          <rect x="2" y="2" width="20" height="20" rx="2" ry="2"></rect>
-          <path d="M9 2v20"></path>
-          <path d="M14 2v20"></path>
-          <path d="M2 9h20"></path>
-          <path d="M2 14h20"></path>
-        </svg>
-      ),
-      technologies: ["Java", "Strategi Algoritma", "GUI"],
-      detailLink: "https://github.com/danenftyessir/Tucil3_13523136_13523155",
-    },
-    {
-      title: "IQ Puzzler Pro Solver",
-      description:
-        "Solusi canggih untuk permainan papan IQ Puzzler Pro menggunakan algoritma brute force dengan visualisasi interaktif.",
-      bgColorClass: "bg-gradient-to-r from-purple-500 to-pink-500",
-      icon: (
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="64"
-          height="64"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="white"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        >
-          <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
-          <rect x="7" y="7" width="3" height="3"></rect>
-          <rect x="14" y="7" width="3" height="3"></rect>
-          <rect x="7" y="14" width="3" height="3"></rect>
-          <rect x="14" y="14" width="3" height="3"></rect>
-        </svg>
-      ),
-      technologies: ["Java", "JavaFX", "Strategi Algoritma"],
-      detailLink: "https://github.com/danenftyessir/Tucil1_13523136",
-    },
-  ];
-
-  return (
-    <section className="w-full bg-white px-4 py-20">
-      <div className="mx-auto max-w-5xl">
-        <h2 className="mb-10 text-center text-3xl font-bold">
-          Project Highlights
-        </h2>
-
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
-          {projects.map((project, index) => (
-            <ProjectCard
-              key={index}
-              title={project.title}
-              description={project.description}
-              icon={project.icon}
-              bgColorClass={project.bgColorClass}
-              technologies={project.technologies}
-              detailLink={project.detailLink}
-              // animasi delay bertahap
-              style={{ animationDelay: `${index * 100}ms` }}
-            />
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-};
-
-export default ProjectHighlights;

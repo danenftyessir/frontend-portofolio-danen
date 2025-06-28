@@ -8,13 +8,15 @@ interface ParticlesBackgroundProps {
   quantity?: number;
   color?: string;
   speed?: number;
+  variant?: "light" | "dark";
 }
 
 const ParticlesBackground = ({
   className,
-  quantity = 50,
-  color = "#6366f1",
-  speed = 1,
+  quantity = 40,
+  color = "#9ca3af", // gray-400 untuk light theme
+  speed = 0.5,
+  variant = "light",
 }: ParticlesBackgroundProps) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -23,37 +25,37 @@ const ParticlesBackground = ({
     if (!canvas) return;
 
     const ctx = canvas.getContext("2d");
-    if (!ctx) return; // Early return if context is null
+    if (!ctx) return;
 
-    // set canvas full width/height (bukan lebih besar dari viewport)
+    // set canvas dimensions
     canvas.width = canvas.offsetWidth;
     canvas.height = canvas.offsetHeight;
 
-    // Store width and height values to avoid null checks later
     const canvasWidth = canvas.width;
     const canvasHeight = canvas.height;
 
-    // particle configuration
+    // particle configuration untuk clean theme
     const particlesArray: Particle[] = [];
     for (let i = 0; i < quantity; i++) {
-      const size = Math.random() * 3 + 1; // ukuran lebih kecil
+      const size = Math.random() * 2 + 0.5; // ukuran lebih kecil dan halus
       const x = Math.random() * canvasWidth;
       const y = Math.random() * canvasHeight;
-      const directionX = Math.random() * 0.8 - 0.4; // pergerakan lebih lambat
-      const directionY = Math.random() * 0.8 - 0.4;
-      const opacity = Math.random() * 0.3 + 0.1; // opacity lebih rendah
+      const directionX = (Math.random() * 0.4 - 0.2) * speed; // pergerakan lebih lambat
+      const directionY = (Math.random() * 0.4 - 0.2) * speed;
+      const opacity = Math.random() * 0.15 + 0.05; // opacity sangat rendah untuk clean look
 
       particlesArray.push(
         new Particle(
           x,
           y,
-          directionX * speed,
-          directionY * speed,
+          directionX,
+          directionY,
           size,
           color,
           opacity,
           canvasWidth,
-          canvasHeight
+          canvasHeight,
+          variant
         )
       );
     }
@@ -62,7 +64,6 @@ const ParticlesBackground = ({
     function animate() {
       requestAnimationFrame(animate);
 
-      // Safety check - both canvas and ctx should exist at this point
       if (!ctx || !canvas) return;
 
       ctx.clearRect(0, 0, canvasWidth, canvasHeight);
@@ -72,12 +73,12 @@ const ParticlesBackground = ({
         particlesArray[i].draw(ctx);
       }
 
-      // connect particles when close
-      connectParticles(particlesArray, ctx, canvasWidth, canvasHeight);
+      // connect particles dengan lines yang sangat subtle
+      connectParticles(particlesArray, ctx, canvasWidth, canvasHeight, variant);
     }
 
     animate();
-  }, [quantity, color, speed]);
+  }, [quantity, color, speed, variant]);
 
   // handle window resize dengan throttling
   useEffect(() => {
@@ -102,13 +103,13 @@ const ParticlesBackground = ({
   return (
     <canvas
       ref={canvasRef}
-      className={cn("absolute inset-0 z-0 h-full w-full", className)}
-      style={{ pointerEvents: "none" }} // jangan menangkap mouse events
+      className={cn("absolute inset-0 z-0 h-full w-full opacity-60", className)}
+      style={{ pointerEvents: "none" }}
     />
   );
 };
 
-// particle class
+// particle class yang dioptimasi untuk clean theme
 class Particle {
   x: number;
   y: number;
@@ -119,6 +120,7 @@ class Particle {
   opacity: number;
   canvasWidth: number;
   canvasHeight: number;
+  variant: "light" | "dark";
 
   constructor(
     x: number,
@@ -129,7 +131,8 @@ class Particle {
     color: string,
     opacity: number,
     canvasWidth: number,
-    canvasHeight: number
+    canvasHeight: number,
+    variant: "light" | "dark"
   ) {
     this.x = x;
     this.y = y;
@@ -140,57 +143,96 @@ class Particle {
     this.opacity = opacity;
     this.canvasWidth = canvasWidth;
     this.canvasHeight = canvasHeight;
+    this.variant = variant;
   }
 
-  // draw particle
+  // draw particle dengan style yang clean
   draw(ctx: CanvasRenderingContext2D) {
     ctx.beginPath();
     ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-    ctx.fillStyle = this.color;
-    ctx.globalAlpha = this.opacity;
+
+    // gradient fill untuk effect yang lebih halus
+    const gradient = ctx.createRadialGradient(
+      this.x,
+      this.y,
+      0,
+      this.x,
+      this.y,
+      this.size
+    );
+
+    if (this.variant === "light") {
+      gradient.addColorStop(0, `rgba(156, 163, 175, ${this.opacity})`); // gray-400
+      gradient.addColorStop(1, `rgba(156, 163, 175, 0)`);
+    } else {
+      gradient.addColorStop(0, `rgba(229, 231, 235, ${this.opacity})`); // gray-200
+      gradient.addColorStop(1, `rgba(229, 231, 235, 0)`);
+    }
+
+    ctx.fillStyle = gradient;
     ctx.fill();
-    ctx.globalAlpha = 1;
   }
 
-  // update particle
+  // update particle position dengan smooth movement
   update() {
-    // bounce off edges
-    if (this.x > this.canvasWidth || this.x < 0) {
+    // bounce off edges dengan margin
+    const margin = 50;
+
+    if (this.x > this.canvasWidth - margin || this.x < margin) {
       this.directionX = -this.directionX;
     }
-    if (this.y > this.canvasHeight || this.y < 0) {
+    if (this.y > this.canvasHeight - margin || this.y < margin) {
       this.directionY = -this.directionY;
     }
 
     this.x += this.directionX;
     this.y += this.directionY;
+
+    // add slight random movement untuk organic feel
+    this.x += (Math.random() - 0.5) * 0.1;
+    this.y += (Math.random() - 0.5) * 0.1;
   }
 }
 
-// connect particles with lines - dengan opacity lebih rendah
+// connect particles dengan lines yang sangat subtle
 function connectParticles(
   particles: Particle[],
   ctx: CanvasRenderingContext2D,
   canvasWidth: number,
-  canvasHeight: number
+  canvasHeight: number,
+  variant: "light" | "dark"
 ) {
-  const maxDistance = 80; // jarak koneksi lebih pendek
+  const maxDistance = 60; // jarak koneksi lebih pendek
+  const maxConnections = 3; // batasi jumlah koneksi per particle
 
   for (let a = 0; a < particles.length; a++) {
-    for (let b = a; b < particles.length; b++) {
+    let connections = 0;
+
+    for (
+      let b = a + 1;
+      b < particles.length && connections < maxConnections;
+      b++
+    ) {
       const dx = particles[a].x - particles[b].x;
       const dy = particles[a].y - particles[b].y;
       const distance = Math.sqrt(dx * dx + dy * dy);
 
       if (distance < maxDistance) {
-        // draw line with opacity based on distance
-        const opacity = 1 - distance / maxDistance;
+        // draw line dengan opacity sangat rendah
+        const opacity = (1 - distance / maxDistance) * 0.05; // opacity sangat rendah
+
         ctx.beginPath();
-        ctx.strokeStyle = `rgba(99, 102, 241, ${opacity * 0.2})`; // opacity lebih rendah
-        ctx.lineWidth = 0.5; // garis lebih tipis
+        if (variant === "light") {
+          ctx.strokeStyle = `rgba(156, 163, 175, ${opacity})`; // gray-400
+        } else {
+          ctx.strokeStyle = `rgba(229, 231, 235, ${opacity})`; // gray-200
+        }
+        ctx.lineWidth = 0.3; // garis sangat tipis
         ctx.moveTo(particles[a].x, particles[a].y);
         ctx.lineTo(particles[b].x, particles[b].y);
         ctx.stroke();
+
+        connections++;
       }
     }
   }

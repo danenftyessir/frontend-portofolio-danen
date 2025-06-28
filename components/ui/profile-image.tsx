@@ -19,7 +19,7 @@ const ProfileImage = ({
   size = "md",
   className,
   border = false,
-  borderColor = "border-indigo-500",
+  borderColor = "border-gray-200",
 }: ProfileImageProps) => {
   const sizeClasses = {
     sm: "h-16 w-16",
@@ -31,9 +31,9 @@ const ProfileImage = ({
   return (
     <div
       className={cn(
-        "relative rounded-full overflow-hidden",
+        "relative rounded-full overflow-hidden shadow-xl backdrop-blur-sm",
         sizeClasses[size],
-        border && `p-1 ${borderColor} border-2`,
+        border && `p-1 ${borderColor} border-4 bg-white/90`,
         className
       )}
     >
@@ -44,7 +44,7 @@ const ProfileImage = ({
         sizes={`(max-width: 768px) ${
           parseInt(sizeClasses[size].slice(2, 4)) * 16
         }px, ${parseInt(sizeClasses[size].slice(2, 4)) * 16}px`}
-        className="object-cover"
+        className="object-cover rounded-full"
         priority
       />
     </div>
