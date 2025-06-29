@@ -247,7 +247,7 @@ const AIResponseCard = ({
 
       <div
         ref={containerRef}
-        className={`max-h-80 min-h-[120px] overflow-y-auto overflow-x-hidden p-6 ${textColor}`}
+        className={`min-h-[120px] overflow-y-auto overflow-x-hidden p-6 ${textColor}`}
       >
         {loading ? (
           <div className="space-y-6 p-4">

@@ -59,11 +59,6 @@ const AISection = ({ variant = "light" }: AISectionProps) => {
   const [suggestedFollowups, setSuggestedFollowups] = useState<string[]>([]);
   const [relatedTopics, setRelatedTopics] = useState<string[]>([]);
   const [ragStatus, setRagStatus] = useState<string>("unknown");
-  const [voiceEnabled, setVoiceEnabled] = useState(false);
-  const [speechSynthesis, setSpeechSynthesis] =
-    useState<SpeechSynthesis | null>(null);
-  const [isListening, setIsListening] = useState(false);
-  const [recognition, setRecognition] = useState<any>(null);
   const [debugInfo, setDebugInfo] = useState<string[]>([]);
 
   const { toast } = useToast();
@@ -100,84 +95,11 @@ const AISection = ({ variant = "light" }: AISectionProps) => {
       ? "bg-slate-800/60 text-gray-300 border-slate-600/40"
       : "bg-gray-100/80 text-gray-600 border-gray-200/60";
 
-  // sample questions dengan kategori
+  // sample questions - hanya 2 pertanyaan
   const recommendedQuestions = [
-    {
-      category: "🎯 Rekrutmen & Karir",
-      questions: [
-        "Kenapa saya harus merekrut kamu ke tim data science kami?",
-        "Apa value proposition unik yang kamu bawa sebagai data scientist?",
-        "Bagaimana approach kamu dalam solving complex business problems?",
-        "Ceritakan pengalaman terbaik kamu dalam teamwork dan collaboration",
-      ],
-    },
-    {
-      category: "💻 Technical Expertise",
-      questions: [
-        "Ceritakan tentang Rush Hour Puzzle Solver dan algoritma yang digunakan",
-        "Bagaimana implementasi Little Alchemy Search algorithm?",
-        "Apa challenge terbesar dalam mengembangkan pathfinding algorithms?",
-        "Teknologi apa yang paling excited untuk dipelajari next?",
-      ],
-    },
-    {
-      category: "🎓 Academic & Experience",
-      questions: [
-        "Bagaimana pengalaman jadi asisten praktikum di ITB?",
-        "Ceritakan tentang involvement kamu di Arkavidia Academy",
-        "Apa yang paling valuable dari kuliah Teknik Informatika ITB?",
-        "Bagaimana kamu balance antara academic dan practical skills?",
-      ],
-    },
-    {
-      category: "🍜 Personal & Lifestyle",
-      questions: [
-        "Rekomendasi street food favorit di Jakarta dong!",
-        "Lagu oldies apa yang lagi sering kamu dengerin?",
-        "Novel fantasy apa yang paling berkesan buat kamu?",
-        "Gimana cara kamu manage stress dan work-life balance?",
-      ],
-    },
+    "Ceritakan tentang pengalamanmu selama ini!",
+    "Ceritakan tentang project apa saja yang sudah kamu kerjakan!",
   ];
-
-  // speech synthesis setup
-  useEffect(() => {
-    if (typeof window !== "undefined" && "speechSynthesis" in window) {
-      setSpeechSynthesis(window.speechSynthesis);
-      setVoiceEnabled(true);
-    }
-
-    // speech recognition setup
-    if (
-      typeof window !== "undefined" &&
-      ("webkitSpeechRecognition" in window || "SpeechRecognition" in window)
-    ) {
-      const SpeechRecognition =
-        (window as any).webkitSpeechRecognition ||
-        (window as any).SpeechRecognition;
-      const newRecognition = new SpeechRecognition();
-      newRecognition.continuous = false;
-      newRecognition.interimResults = false;
-      newRecognition.lang = "id-ID";
-
-      newRecognition.onresult = (event: any) => {
-        const transcript = event.results[0][0].transcript;
-        setUserPrompt(transcript);
-        setIsListening(false);
-      };
-
-      newRecognition.onerror = () => {
-        setIsListening(false);
-        toast({
-          title: "Speech Recognition Error",
-          description: "Gagal mengenali suara. Coba lagi.",
-          variant: "destructive",
-        });
-      };
-
-      setRecognition(newRecognition);
-    }
-  }, [toast]);
 
   // enhanced backend checker dengan multiple URLs
   const checkBackendHealth = async (url: string): Promise<boolean> => {
@@ -283,26 +205,6 @@ const AISection = ({ variant = "light" }: AISectionProps) => {
       });
     }
   }, [aiResponse]);
-
-  // voice reading
-  const speakResponse = (text: string) => {
-    if (speechSynthesis && voiceEnabled) {
-      speechSynthesis.cancel();
-      const utterance = new SpeechSynthesisUtterance(text);
-      utterance.lang = "id-ID";
-      utterance.rate = 0.9;
-      utterance.pitch = 1;
-      speechSynthesis.speak(utterance);
-    }
-  };
-
-  // voice input
-  const startVoiceInput = () => {
-    if (recognition && !isListening) {
-      setIsListening(true);
-      recognition.start();
-    }
-  };
 
   // enhanced question processing
   const enhanceQuestionWithContext = (question: string): string => {
@@ -495,10 +397,6 @@ const AISection = ({ variant = "light" }: AISectionProps) => {
     );
 
     setUserPrompt("");
-
-    if (voiceEnabled && speechSynthesis) {
-      setTimeout(() => speakResponse(cleanedResponse), 1000);
-    }
   };
 
   const fetchSuggestedFollowups = async () => {
@@ -759,26 +657,8 @@ const AISection = ({ variant = "light" }: AISectionProps) => {
             value={userPrompt}
             onChange={(e) => setUserPrompt(e.target.value)}
             onKeyDown={handleKeyDown}
-            className={`min-h-[140px] max-h-[250px] resize-y border-0 bg-transparent ${inputBg} transition-all duration-300 focus-visible:ring-0 text-base pr-16`}
+            className={`min-h-[140px] max-h-[250px] resize-y border-0 bg-transparent ${inputBg} transition-all duration-300 focus-visible:ring-0 text-base`}
           />
-
-          {/* voice input button */}
-          {recognition && (
-            <Button
-              onClick={startVoiceInput}
-              disabled={isListening}
-              className={`absolute bottom-4 right-4 ${
-                isListening
-                  ? "bg-red-500 hover:bg-red-600"
-                  : variant === "dark"
-                  ? "bg-indigo-500 hover:bg-indigo-600"
-                  : "bg-gray-800 hover:bg-gray-700"
-              } text-white p-2 rounded-lg transition-all duration-300`}
-              title={isListening ? "Mendengarkan..." : "Voice Input"}
-            >
-              {isListening ? "🎤" : "🎙️"}
-            </Button>
-          )}
 
           <div
             className={`border-t-2 ${borderColor} ${
@@ -913,44 +793,31 @@ const AISection = ({ variant = "light" }: AISectionProps) => {
           )}
         </AnimatePresence>
 
-        {/* recommended questions by category */}
+        {/* recommended questions - hanya 2 pertanyaan */}
         <div className="mb-8">
           <p className={`mb-6 text-sm ${textMuted} font-medium`}>
-            💼 Explore Categories:
+            💼 Recommended Questions:
           </p>
 
-          <div className="space-y-6">
-            {recommendedQuestions.map((category, categoryIndex) => (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {recommendedQuestions.map((question, index) => (
               <motion.div
-                key={categoryIndex}
+                key={index}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                transition={{ delay: categoryIndex * 0.1 }}
-                className={`rounded-2xl border-2 ${borderColor} ${badgeClass} p-6`}
+                transition={{ delay: index * 0.1 }}
               >
-                <h4 className={`text-base font-bold ${textColor} mb-4`}>
-                  {category.category}
-                </h4>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                  {category.questions.map((question, questionIndex) => (
-                    <Button
-                      key={questionIndex}
-                      variant="outline"
-                      size="sm"
-                      onClick={() => {
-                        setUserPrompt(question);
-                        askAI(question);
-                      }}
-                      className={`text-sm ${borderColor} ${
-                        variant === "dark"
-                          ? "bg-slate-700/40 text-gray-300 hover:bg-slate-600/50 hover:text-white hover:border-slate-500/50"
-                          : "bg-gray-50/60 text-gray-600 hover:bg-gray-100/80 hover:text-gray-800 hover:border-gray-300/80"
-                      } transition-all duration-300 text-left justify-start h-auto py-3 px-4 hover:scale-105`}
-                    >
-                      <span className="truncate font-medium">{question}</span>
-                    </Button>
-                  ))}
-                </div>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => {
+                    setUserPrompt(question);
+                    askAI(question);
+                  }}
+                  className={`text-sm ${borderColor} ${badgeClass} hover:scale-105 transition-all duration-300 text-left justify-start h-auto py-4 px-4 w-full`}
+                >
+                  <span className="truncate font-medium">{question}</span>
+                </Button>
               </motion.div>
             ))}
           </div>

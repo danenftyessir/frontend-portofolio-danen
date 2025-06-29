@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import { Toaster } from "@/components/ui/toast";
 import "./globals.css";
@@ -9,10 +9,20 @@ const inter = Inter({
   display: "swap",
 });
 
+// viewport export terpisah - fix warning kedua
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 5,
+  themeColor: "#f9fafb",
+};
+
+// metadata export dengan metadataBase - fix warning pertama
 export const metadata: Metadata = {
+  metadataBase: new URL("https://danendra-portfolio.vercel.app"),
   title: "Danendra Shafi Athallah - Personal AI Portfolio",
   description:
-    "Mahasiswa Teknik Informatika ITB yang passionate di bidang data science dan algoritma. Portfolio interaktif dengan AI assistant untuk mengenal lebih dalam tentang pengalaman, project, dan kepribadian saya.",
+    "Student of Informatics Engineering at ITB with a deep passion for coding and continuous learning. Portfolio interaktif dengan AI assistant untuk mengenal lebih dalam tentang pengalaman, project, dan kepribadian saya.",
   keywords: [
     "Danendra Shafi Athallah",
     "portfolio",
@@ -22,10 +32,6 @@ export const metadata: Metadata = {
     "Teknik Informatika",
     "AI assistant",
     "machine learning",
-    "asisten praktikum",
-    "pathfinding algorithms",
-    "rush hour puzzle solver",
-    "arkavidia academy",
     "web development",
     "python programming",
     "computer science student",
@@ -36,7 +42,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Danendra Shafi Athallah - Personal AI Portfolio",
     description:
-      "Mahasiswa Teknik Informatika ITB yang passionate di bidang data science dan algoritma. Berinteraksi dengan AI assistant untuk mengenal lebih dalam tentang pengalaman dan project saya.",
+      "Student of Informatics Engineering at ITB with a deep passion for coding and continuous learning. Berinteraksi dengan AI assistant untuk mengenal lebih dalam tentang pengalaman dan project saya.",
     url: "https://danendra-portfolio.vercel.app",
     siteName: "Danendra Portfolio",
     images: [
@@ -54,7 +60,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Danendra Shafi Athallah - Personal AI Portfolio",
     description:
-      "Mahasiswa Teknik Informatika ITB yang passionate di bidang data science dan algoritma",
+      "Student of Informatics Engineering at ITB with a deep passion for coding and continuous learning",
     images: ["/profile.jpg"],
     creator: "@danendra_dev",
   },
@@ -77,19 +83,13 @@ export const metadata: Metadata = {
   manifest: "/site.webmanifest",
   category: "technology",
   classification: "Personal Portfolio",
-  viewport: {
-    width: "device-width",
-    initialScale: 1,
-    maximumScale: 5,
-  },
   verification: {
-    google: "google-site-verification-code", // ganti dengan kode verifikasi google search console
+    google: "google-site-verification-code",
   },
   alternates: {
     canonical: "https://danendra-portfolio.vercel.app",
   },
   other: {
-    "theme-color": "#f9fafb",
     "color-scheme": "light",
     "mobile-web-app-capable": "yes",
     "apple-mobile-web-app-capable": "yes",
@@ -117,6 +117,12 @@ export default function RootLayout({
           crossOrigin="anonymous"
         />
 
+        {/* boxicons CDN */}
+        <link
+          href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+          rel="stylesheet"
+        />
+
         {/* dns-prefetch untuk backend api */}
         <link
           rel="dns-prefetch"
@@ -136,13 +142,13 @@ export default function RootLayout({
               name: "Danendra Shafi Athallah",
               jobTitle: "Computer Science Student & Data Science Enthusiast",
               description:
-                "Mahasiswa Teknik Informatika ITB yang passionate di bidang data science dan algoritma",
+                "Student of Informatics Engineering at ITB with a deep passion for coding and continuous learning",
               url: "https://danendra-portfolio.vercel.app",
               image: "https://danendra-portfolio.vercel.app/profile.jpg",
               sameAs: [
-                "https://github.com/danendra-athallah",
-                "https://linkedin.com/in/danendra-athallah",
-                "mailto:danendra.athallah@gmail.com",
+                "https://github.com/danenftyessir",
+                "https://linkedin.com/in/danendrashafiathallah",
+                "mailto:danendra1967@gmail.com",
               ],
               alumniOf: {
                 "@type": "CollegeOrUniversity",
@@ -157,23 +163,9 @@ export default function RootLayout({
                 "Web Development",
                 "Problem Solving",
               ],
-              worksFor: {
-                "@type": "EducationalOrganization",
-                name: "Institut Teknologi Bandung",
-                description: "Teaching Assistant for Computational Thinking",
-              },
             }),
           }}
         />
-
-        {/* meta tags tambahan untuk SEO */}
-        <meta name="theme-color" content="#f9fafb" />
-        <meta name="color-scheme" content="light" />
-        <meta name="format-detection" content="telephone=no" />
-        <meta name="mobile-web-app-capable" content="yes" />
-        <meta name="apple-mobile-web-app-capable" content="yes" />
-        <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-        <meta name="apple-mobile-web-app-title" content="Danendra Portfolio" />
 
         {/* performance hints */}
         <link
@@ -208,21 +200,6 @@ export default function RootLayout({
           <div className="fixed bottom-4 left-4 z-50 text-xs text-gray-500 font-mono bg-white/80 backdrop-blur-sm px-2 py-1 rounded border border-gray-200">
             DEV MODE
           </div>
-        )}
-
-        {/* analytics script placeholder */}
-        {process.env.NODE_ENV === "production" && (
-          <>
-            {/* google analytics atau analytics lain bisa ditambahkan di sini */}
-            <script
-              dangerouslySetInnerHTML={{
-                __html: `
-                  // analytics initialization bisa ditambahkan di sini
-                  console.log('Portfolio loaded successfully');
-                `,
-              }}
-            />
-          </>
         )}
       </body>
     </html>

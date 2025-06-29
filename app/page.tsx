@@ -1,18 +1,13 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
-import {
-  motion,
-  useScroll,
-  useTransform,
-  AnimatePresence,
-} from "framer-motion";
+import { useState, useEffect } from "react";
+import { motion } from "framer-motion";
 import { AISection } from "@/components/AISection";
 import { ProfileImage } from "@/components/ui/profile-image";
 import { Button } from "@/components/ui/button";
 import { ParticlesBackground } from "@/components/ParticlesBackground";
 
-// data untuk portfolio
+// data portfolio
 const portfolioData = {
   hero: {
     title: "Hi, I'm Danendra Shafi Athallah 👋",
@@ -23,30 +18,34 @@ const portfolioData = {
       "AI Assistant Developer",
     ],
     description:
-      "Mahasiswa Teknik Informatika ITB semester 4 yang passionate di bidang data science dan algoritma. Membangun solusi inovatif dengan pendekatan AI dan pemrograman yang clean.",
+      "Student of Informatics Engineering at ITB with a deep passion for coding and continuous learning. Experienced in web development, data science, and algorithm design with a commitment to making meaningful contributions in every endeavor.",
     img: "/profile.jpg",
     stats: [
-      { label: "Experience", value: "2+ Years", icon: "bx-briefcase" },
-      { label: "Students Guided", value: "200+", icon: "bx-graduation" },
-      { label: "Projects", value: "15+", icon: "bx-code-alt" },
-      { label: "GPA", value: "3.55 / 4.00", icon: "bx-award" },
+      { label: "Experience", value: "2+ Years", icon: "bx bx-briefcase" },
+      { label: "Projects", value: "15+", icon: "bx bx-code-alt" },
+      { label: "Certifications", value: "5+", icon: "bx bx-award" },
+      { label: "Deployed Apps", value: "2+", icon: "bx bx-rocket" },
     ],
     socialMedia: [
       {
         platform: "GitHub",
         icon: "bx bxl-github",
-        href: "https://github.com/danendra-athallah",
+        href: "https://github.com/danenftyessir",
       },
       {
         platform: "LinkedIn",
         icon: "bx bxl-linkedin",
-        href: "https://linkedin.com/in/danendra-athallah",
+        href: "https://linkedin.com/in/danendrashafiathallah",
       },
-      { platform: "Instagram", icon: "bx bxl-instagram", href: "#" },
+      {
+        platform: "Instagram",
+        icon: "bx bxl-instagram",
+        href: "https://www.instagram.com/danennn__/",
+      },
       {
         platform: "Email",
         icon: "bx bx-envelope",
-        href: "mailto:danendra.athallah@gmail.com",
+        href: "mailto:danendra1967@gmail.com",
       },
     ],
   },
@@ -65,65 +64,68 @@ const portfolioData = {
         value: "Institut Teknologi Bandung",
         icon: "bx bx-book",
       },
-      { label: "Major", value: "Teknik Informatika", icon: "bx bx-code-alt" },
+      { label: "Major", value: "Computer Science", icon: "bx bx-code-alt" },
       { label: "Semester", value: "4", icon: "bx bx-calendar" },
       {
         label: "Focus",
         value: "Data Science & Algorithms",
         icon: "bx bx-brain",
       },
-      { label: "Role", value: "Teaching Assistant", icon: "bx bx-user" },
       {
         label: "Email",
-        value: "danendra.athallah@gmail.com",
-        icon: "bx bx-envelope",
+        value: "danendra1967@gmail.com",
+        icon: "bx bx-user",
       },
     ],
     aboutNarrative: {
       whoAmI: {
-        text: "Saya mahasiswa Teknik Informatika ITB yang passionate dengan data science dan algoritma. Sebagai asisten praktikum, saya membantu 200+ mahasiswa memahami konsep pemrograman dasar.",
+        text: "I am a student of Informatics Engineering at ITB, driven by a deep passion for coding and a relentless commitment to continuous learning. My journey in technology has allowed me to acquire diverse skills in web development, data science, and algorithm design.",
         icon: "bx-info-circle",
       },
       approach: {
-        text: "Fokus pada problem-solving dengan pendekatan algoritma yang efisien dan implementasi AI yang praktis. Selalu belajar teknologi terbaru untuk memberikan solusi terbaik.",
+        text: "I believe that growth comes from embracing challenges and never settling for the status quo. My involvement in various activities from technical projects to event management has taught me the importance of teamwork, leadership, and adaptability.",
         icon: "bx-bulb",
       },
     },
     experience: [
       {
-        title: "Asisten Praktikum Berpikir Komputasional",
-        company: "Institut Teknologi Bandung",
-        period: "2024 - Present",
+        title: "Web Development Participant",
+        company: "Google Developer Students Club ITB",
+        period: "2024",
         description:
-          "Membimbing 200+ mahasiswa dalam memahami konsep algoritma dan pemrograman dasar dengan Python.",
+          "Earned completion certificate in web development, working extensively with HTML, CSS, JavaScript, React.js, and Tailwind CSS.",
       },
       {
         title: "Organizing Committee",
         company: "Arkavidia Academy 9.0",
         period: "Jan - Mar 2024",
         description:
-          "Menyelenggarakan bootcamp data science untuk mahasiswa se-Indonesia dengan completion rate 85%.",
+          "Took on roles in event management and coordination, contributing to the successful execution of a tech bootcamp program for students across Indonesia.",
       },
       {
         title: "Algorithm Project Developer",
         company: "Personal Projects",
         period: "2023 - Present",
         description:
-          "Mengembangkan Rush Hour Puzzle Solver dan Little Alchemy Search menggunakan multiple pathfinding algorithms.",
+          "Developed complex algorithmic solutions including Rush Hour Puzzle Solver and Little Alchemy Search using multiple pathfinding algorithms and optimization techniques.",
       },
     ],
     skills: [
       { name: "Python", level: "Advanced", icon: "bx bxl-python" },
-      { name: "Algorithm Design", level: "Advanced", icon: "bx bx-brain" },
-      { name: "Data Science", level: "Intermediate", icon: "bx bx-bar-chart" },
+      { name: "Algorithm Design", level: "Advanced", icon: "bx bx-code-block" },
+      {
+        name: "Data Science",
+        level: "Intermediate",
+        icon: "bx bx-bar-chart-alt",
+      },
       { name: "React/Next.js", level: "Intermediate", icon: "bx bxl-react" },
       { name: "Machine Learning", level: "Intermediate", icon: "bx bx-bot" },
-      { name: "Problem Solving", level: "Advanced", icon: "bx bx-puzzle" },
+      { name: "Problem Solving", level: "Advanced", icon: "bx bx-bulb" },
     ],
   },
 };
 
-// typewriter hook
+// typewriter effect hook
 const useTypewriter = (texts: string[], speed: number = 100) => {
   const [currentText, setCurrentText] = useState("");
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -165,130 +167,8 @@ const useTypewriter = (texts: string[], speed: number = 100) => {
   return { currentText, showCursor };
 };
 
-// floating cursor effect
-const FloatingCursor = () => {
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  const [isHovering, setIsHovering] = useState(false);
-
-  useEffect(() => {
-    const updateMousePosition = (e: MouseEvent) => {
-      setMousePosition({ x: e.clientX, y: e.clientY });
-    };
-
-    const handleMouseEnter = () => setIsHovering(true);
-    const handleMouseLeave = () => setIsHovering(false);
-
-    window.addEventListener("mousemove", updateMousePosition);
-
-    const interactiveElements = document.querySelectorAll(
-      "button, a, .interactive"
-    );
-    interactiveElements.forEach((el) => {
-      el.addEventListener("mouseenter", handleMouseEnter);
-      el.addEventListener("mouseleave", handleMouseLeave);
-    });
-
-    return () => {
-      window.removeEventListener("mousemove", updateMousePosition);
-      interactiveElements.forEach((el) => {
-        el.removeEventListener("mouseenter", handleMouseEnter);
-        el.removeEventListener("mouseleave", handleMouseLeave);
-      });
-    };
-  }, []);
-
-  return (
-    <motion.div
-      className="fixed w-6 h-6 pointer-events-none z-50 mix-blend-difference"
-      style={{
-        left: mousePosition.x - 12,
-        top: mousePosition.y - 12,
-      }}
-      animate={{
-        scale: isHovering ? 2 : 1,
-        opacity: isHovering ? 0.8 : 0.6,
-      }}
-      transition={{ duration: 0.2 }}
-    >
-      <div className="w-full h-full bg-white rounded-full" />
-    </motion.div>
-  );
-};
-
-// scroll progress
-const ScrollProgress = () => {
-  const { scrollYProgress } = useScroll();
-
-  return (
-    <motion.div
-      className="fixed top-0 left-0 right-0 h-1 bg-gradient-to-r from-gray-600 to-gray-800 z-50 origin-left"
-      style={{ scaleX: scrollYProgress }}
-    />
-  );
-};
-
-// floating navigation
-const FloatingNav = () => {
-  const [activeSection, setActiveSection] = useState("home");
-
-  const navItems = [
-    { id: "home", label: "Home", icon: "bx-home" },
-    { id: "about", label: "About", icon: "bx-user" },
-    { id: "ai-section", label: "AI Assistant", icon: "bx-bot" },
-    { id: "contact", label: "Contact", icon: "bx-envelope" },
-  ];
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setActiveSection(entry.target.id);
-          }
-        });
-      },
-      { threshold: 0.6 }
-    );
-
-    navItems.forEach((item) => {
-      const section = document.getElementById(item.id);
-      if (section) observer.observe(section);
-    });
-
-    return () => observer.disconnect();
-  }, []);
-
-  return (
-    <motion.nav
-      initial={{ y: 100 }}
-      animate={{ y: 0 }}
-      className="fixed bottom-8 left-1/2 transform -translate-x-1/2 z-40 bg-white/90 backdrop-blur-md rounded-full px-6 py-3 shadow-xl border border-gray-200"
-    >
-      <div className="flex items-center gap-6">
-        {navItems.map((item) => (
-          <a
-            key={item.id}
-            href={`#${item.id}`}
-            className={`flex items-center gap-2 px-3 py-2 rounded-full transition-all duration-300 ${
-              activeSection === item.id
-                ? "bg-gray-800 text-white shadow-lg"
-                : "text-gray-600 hover:text-gray-800"
-            }`}
-          >
-            <i className={`bx ${item.icon} text-lg`}></i>
-            <span className="text-sm font-medium hidden md:block">
-              {item.label}
-            </span>
-          </a>
-        ))}
-      </div>
-    </motion.nav>
-  );
-};
-
 export default function Portfolio() {
   const [mounted, setMounted] = useState(false);
-  const heroRef = useRef<HTMLDivElement>(null);
 
   const { currentText, showCursor } = useTypewriter(
     portfolioData.hero.typingTexts,
@@ -314,15 +194,10 @@ export default function Portfolio() {
 
   return (
     <main className="relative min-h-screen overflow-x-hidden bg-gray-50">
-      <FloatingCursor />
-      <ScrollProgress />
-      <FloatingNav />
-
       {/* hero section */}
       <section
         id="home"
-        ref={heroRef}
-        className="min-h-screen bg-gray-50 flex items-center justify-center pt-20"
+        className="min-h-screen bg-gray-50 flex items-center justify-center"
       >
         <ParticlesBackground
           className="absolute inset-0 z-0"
@@ -331,7 +206,7 @@ export default function Portfolio() {
         />
 
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid lg:grid-cols-2 gap-12 items-center min-h-[calc(100vh-5rem)] py-12">
+          <div className="grid lg:grid-cols-2 gap-12 items-center min-h-screen py-12">
             {/* content */}
             <div className="space-y-8">
               <motion.div
@@ -411,7 +286,6 @@ export default function Portfolio() {
                       animate={{ x: [0, 5, 0] }}
                       transition={{ duration: 1.5, repeat: Infinity }}
                     >
-                      →
                     </motion.div>
                   </span>
                 </Button>
@@ -430,7 +304,6 @@ export default function Portfolio() {
                       animate={{ y: [0, -2, 0] }}
                       transition={{ duration: 1.5, repeat: Infinity }}
                     >
-                      ↓
                     </motion.div>
                   </span>
                 </Button>
@@ -449,7 +322,7 @@ export default function Portfolio() {
                     className="bg-white/80 backdrop-blur-sm rounded-2xl p-4 shadow-lg border border-gray-200 text-center hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1"
                   >
                     <div className="text-2xl mb-2">
-                      <i className={`bx ${stat.icon} text-gray-800`}></i>
+                      <i className={`${stat.icon} text-gray-800`}></i>
                     </div>
                     <div className="text-2xl font-bold text-gray-800 mb-1">
                       {stat.value}
@@ -460,7 +333,7 @@ export default function Portfolio() {
               </motion.div>
             </div>
 
-            {/* profile image */}
+            {/* profile image dengan floating icons */}
             <motion.div
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
@@ -477,7 +350,14 @@ export default function Portfolio() {
               </div>
 
               {/* floating tech icons */}
-              {["⚛️", "🐍", "🤖", "📊", "⚡", "💻"].map((icon, index) => {
+              {[
+                { icon: "bx bxl-html5", label: "HTML" },
+                { icon: "bx bxl-css3", label: "CSS" },
+                { icon: "bx bxl-javascript", label: "JavaScript" },
+                { icon: "bx bxl-react", label: "React" },
+                { icon: "bx bxl-python", label: "Python" },
+                { icon: "bx bx-data", label: "Data Science" },
+              ].map((tech, index) => {
                 const positions = [
                   "top-0 left-16 sm:left-20",
                   "top-0 right-0",
@@ -501,8 +381,11 @@ export default function Portfolio() {
                       repeat: Infinity,
                       delay: index * 0.5,
                     }}
+                    title={tech.label}
                   >
-                    <span className="text-xl sm:text-2xl">{icon}</span>
+                    <i
+                      className={`${tech.icon} text-xl sm:text-2xl text-gray-800`}
+                    ></i>
                   </motion.div>
                 );
               })}
@@ -679,7 +562,7 @@ export default function Portfolio() {
                   className="bg-white rounded-xl p-6 shadow-lg border border-gray-100 text-center cursor-pointer group"
                 >
                   <div className="text-4xl mb-4 group-hover:scale-110 transition-transform duration-300">
-                    <i className={`bx ${skill.icon} text-gray-800`}></i>
+                    <i className={`${skill.icon} text-gray-800`}></i>
                   </div>
                   <h4 className="text-lg font-bold text-gray-800 mb-2">
                     {skill.name}
@@ -707,8 +590,7 @@ export default function Portfolio() {
             <p className="text-xl text-gray-600 max-w-4xl mx-auto leading-relaxed">
               Berinteraksi dengan AI assistant yang dilatih dengan knowledge
               base lengkap tentang pengalaman, project, dan kepribadian saya.
-              Tanyakan apa saja - dari technical skills hingga rekomendasi
-              street food Jakarta!
+              Yuk, Tanyakan apa saja!
             </p>
           </motion.div>
 
@@ -747,28 +629,28 @@ export default function Portfolio() {
             <div className="flex flex-wrap justify-center gap-6">
               {[
                 {
-                  icon: "📧",
+                  icon: "bx bx-envelope",
                   label: "Email",
-                  href: "mailto:danendra.athallah@gmail.com",
+                  href: "mailto:danendra1967@gmail.com",
                   color: "from-red-500 to-orange-500",
                 },
                 {
-                  icon: "💼",
+                  icon: "bx bxl-linkedin",
                   label: "LinkedIn",
-                  href: "https://linkedin.com/in/danendra-athallah",
+                  href: "https://linkedin.com/in/danendrashafiathallah",
                   color: "from-blue-500 to-cyan-500",
                 },
                 {
-                  icon: "💻",
+                  icon: "bx bxl-github",
                   label: "GitHub",
-                  href: "https://github.com/danendra-athallah",
+                  href: "https://github.com/danenftyessir",
                   color: "from-gray-600 to-gray-800",
                 },
                 {
-                  icon: "🐦",
-                  label: "Twitter",
-                  href: "https://twitter.com/danendra_dev",
-                  color: "from-cyan-400 to-blue-500",
+                  icon: "bx bxl-instagram",
+                  label: "Instagram",
+                  href: "https://www.instagram.com/danennn__/",
+                  color: "from-pink-500 to-purple-600",
                 },
               ].map((contact, index) => (
                 <motion.a
@@ -780,7 +662,7 @@ export default function Portfolio() {
                   whileHover={{ y: -5 }}
                   whileTap={{ y: 0 }}
                 >
-                  <span className="text-2xl">{contact.icon}</span>
+                  <i className={`${contact.icon} text-2xl`}></i>
                   <span>{contact.label}</span>
                 </motion.a>
               ))}
