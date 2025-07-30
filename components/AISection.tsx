@@ -7,7 +7,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/components/ui/toast";
 import { AIResponseCard } from "@/components/AIResponseCard";
 
-// debug: coba beberapa kemungkinan URL backend
+// debug: coba beberapa kemungkinan URL backend untuk Render
 const BACKEND_URLS = [
   "https://portofolio-danen-backend.onrender.com",
   "https://portfolio-danen-backend.onrender.com",
@@ -642,90 +642,15 @@ const AISection = ({ variant = "light" }: AISectionProps) => {
     }
   };
 
-  // Connection Status Component
+  // Simplified Connection Status - hanya Mode Online/Offline
   const ConnectionStatus = () => {
-    const getStatusColor = () => {
-      switch (backendStatus) {
-        case "connected":
-          return "bg-green-500";
-        case "checking":
-          return "bg-yellow-500 animate-pulse";
-        case "error":
-          return "bg-red-500";
-        default:
-          return "bg-gray-500";
-      }
-    };
-
-    const getStatusText = () => {
-      switch (backendStatus) {
-        case "connected":
-          return "Connected ✅";
-        case "checking":
-          return "Connecting... ⏳";
-        case "error":
-          return "Offline ❌";
-        default:
-          return "Unknown";
-      }
-    };
-
     return (
-      <div className="flex items-center gap-3 flex-wrap">
-        <motion.div
-          className="flex items-center gap-3"
-          animate={
-            backendStatus === "checking"
-              ? { scale: [1, 1.05, 1] }
-              : { scale: 1 }
-          }
-          transition={{
-            duration: 2,
-            repeat: backendStatus === "checking" ? Infinity : 0,
-          }}
-        >
-          <span
-            className={`inline-block h-3 w-3 rounded-full shadow-lg ${getStatusColor()}`}
-          ></span>
-          <span className={`text-sm font-medium ${textSecondary}`}>
-            Backend Status: {getStatusText()}
-          </span>
-        </motion.div>
-
-        {/* Connection Progress for Checking State */}
-        {backendStatus === "checking" && connectionProgress && (
-          <div className="flex items-center gap-2 text-xs">
-            <span className={textMuted}>
-              {connectionProgress.phase === "connecting" &&
-              connectionProgress.attempt === 1
-                ? "Cold start in progress..."
-                : `Attempt ${connectionProgress.attempt}/${connectionProgress.maxAttempts}`}
-            </span>
-            {connectionProgress.delay && (
-              <span className="text-orange-500 font-medium">
-                Retry in {Math.ceil(connectionProgress.delay / 1000)}s
-              </span>
-            )}
-          </div>
-        )}
-
-        {ragStatus && ragStatus !== "unknown" && (
-          <div className="flex items-center gap-2">
-            <span
-              className={`inline-block h-2 w-2 rounded-full ${
-                ragStatus === "healthy" || ragStatus === "initialized"
-                  ? "bg-blue-500"
-                  : "bg-orange-500"
-              }`}
-            ></span>
-            <span className={`text-xs ${textMuted}`}>RAG: {ragStatus}</span>
-          </div>
-        )}
-
-        {conversationHistory.length > 0 && (
-          <span className={`text-xs ${textMuted}`}>
-            Messages: {conversationHistory.length}
-          </span>
+      <div className="flex items-center gap-3">
+        <span className={`text-sm font-medium ${textSecondary}`}>
+          Mode: {useMock ? "Offline" : "Online"}
+        </span>
+        {backendStatus === "checking" && (
+          <span className={`text-xs ${textMuted}`}>Connecting...</span>
         )}
       </div>
     );
@@ -823,7 +748,7 @@ const AISection = ({ variant = "light" }: AISectionProps) => {
         {/* Cold Start Information */}
         <ColdStartInfo />
 
-        {/* header dengan status dan controls */}
+        {/* header dengan status dan controls - simplified */}
         <div className="mb-8 flex items-center justify-between flex-wrap gap-4">
           <ConnectionStatus />
 
@@ -853,7 +778,7 @@ const AISection = ({ variant = "light" }: AISectionProps) => {
                     : "text-blue-600 hover:text-blue-800 bg-blue-50/50 border-blue-300/30 hover:bg-blue-100/50"
                 } hover:scale-105 transition-transform`}
               >
-                🔄 Retry Connection
+                🔄 Retry
               </Button>
             )}
 
