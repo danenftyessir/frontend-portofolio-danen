@@ -1,21 +1,23 @@
 "use client";
 
-import { useState, useRef, useEffect, useCallback } from "react";
+import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/components/ui/toast";
 import { AIResponseCard } from "@/components/AIResponseCard";
 
-// Aggressive backend URLs untuk Render
+// debug: coba beberapa kemungkinan URL backend
 const BACKEND_URLS = [
-  "https://portofolio-danen-backend.onrender.com",
-  "https://portfolio-danen-backend.onrender.com",
-  "https://danendra-portfolio-backend.onrender.com",
-  "http://localhost:8000",
+  "http://localhost:8000", // untuk development
 ];
 
 const API_URL = process.env.NEXT_PUBLIC_BACKEND_URL || BACKEND_URLS[0];
+
+console.log("🔍 Debug Info:");
+console.log("API_URL:", API_URL);
+console.log("Environment:", process.env.NODE_ENV);
+console.log("NEXT_PUBLIC_BACKEND_URL:", process.env.NEXT_PUBLIC_BACKEND_URL);
 
 interface ConversationItem {
   question: string;
@@ -44,9 +46,7 @@ const AISection = ({ variant = "light" }: AISectionProps) => {
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [useMock, setUseMock] = useState(false);
-  const [backendStatus, setBackendStatus] = useState<
-    "checking" | "warming" | "ready" | "error"
-  >("checking");
+  const [backendStatus, setBackendStatus] = useState("checking");
   const [previousQuestions, setPreviousQuestions] = useState<string[]>([]);
   const [sessionId, setSessionId] = useState<string>("");
   const [conversationHistory, setConversationHistory] = useState<
@@ -55,344 +55,155 @@ const AISection = ({ variant = "light" }: AISectionProps) => {
   const [historyVisible, setHistoryVisible] = useState(false);
   const [suggestedFollowups, setSuggestedFollowups] = useState<string[]>([]);
   const [relatedTopics, setRelatedTopics] = useState<string[]>([]);
-  const [warmingProgress, setWarmingProgress] = useState(0);
-  const [coldStartDetected, setColdStartDetected] = useState(false);
+  const [ragStatus, setRagStatus] = useState<string>("unknown");
   const [debugInfo, setDebugInfo] = useState<string[]>([]);
 
   const { toast } = useToast();
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const responseRef = useRef<HTMLDivElement>(null);
-  const warmingIntervalRef = useRef<NodeJS.Timeout>();
-  const keepAliveIntervalRef = useRef<NodeJS.Timeout>();
 
-  // SUPER AGGRESSIVE Cold Start Prevention Strategy
-  const superAggressiveWarmUp = useCallback(async () => {
-    if (backendStatus === "ready") return;
+  // fungsi untuk menambah debug info
+  const addDebugInfo = (message: string) => {
+    console.log("🔍", message);
+    setDebugInfo((prev) =>
+      [...prev, `${new Date().toLocaleTimeString()}: ${message}`].slice(-10)
+    );
+  };
 
-    setBackendStatus("warming");
-    setWarmingProgress(0);
-    setColdStartDetected(true);
+  // theme classes untuk light variant
+  const containerClass =
+    variant === "dark"
+      ? "bg-slate-900/95 border-slate-700/50"
+      : "bg-white/95 border-gray-200/50 shadow-xl";
 
-    addDebugInfo("🔥 SUPER AGGRESSIVE WARM-UP INITIATED");
+  const textColor = variant === "dark" ? "text-white" : "text-gray-800";
+  const textSecondary = variant === "dark" ? "text-gray-300" : "text-gray-600";
+  const textMuted = variant === "dark" ? "text-gray-400" : "text-gray-500";
+  const borderColor =
+    variant === "dark" ? "border-slate-600/30" : "border-gray-200/50";
 
-    // Strategy 1: Multiple concurrent pings dengan exponential timeout
-    const concurrentWarmUp = async () => {
-      const timeouts = [10000, 20000, 30000, 45000, 60000]; // 10s, 20s, 30s, 45s, 60s
-      const endpoints = ["/ping", "/health", "/"];
+  const inputBg =
+    variant === "dark"
+      ? "bg-slate-800/80 border-slate-600/40 text-white placeholder:text-gray-400"
+      : "bg-gray-50/80 border-gray-200/60 text-gray-800 placeholder:text-gray-500";
 
-      let successCount = 0;
-      let totalAttempts = 0;
+  const badgeClass =
+    variant === "dark"
+      ? "bg-slate-800/60 text-gray-300 border-slate-600/40"
+      : "bg-gray-100/80 text-gray-600 border-gray-200/60";
 
-      for (let i = 0; i < timeouts.length; i++) {
-        const timeout = timeouts[i];
-        addDebugInfo(
-          `🚀 Concurrent warm-up round ${i + 1}: ${timeout / 1000}s timeout`
-        );
+  // sample questions - hanya 2 pertanyaan
+  const recommendedQuestions = [
+    "Ceritakan tentang pengalamanmu selama ini!",
+    "Ceritakan tentang project apa saja yang sudah kamu kerjakan!",
+  ];
 
-        // Update progress
-        setWarmingProgress(Math.min((i / timeouts.length) * 80, 80));
+  // enhanced backend checker dengan multiple URLs
+  const checkBackendHealth = async (url: string): Promise<boolean> => {
+    try {
+      addDebugInfo(`Checking backend: ${url}`);
 
-        // Multiple concurrent requests
-        const promises = endpoints.map(async (endpoint) => {
-          try {
-            totalAttempts++;
-            const controller = new AbortController();
-            const timeoutId = setTimeout(() => controller.abort(), timeout);
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 10000); // 10s timeout
 
-            const response = await fetch(`${API_URL}${endpoint}`, {
-              method: "GET",
-              signal: controller.signal,
-              headers: {
-                "Cache-Control": "no-cache",
-                Pragma: "no-cache",
-              },
-            });
+      const response = await fetch(`${url}/`, {
+        method: "GET",
+        signal: controller.signal,
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        mode: "cors", // explicitly set CORS mode
+      });
 
-            clearTimeout(timeoutId);
+      clearTimeout(timeoutId);
 
-            if (response.ok) {
-              successCount++;
-              addDebugInfo(`✅ Success on ${endpoint} (${timeout / 1000}s)`);
-              return true;
-            }
-            return false;
-          } catch (error) {
-            addDebugInfo(`⏳ ${endpoint} timeout at ${timeout / 1000}s`);
-            return false;
+      addDebugInfo(`Response status: ${response.status}`);
+
+      if (response.ok) {
+        const data = await response.json();
+        addDebugInfo(`Backend response: ${JSON.stringify(data)}`);
+        return true;
+      }
+      return false;
+    } catch (error) {
+      addDebugInfo(`Backend check failed: ${error}`);
+      return false;
+    }
+  };
+
+  // check backend status dengan fallback URLs
+  useEffect(() => {
+    const checkBackend = async () => {
+      addDebugInfo("Starting backend health check...");
+      setBackendStatus("checking");
+
+      // coba URL utama dulu
+      const mainBackendWorking = await checkBackendHealth(API_URL);
+
+      if (mainBackendWorking) {
+        addDebugInfo("Main backend working!");
+        setBackendStatus("connected");
+        setUseMock(false);
+
+        // check RAG status
+        try {
+          const ragResponse = await fetch(`${API_URL}/rag-status`);
+          if (ragResponse.ok) {
+            const ragData = await ragResponse.json();
+            setRagStatus(ragData.status);
+            addDebugInfo(`RAG status: ${ragData.status}`);
           }
-        });
-
-        const results = await Promise.allSettled(promises);
-        const anySuccess = results.some(
-          (r) => r.status === "fulfilled" && r.value === true
-        );
-
-        if (anySuccess) {
-          addDebugInfo(`🎉 WARM-UP SUCCESS after ${i + 1} rounds!`);
-          setWarmingProgress(100);
-          setBackendStatus("ready");
-          setColdStartDetected(false);
-
-          toast({
-            title: "🔥 Server Warmed Up!",
-            description: `Ready in ${
-              i + 1
-            } attempts. Your questions will be lightning fast now!`,
-          });
-
-          // Start aggressive keep-alive
-          startAggressiveKeepAlive();
-          return true;
+        } catch (error) {
+          addDebugInfo(`RAG status check failed: ${error}`);
         }
 
-        // Progressive delay before next round
-        if (i < timeouts.length - 1) {
-          addDebugInfo(
-            `⏳ Round ${i + 1} failed, trying round ${i + 2} in 3s...`
-          );
-          await new Promise((resolve) => setTimeout(resolve, 3000));
+        return;
+      }
+
+      // coba URL alternatif
+      addDebugInfo("Main backend failed, trying alternatives...");
+      for (const url of BACKEND_URLS.slice(1)) {
+        const isWorking = await checkBackendHealth(url);
+        if (isWorking) {
+          addDebugInfo(`Alternative backend working: ${url}`);
+          setBackendStatus("connected");
+          setUseMock(false);
+          // update API_URL untuk requests selanjutnya
+          return;
         }
       }
 
-      // If all attempts failed
-      addDebugInfo(`❌ All ${totalAttempts} warm-up attempts failed`);
+      // semua backend gagal
+      addDebugInfo("All backends failed, switching to mock mode");
       setBackendStatus("error");
-      setColdStartDetected(false);
-      setWarmingProgress(0);
+      setUseMock(true);
 
-      return false;
+      toast({
+        title: "Backend Connection Failed",
+        description: "Switching to offline mode. Some features may be limited.",
+        variant: "destructive",
+      });
     };
 
-    return concurrentWarmUp();
-  }, [backendStatus, toast]);
-
-  // Aggressive Keep-Alive untuk prevent future cold starts
-  const startAggressiveKeepAlive = useCallback(() => {
-    // Clear existing intervals
-    if (keepAliveIntervalRef.current) {
-      clearInterval(keepAliveIntervalRef.current);
-    }
-
-    addDebugInfo("🔄 Starting AGGRESSIVE keep-alive (every 3 minutes)");
-
-    keepAliveIntervalRef.current = setInterval(async () => {
-      if (backendStatus === "ready" && document.visibilityState === "visible") {
-        try {
-          await fetch(`${API_URL}/ping`, {
-            method: "GET",
-            signal: AbortSignal.timeout(8000),
-            headers: { "Cache-Control": "no-cache" },
-          });
-          addDebugInfo("🏓 Keep-alive ping successful");
-        } catch (error) {
-          addDebugInfo("⚠️ Keep-alive failed - triggering re-warm");
-          setBackendStatus("checking");
-          superAggressiveWarmUp();
-        }
-      }
-    }, 3 * 60 * 1000); // 3 minutes untuk Render free tier
-  }, [backendStatus, superAggressiveWarmUp]);
-
-  // Start warming immediately on component mount
-  useEffect(() => {
-    addDebugInfo("🚀 Component mounted - starting immediate warm-up");
-    superAggressiveWarmUp();
+    checkBackend();
 
     if (!sessionId) {
       setSessionId(crypto.randomUUID());
     }
+  }, [sessionId, toast]);
 
-    return () => {
-      if (keepAliveIntervalRef.current) {
-        clearInterval(keepAliveIntervalRef.current);
-      }
-    };
-  }, [superAggressiveWarmUp, sessionId]);
-
-  // Pre-warming trigger saat user mulai mengetik
+  // auto-scroll to response
   useEffect(() => {
-    if (userPrompt.length === 3 && backendStatus !== "ready") {
-      addDebugInfo("⌨️ User typing detected - boosting warm-up priority");
-      superAggressiveWarmUp();
-    }
-  }, [userPrompt, backendStatus, superAggressiveWarmUp]);
-
-  // Debug info helper
-  const addDebugInfo = (message: string) => {
-    const timestamp = new Date().toLocaleTimeString();
-    const logMessage = `${timestamp}: ${message}`;
-    console.log("🔍", logMessage);
-    setDebugInfo((prev) => [...prev, logMessage].slice(-20));
-  };
-
-  // ENHANCED AI Request dengan ZERO tolerance untuk cold start
-  const askAI = async (question: string, skipHistory = false) => {
-    if (!question.trim()) {
-      toast({
-        title: "Error",
-        description: "Pertanyaan tidak boleh kosong",
-        variant: "destructive",
+    if (aiResponse && responseRef.current) {
+      responseRef.current.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
       });
-      return;
     }
+  }, [aiResponse]);
 
-    setIsLoading(true);
-    setAiResponse("");
-    setErrorMessage("");
-    setRelatedTopics([]);
-
-    if (!skipHistory && !previousQuestions.includes(question)) {
-      setPreviousQuestions((prev) => [question, ...prev].slice(0, 8));
-    }
-
-    // Enhanced question processing
-    let processedQuestion = enhanceQuestionWithContext(question);
-
-    // If backend not ready, force warm-up FIRST
-    if (backendStatus !== "ready") {
-      addDebugInfo("🔥 Backend not ready - FORCING immediate warm-up");
-
-      toast({
-        title: "🚀 Warming Up Server",
-        description: "First request detected! Waking up the server for you...",
-      });
-
-      const warmUpSuccess = await superAggressiveWarmUp();
-
-      if (!warmUpSuccess) {
-        addDebugInfo("❌ Warm-up failed - using offline mode");
-        setUseMock(true);
-        handleMockResponse(processedQuestion);
-        setIsLoading(false);
-        return;
-      }
-    }
-
-    // Now make the actual AI request with EXTENDED timeout for first request
-    const isFirstRequest = conversationHistory.length === 0;
-    const endpoint = `${API_URL}/ask`;
-
-    addDebugInfo(
-      `🎯 Making AI request: ${isFirstRequest ? "FIRST" : "CONTINUATION"}`
-    );
-
-    try {
-      const controller = new AbortController();
-
-      // EXTENDED timeout untuk first request (karena sudah di-warm)
-      const timeout = isFirstRequest ? 75000 : 45000; // 75s untuk first, 45s untuk continuation
-      const timeoutId = setTimeout(() => controller.abort(), timeout);
-
-      if (isFirstRequest) {
-        toast({
-          title: "🤖 AI Processing",
-          description: `First AI request (up to ${
-            timeout / 1000
-          }s). Server is warmed and ready!`,
-        });
-      }
-
-      const requestBody = {
-        question: processedQuestion,
-        session_id: sessionId,
-        conversation_history: conversationHistory.slice(-5).map((item) => ({
-          question: item.question,
-          response: item.response,
-        })),
-      };
-
-      const response = await fetch(endpoint, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-        body: JSON.stringify(requestBody),
-        signal: controller.signal,
-        mode: "cors",
-      });
-
-      clearTimeout(timeoutId);
-      addDebugInfo(`📥 AI response status: ${response.status}`);
-
-      if (!response.ok) {
-        const responseText = await response.text();
-        addDebugInfo(`❌ AI error response: ${responseText}`);
-
-        let errorDetail;
-        try {
-          errorDetail = JSON.parse(responseText).detail;
-        } catch (e) {
-          errorDetail = responseText || "Gagal mendapatkan respons";
-        }
-
-        // Jika server error, coba warm-up ulang untuk next request
-        if (response.status >= 500) {
-          addDebugInfo(
-            "🔄 Server error detected - re-warming for next request"
-          );
-          setBackendStatus("checking");
-          setTimeout(() => superAggressiveWarmUp(), 2000);
-        }
-
-        setErrorMessage(`Error: ${errorDetail}`);
-        setUseMock(true);
-        handleMockResponse(processedQuestion);
-      } else {
-        const data = await response.json();
-        addDebugInfo(`✅ AI SUCCESS response received`);
-        handleResponse(data, processedQuestion);
-        fetchSuggestedFollowups();
-
-        // Success - maintain keep-alive
-        if (backendStatus !== "ready") {
-          setBackendStatus("ready");
-          startAggressiveKeepAlive();
-        }
-      }
-    } catch (error) {
-      addDebugInfo(`❌ AI request error: ${error}`);
-      console.error("Error:", error);
-
-      const errorMessage =
-        error instanceof Error ? error.message : "Terjadi kesalahan koneksi";
-
-      // Jika timeout pada first request, paksa warm-up ulang
-      if (isFirstRequest && errorMessage.includes("aborted")) {
-        addDebugInfo("🔄 First request timeout - re-warming server");
-        setBackendStatus("checking");
-
-        toast({
-          title: "⏳ Server Need More Time",
-          description: "Re-warming server for you. Please wait a moment...",
-        });
-
-        // Auto-retry setelah warm-up
-        setTimeout(async () => {
-          const reWarmSuccess = await superAggressiveWarmUp();
-          if (reWarmSuccess) {
-            addDebugInfo("♻️ Re-warm successful - auto-retrying question");
-            askAI(processedQuestion, true);
-            return;
-          } else {
-            setUseMock(true);
-            handleMockResponse(processedQuestion);
-          }
-        }, 3000);
-
-        return;
-      }
-
-      // Final fallback
-      setUseMock(true);
-      handleMockResponse(processedQuestion);
-      setErrorMessage(`Error: ${errorMessage}`);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  // Enhanced question processing
+  // enhanced question processing
   const enhanceQuestionWithContext = (question: string): string => {
     const lowerQuestion = question.toLowerCase();
 
@@ -421,21 +232,116 @@ const AISection = ({ variant = "light" }: AISectionProps) => {
     return question;
   };
 
-  // Mock response handler
-  const handleMockResponse = (question: string) => {
-    const isFirstRequest = conversationHistory.length === 0;
+  // enhanced AI interaction function dengan better error handling
+  const askAI = async (question: string, skipHistory = false) => {
+    if (!question.trim()) {
+      toast({
+        title: "Error",
+        description: "Pertanyaan tidak boleh kosong",
+        variant: "destructive",
+      });
+      return;
+    }
 
-    const mockResponses = isFirstRequest
-      ? [
-          "🚀 Server sedang dalam proses startup (cold start normal untuk hosting gratis). Sistem sedang menyiapkan AI engine untuk pertanyaan Anda. Silakan tunggu sebentar dan coba lagi - server akan ready dalam 30-60 detik!",
-          "⏳ First-time connection terdeteksi! AI server sedang warming up dari sleep mode. Tunggu sebentar lalu tanyakan pertanyaan yang sama lagi untuk mendapatkan respons AI lengkap.",
-          "🔄 Cold start in progress! Ini normal untuk free hosting. Server AI sedang loading, coba lagi dalam 1 menit untuk mendapat respons lengkap!",
-        ]
-      : [
-          "Backend sementara tidak tersedia. Server mungkin masih dalam proses startup, coba lagi dalam 30-60 detik!",
-          "AI service sedang starting up. Untuk hasil terbaik, tunggu sebentar dan retry pertanyaan Anda.",
-          "Connection issue terdeteksi. Coba lagi dalam beberapa saat!",
-        ];
+    setIsLoading(true);
+    setAiResponse("");
+    setErrorMessage("");
+    setRelatedTopics([]);
+
+    if (!skipHistory && !previousQuestions.includes(question)) {
+      setPreviousQuestions((prev) => [question, ...prev].slice(0, 8));
+    }
+
+    let processedQuestion = enhanceQuestionWithContext(question);
+
+    // use mock mode if backend is down
+    if (useMock) {
+      addDebugInfo("Using mock mode");
+      handleMockResponse(processedQuestion);
+      setIsLoading(false);
+      return;
+    }
+
+    const endpoint = `${API_URL}/ask`;
+    addDebugInfo(`Making request to: ${endpoint}`);
+
+    try {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 30000); // 30s timeout for AI requests
+
+      const requestBody = {
+        question: processedQuestion,
+        session_id: sessionId,
+        conversation_history: conversationHistory.slice(-5).map((item) => ({
+          question: item.question,
+          response: item.response,
+        })),
+      };
+
+      addDebugInfo(`Request body: ${JSON.stringify(requestBody)}`);
+
+      const response = await fetch(endpoint, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify(requestBody),
+        signal: controller.signal,
+        mode: "cors",
+      });
+
+      clearTimeout(timeoutId);
+      addDebugInfo(`AI response status: ${response.status}`);
+
+      if (!response.ok) {
+        const responseText = await response.text();
+        addDebugInfo(`AI error response: ${responseText}`);
+
+        let errorDetail;
+        try {
+          errorDetail = JSON.parse(responseText).detail;
+        } catch (e) {
+          errorDetail = responseText || "Gagal mendapatkan respons";
+        }
+
+        setErrorMessage(`Error: ${errorDetail}`);
+
+        // fallback to mock
+        addDebugInfo("Falling back to mock mode");
+        setUseMock(true);
+        handleMockResponse(processedQuestion);
+      } else {
+        const data = await response.json();
+        addDebugInfo(`AI success response: ${JSON.stringify(data)}`);
+        handleResponse(data, processedQuestion);
+        fetchSuggestedFollowups();
+      }
+    } catch (error) {
+      addDebugInfo(`AI request error: ${error}`);
+      console.error("Error:", error);
+
+      // fallback to mock
+      setUseMock(true);
+      handleMockResponse(processedQuestion);
+
+      setErrorMessage(
+        `Error: ${
+          error instanceof Error ? error.message : "Terjadi kesalahan koneksi"
+        }`
+      );
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // mock response handler
+  const handleMockResponse = (question: string) => {
+    const mockResponses = [
+      "Terima kasih atas pertanyaannya! Saat ini saya menggunakan mode offline. Backend AI sedang dalam proses perbaikan.",
+      "Pertanyaan yang menarik! Dalam mode offline ini, saya tidak dapat memberikan respons yang personal seperti biasanya.",
+      "Maaf, saat ini backend AI sedang tidak tersedia. Silakan coba lagi nanti atau hubungi saya langsung melalui email.",
+    ];
 
     const mockResponse =
       mockResponses[Math.floor(Math.random() * mockResponses.length)];
@@ -493,10 +399,7 @@ const AISection = ({ variant = "light" }: AISectionProps) => {
   const fetchSuggestedFollowups = async () => {
     try {
       const response = await fetch(
-        `${API_URL}/suggested-followups/${sessionId}`,
-        {
-          signal: AbortSignal.timeout(10000),
-        }
+        `${API_URL}/suggested-followups/${sessionId}`
       );
       if (response.ok) {
         const data = await response.json();
@@ -517,15 +420,17 @@ const AISection = ({ variant = "light" }: AISectionProps) => {
     }
   };
 
-  const selectQuestion = (question: string) => {
-    setUserPrompt(question);
-    askAI(question);
-  };
-
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === "Enter" && (e.ctrlKey || e.metaKey)) {
       e.preventDefault();
       askAI(userPrompt);
+    }
+  };
+
+  const selectQuestion = (question: string) => {
+    setUserPrompt(question);
+    if (textareaRef.current) {
+      textareaRef.current.focus();
     }
   };
 
@@ -570,51 +475,6 @@ const AISection = ({ variant = "light" }: AISectionProps) => {
     }
   };
 
-  const retryConnection = () => {
-    setBackendStatus("checking");
-    setUseMock(false);
-    setErrorMessage("");
-    setDebugInfo([]);
-    setColdStartDetected(false);
-    addDebugInfo("🔄 Manual retry initiated");
-    superAggressiveWarmUp();
-  };
-
-  // Theme classes
-  const containerClass =
-    variant === "dark"
-      ? "bg-slate-900/95 border-slate-700/50"
-      : "bg-white/95 border-gray-200/50 shadow-xl";
-  const textColor = variant === "dark" ? "text-white" : "text-gray-800";
-  const textSecondary = variant === "dark" ? "text-gray-300" : "text-gray-600";
-  const textMuted = variant === "dark" ? "text-gray-400" : "text-gray-500";
-  const borderColor =
-    variant === "dark" ? "border-slate-600/30" : "border-gray-200/50";
-  const inputBg =
-    variant === "dark"
-      ? "bg-slate-800/80 border-slate-600/40 text-white placeholder:text-gray-400"
-      : "bg-gray-50/80 border-gray-200/60 text-gray-800 placeholder:text-gray-500";
-  const badgeClass =
-    variant === "dark"
-      ? "bg-slate-800/60 text-gray-300 border-slate-600/40"
-      : "bg-gray-100/80 text-gray-600 border-gray-200/60";
-
-  // Sample questions
-  const recommendedQuestions = [
-    "Ceritakan tentang pengalamanmu selama ini!",
-    "Ceritakan tentang project apa saja yang sudah kamu kerjakan!",
-  ];
-
-  // Auto-scroll to response
-  useEffect(() => {
-    if (aiResponse && responseRef.current) {
-      responseRef.current.scrollIntoView({
-        behavior: "smooth",
-        block: "start",
-      });
-    }
-  }, [aiResponse]);
-
   return (
     <div className="space-y-8">
       <motion.div
@@ -623,7 +483,7 @@ const AISection = ({ variant = "light" }: AISectionProps) => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
       >
-        {/* Debug panel - development only */}
+        {/* debug panel - hanya tampil di development */}
         {process.env.NODE_ENV === "development" && (
           <motion.div
             initial={{ opacity: 0, height: 0 }}
@@ -644,49 +504,53 @@ const AISection = ({ variant = "light" }: AISectionProps) => {
           </motion.div>
         )}
 
-        {/* Enhanced Status Header */}
+        {/* header dengan status dan controls */}
         <div className="mb-8 flex items-center justify-between flex-wrap gap-4">
-          <div className="flex items-center gap-3">
-            <div className="relative">
+          <div className="flex items-center gap-4 flex-wrap">
+            <motion.div
+              className="flex items-center gap-3"
+              animate={{ scale: [1, 1.05, 1] }}
+              transition={{ duration: 2, repeat: Infinity }}
+            >
               <span
                 className={`inline-block h-3 w-3 rounded-full ${
-                  backendStatus === "ready"
-                    ? "bg-green-500"
-                    : backendStatus === "warming"
-                    ? "bg-amber-500 animate-pulse"
-                    : backendStatus === "checking"
-                    ? "bg-blue-500 animate-pulse"
-                    : "bg-red-500"
+                  backendStatus === "connected"
+                    ? "bg-green-500 shadow-lg"
+                    : backendStatus === "error"
+                    ? "bg-red-500"
+                    : "bg-yellow-500 animate-pulse"
                 }`}
-              />
-              {backendStatus === "warming" && (
-                <span className="absolute -top-1 -right-1 h-2 w-2 bg-amber-300 rounded-full animate-ping" />
-              )}
-            </div>
-            <div className="flex flex-col">
-              <span className={`text-sm font-medium ${textColor}`}>
-                {backendStatus === "ready"
-                  ? "🚀 AI Ready"
-                  : backendStatus === "warming"
-                  ? "🔥 Warming Up Server"
-                  : backendStatus === "checking"
-                  ? "🔍 Connecting"
-                  : "❌ Connection Failed"}
+              ></span>
+              <span className={`text-sm font-medium ${textSecondary}`}>
+                Backend Status:{" "}
+                {backendStatus === "connected"
+                  ? "Connected ✅"
+                  : backendStatus === "error"
+                  ? "Offline ❌"
+                  : "Checking... ⏳"}
               </span>
-              {backendStatus === "warming" && (
-                <div className="flex items-center gap-2 mt-1">
-                  <div className="w-20 h-1 bg-gray-200 rounded-full overflow-hidden">
-                    <div
-                      className="h-full bg-amber-500 transition-all duration-300"
-                      style={{ width: `${warmingProgress}%` }}
-                    />
-                  </div>
-                  <span className="text-xs text-amber-600 font-medium">
-                    {warmingProgress}%
-                  </span>
-                </div>
-              )}
-            </div>
+            </motion.div>
+
+            {ragStatus && ragStatus !== "unknown" && (
+              <div className="flex items-center gap-2">
+                <span
+                  className={`inline-block h-2 w-2 rounded-full ${
+                    ragStatus === "healthy" || ragStatus === "initialized"
+                      ? "bg-blue-500"
+                      : "bg-orange-500"
+                  }`}
+                ></span>
+                <span className={`text-xs ${textMuted}`}>
+                  RAG Status: {ragStatus}
+                </span>
+              </div>
+            )}
+
+            {conversationHistory.length > 0 && (
+              <span className={`text-xs ${textMuted}`}>
+                Messages: {conversationHistory.length}
+              </span>
+            )}
           </div>
 
           <div className="flex items-center gap-3 flex-wrap">
@@ -696,26 +560,13 @@ const AISection = ({ variant = "light" }: AISectionProps) => {
               onClick={() => setUseMock(!useMock)}
               className={`text-xs ${badgeClass} hover:scale-105 transition-transform`}
             >
-              {useMock ? "📴 Switch to Online" : "🌐 Switch to Offline"}
+              <span
+                className={`mr-2 inline-block h-2 w-2 rounded-full ${
+                  useMock ? "bg-amber-500" : "bg-green-500"
+                }`}
+              ></span>
+              Mode: {useMock ? "Offline" : "Online"}
             </Button>
-
-            {(backendStatus === "error" || coldStartDetected) && (
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={retryConnection}
-                disabled={backendStatus === "warming"}
-                className={`text-xs ${
-                  variant === "dark"
-                    ? "text-blue-300 hover:text-blue-100 bg-blue-900/20 border-blue-500/30 hover:bg-blue-800/30"
-                    : "text-blue-600 hover:text-blue-800 bg-blue-50/50 border-blue-300/30 hover:bg-blue-100/50"
-                } hover:scale-105 transition-transform`}
-              >
-                {backendStatus === "warming"
-                  ? "🔥 Warming..."
-                  : "🔄 Wake Server"}
-              </Button>
-            )}
 
             {conversationHistory.length > 0 && (
               <>
@@ -745,37 +596,7 @@ const AISection = ({ variant = "light" }: AISectionProps) => {
           </div>
         </div>
 
-        {/* Cold Start Warning */}
-        <AnimatePresence>
-          {coldStartDetected && backendStatus === "warming" && (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              className={`mb-8 rounded-2xl ${
-                variant === "dark"
-                  ? "bg-amber-900/30 border-amber-500/50 text-amber-200"
-                  : "bg-amber-50/80 border-amber-300/50 text-amber-800"
-              } border-2 p-6`}
-            >
-              <div className="flex items-center gap-3 font-semibold mb-2">
-                <span className="text-2xl">🔥</span>
-                <h3>Cold Start Detected - Warming Up Server</h3>
-              </div>
-              <div className="text-sm">
-                First-time access detected! The server is waking up from sleep
-                mode. This process takes 30-60 seconds on free hosting. Please
-                wait while we prepare everything for you.
-              </div>
-              <div className="mt-3 text-xs opacity-75">
-                Progress: {warmingProgress}% - Your question will be processed
-                automatically once ready!
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-
-        {/* Conversation context display */}
+        {/* conversation context display */}
         <AnimatePresence>
           {conversationHistory.length > 0 && (
             <motion.div
@@ -817,7 +638,7 @@ const AISection = ({ variant = "light" }: AISectionProps) => {
           )}
         </AnimatePresence>
 
-        {/* Enhanced textarea input */}
+        {/* enhanced textarea input */}
         <div
           className={`mb-8 overflow-hidden rounded-2xl border-2 ${borderColor} ${
             variant === "dark" ? "bg-slate-800/40" : "bg-gray-50/60"
@@ -826,19 +647,14 @@ const AISection = ({ variant = "light" }: AISectionProps) => {
           <Textarea
             ref={textareaRef}
             placeholder={
-              backendStatus === "warming"
-                ? "// Server is warming up! Your question will be processed automatically once ready..."
-                : conversationHistory.length > 0
+              conversationHistory.length > 0
                 ? "// Lanjutkan percakapan atau tanyakan hal baru..."
-                : backendStatus === "error"
-                ? "// Server needs time to start! Try: 'kenapa saya harus merekrut kamu?'"
                 : "// Tanyakan sesuatu tentang saya... (misal: kenapa saya harus merekrut kamu?)"
             }
             value={userPrompt}
             onChange={(e) => setUserPrompt(e.target.value)}
             onKeyDown={handleKeyDown}
             className={`min-h-[140px] max-h-[250px] resize-y border-0 bg-transparent ${inputBg} transition-all duration-300 focus-visible:ring-0 text-base`}
-            disabled={backendStatus === "warming"}
           />
 
           <div
@@ -847,18 +663,164 @@ const AISection = ({ variant = "light" }: AISectionProps) => {
             } px-6 py-4 text-xs ${textMuted} flex justify-between items-center`}
           >
             <span className="font-medium">
-              {backendStatus === "warming"
-                ? "Warming up server..."
-                : "Ctrl+Enter to send || Cmd+Enter to send"}
+              Ctrl+Enter to send || Cmd+Enter to send
             </span>
             <span className="font-medium">{userPrompt.length}/500</span>
           </div>
         </div>
 
-        {/* Related topics, previous questions, followups, recommended questions */}
-        {/* (Same as original code for brevity) */}
+        {/* related topics dari previous response */}
+        <AnimatePresence>
+          {relatedTopics.length > 0 && (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              className="mb-8"
+            >
+              <p
+                className={`mb-4 text-sm ${textMuted} flex items-center font-medium`}
+              >
+                🏷️{" "}
+                <span
+                  className={`ml-2 ${
+                    variant === "dark" ? "text-gray-300" : "text-gray-600"
+                  }`}
+                >
+                  Related Topics:
+                </span>
+              </p>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                {relatedTopics.map((topic, index) => (
+                  <motion.div
+                    key={index}
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ delay: index * 0.1 }}
+                  >
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() =>
+                        selectQuestion(`ceritakan tentang ${topic}`)
+                      }
+                      className={`text-sm ${borderColor} ${badgeClass} hover:scale-105 transition-all duration-300 text-left justify-start h-auto py-4 px-4 w-full`}
+                    >
+                      <span className="truncate font-medium">{topic}</span>
+                    </Button>
+                  </motion.div>
+                ))}
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
 
-        {/* Action buttons */}
+        {/* previous questions */}
+        <AnimatePresence>
+          {previousQuestions.length > 0 && (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="mb-8"
+            >
+              <p className={`mb-4 text-sm ${textMuted} font-medium`}>
+                📝 Recent Questions:
+              </p>
+              <div className="flex flex-wrap gap-3">
+                {previousQuestions.slice(0, 4).map((q, i) => (
+                  <motion.button
+                    key={i}
+                    onClick={() => selectQuestion(q)}
+                    className={`rounded-full border-2 ${borderColor} ${badgeClass} px-4 py-2 text-sm transition-all duration-300 hover:scale-105 font-medium`}
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: i * 0.1 }}
+                  >
+                    {q.length > 35 ? q.substring(0, 35) + "..." : q}
+                  </motion.button>
+                ))}
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {/* suggested followups */}
+        <AnimatePresence>
+          {suggestedFollowups.length > 0 && (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="mb-8"
+            >
+              <p
+                className={`mb-4 text-sm ${textMuted} flex items-center font-medium`}
+              >
+                💡{" "}
+                <span
+                  className={`ml-2 ${
+                    variant === "dark" ? "text-gray-300" : "text-gray-600"
+                  }`}
+                >
+                  Suggested Followups:
+                </span>
+              </p>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {suggestedFollowups.map((question, index) => (
+                  <motion.div
+                    key={index}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: index * 0.1 }}
+                  >
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => {
+                        setUserPrompt(question);
+                        askAI(question);
+                      }}
+                      className={`text-sm ${borderColor} ${badgeClass} hover:scale-105 transition-all duration-300 text-left justify-start h-auto py-4 px-4 w-full`}
+                    >
+                      <span className="truncate font-medium">{question}</span>
+                    </Button>
+                  </motion.div>
+                ))}
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {/* recommended questions - hanya 2 pertanyaan */}
+        <div className="mb-8">
+          <p className={`mb-6 text-sm ${textMuted} font-medium`}>
+            💼 Recommended Questions:
+          </p>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {recommendedQuestions.map((question, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.1 }}
+              >
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => {
+                    setUserPrompt(question);
+                    askAI(question);
+                  }}
+                  className={`text-sm ${borderColor} ${badgeClass} hover:scale-105 transition-all duration-300 text-left justify-start h-auto py-4 px-4 w-full`}
+                >
+                  <span className="truncate font-medium">{question}</span>
+                </Button>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+
+        {/* action buttons */}
         <div className="flex items-center justify-between w-full gap-4 flex-wrap">
           <Button
             variant="outline"
@@ -873,7 +835,7 @@ const AISection = ({ variant = "light" }: AISectionProps) => {
           <Button
             variant="outline"
             onClick={() => setUserPrompt("")}
-            disabled={isLoading || !userPrompt || backendStatus === "warming"}
+            disabled={isLoading || !userPrompt}
             className={`${borderColor} ${badgeClass} hover:scale-105 transition-all duration-300 font-medium`}
           >
             🔄 Reset
@@ -881,9 +843,7 @@ const AISection = ({ variant = "light" }: AISectionProps) => {
 
           <Button
             onClick={() => askAI(userPrompt)}
-            disabled={
-              isLoading || !userPrompt.trim() || backendStatus === "warming"
-            }
+            disabled={isLoading || !userPrompt.trim()}
             className={`${
               variant === "dark"
                 ? "bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700"
@@ -899,18 +859,11 @@ const AISection = ({ variant = "light" }: AISectionProps) => {
                 >
                   ⚡
                 </motion.div>
-                {backendStatus === "ready"
-                  ? "Processing..."
-                  : "First Request (75s max)..."}
+                Processing...
               </span>
-            ) : backendStatus === "warming" ? (
-              <span className="flex items-center">🔥 Server Warming Up...</span>
             ) : (
               <span className="flex items-center">
-                🚀{" "}
-                {conversationHistory.length > 0
-                  ? "Continue Chat"
-                  : "Start AI Chat"}
+                🚀 {conversationHistory.length > 0 ? "Continue" : "Start"}
               </span>
             )}
           </Button>
@@ -939,7 +892,7 @@ const AISection = ({ variant = "light" }: AISectionProps) => {
         </AnimatePresence>
       </div>
 
-      {/* Error message */}
+      {/* error message */}
       <AnimatePresence>
         {errorMessage && (
           <motion.div
@@ -958,8 +911,8 @@ const AISection = ({ variant = "light" }: AISectionProps) => {
             </div>
             <div className="mt-3 text-sm font-medium">{errorMessage}</div>
             <div className="mt-4 text-xs opacity-75">
-              The server might be starting up (cold start). This is normal for
-              free hosting.
+              Troubleshooting: Check browser console (F12) for detailed error
+              logs.
             </div>
           </motion.div>
         )}
