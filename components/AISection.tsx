@@ -43,13 +43,6 @@ interface AISectionProps {
   variant?: "dark" | "light";
 }
 
-interface ConnectionProgress {
-  attempt: number;
-  maxAttempts: number;
-  delay?: number;
-  phase: "connecting" | "retrying" | "completed" | "failed";
-}
-
 const AISection = ({ variant = "light" }: AISectionProps) => {
   const [userPrompt, setUserPrompt] = useState("");
   const [aiResponse, setAiResponse] = useState("");
@@ -65,11 +58,7 @@ const AISection = ({ variant = "light" }: AISectionProps) => {
   const [historyVisible, setHistoryVisible] = useState(false);
   const [suggestedFollowups, setSuggestedFollowups] = useState<string[]>([]);
   const [relatedTopics, setRelatedTopics] = useState<string[]>([]);
-  const [ragStatus, setRagStatus] = useState<string>("unknown");
   const [debugInfo, setDebugInfo] = useState<string[]>([]);
-  const [connectionProgress, setConnectionProgress] =
-    useState<ConnectionProgress>();
-  const [showColdStartInfo, setShowColdStartInfo] = useState(false);
 
   const { toast } = useToast();
   const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -157,18 +146,10 @@ const AISection = ({ variant = "light" }: AISectionProps) => {
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), timeout);
 
-      // Update progress
-      setConnectionProgress({
-        attempt,
-        maxAttempts: 3,
-        phase: attempt === 1 ? "connecting" : "retrying",
-      });
-
       if (attempt === 1) {
         addDebugInfo(
           "🚀 First connection to Render - allowing up to 75s for cold start"
         );
-        setShowColdStartInfo(true);
 
         toast({
           title: "Connecting to AI Backend (Render)",
@@ -194,7 +175,6 @@ const AISection = ({ variant = "light" }: AISectionProps) => {
       if (response.ok) {
         const data = await response.json();
         addDebugInfo(`✅ Render backend healthy: ${JSON.stringify(data)}`);
-        setShowColdStartInfo(false);
         return true;
       }
       return false;
@@ -211,12 +191,6 @@ const AISection = ({ variant = "light" }: AISectionProps) => {
 
         // Show retry countdown dengan info Render
         for (let i = 5; i > 0; i--) {
-          setConnectionProgress({
-            attempt: 1,
-            maxAttempts: 3,
-            delay: i * 1000,
-            phase: "retrying",
-          });
           await new Promise((resolve) => setTimeout(resolve, 1000));
         }
 
@@ -232,11 +206,6 @@ const AISection = ({ variant = "light" }: AISectionProps) => {
     const checkBackend = async () => {
       addDebugInfo("🚀 Starting enhanced backend health check...");
       setBackendStatus("checking");
-      setConnectionProgress({
-        attempt: 1,
-        maxAttempts: 3,
-        phase: "connecting",
-      });
 
       // coba URL utama dulu dengan cold start support
       const mainBackendWorking = await checkBackendHealth(API_URL);
@@ -245,31 +214,11 @@ const AISection = ({ variant = "light" }: AISectionProps) => {
         addDebugInfo("✅ Main backend working!");
         setBackendStatus("connected");
         setUseMock(false);
-        setConnectionProgress({
-          attempt: 1,
-          maxAttempts: 1,
-          phase: "completed",
-        });
 
         toast({
-          title: "✅ Render Backend Connected",
-          description:
-            "AI features are now fully available! Render server is awake.",
+          title: "✅ Backend Connected",
+          description: "AI features are now fully available!",
         });
-
-        // check RAG status
-        try {
-          const ragResponse = await fetch(`${API_URL}/rag-status`, {
-            signal: AbortSignal.timeout(10000),
-          });
-          if (ragResponse.ok) {
-            const ragData = await ragResponse.json();
-            setRagStatus(ragData.status);
-            addDebugInfo(`📊 RAG status: ${ragData.status}`);
-          }
-        } catch (error) {
-          addDebugInfo(`⚠️ RAG status check failed: ${error}`);
-        }
 
         return;
       }
@@ -278,22 +227,12 @@ const AISection = ({ variant = "light" }: AISectionProps) => {
       addDebugInfo("🔄 Main backend failed, trying alternatives...");
       for (let i = 0; i < BACKEND_URLS.slice(1).length; i++) {
         const url = BACKEND_URLS.slice(1)[i];
-        setConnectionProgress({
-          attempt: i + 2,
-          maxAttempts: BACKEND_URLS.length,
-          phase: "connecting",
-        });
 
         const isWorking = await checkBackendHealth(url, 2);
         if (isWorking) {
           addDebugInfo(`✅ Alternative backend working: ${url}`);
           setBackendStatus("connected");
           setUseMock(false);
-          setConnectionProgress({
-            attempt: i + 2,
-            maxAttempts: BACKEND_URLS.length,
-            phase: "completed",
-          });
           return;
         }
       }
@@ -302,17 +241,11 @@ const AISection = ({ variant = "light" }: AISectionProps) => {
       addDebugInfo("❌ All backends failed, switching to offline mode");
       setBackendStatus("error");
       setUseMock(true);
-      setShowColdStartInfo(false);
-      setConnectionProgress({
-        attempt: 3,
-        maxAttempts: 3,
-        phase: "failed",
-      });
 
       toast({
-        title: "❌ Render Backend Connection Failed",
+        title: "❌ Backend Connection Failed",
         description:
-          "Don't worry! You can use offline mode or try reconnecting. Cold start can take 60+ seconds.",
+          "Don't worry! You can use offline mode or try reconnecting.",
         variant: "destructive",
       });
     };
@@ -615,105 +548,23 @@ const AISection = ({ variant = "light" }: AISectionProps) => {
     setErrorMessage("");
     setDebugInfo([]);
 
-    // Reset connection progress
-    setConnectionProgress({
-      attempt: 1,
-      maxAttempts: 3,
-      phase: "connecting",
-    });
-
     // Try connection again
     const mainBackendWorking = await checkBackendHealth(API_URL);
     if (mainBackendWorking) {
       setBackendStatus("connected");
       toast({
-        title: "✅ Reconnected to Render Successfully",
+        title: "✅ Reconnected Successfully",
         description: "Backend is now online and ready!",
       });
     } else {
       setBackendStatus("error");
       setUseMock(true);
       toast({
-        title: "❌ Render Connection Failed",
-        description:
-          "Cold start timeout. Still unable to connect. Using offline mode.",
+        title: "❌ Connection Failed",
+        description: "Still unable to connect. Using offline mode.",
         variant: "destructive",
       });
     }
-  };
-
-  // Simplified Connection Status - hanya Mode Online/Offline
-  const ConnectionStatus = () => {
-    return (
-      <div className="flex items-center gap-3">
-        <span className={`text-sm font-medium ${textSecondary}`}>
-          Mode: {useMock ? "Offline" : "Online"}
-        </span>
-        {backendStatus === "checking" && (
-          <span className={`text-xs ${textMuted}`}>Connecting...</span>
-        )}
-      </div>
-    );
-  };
-
-  // Cold Start Information Component
-  const ColdStartInfo = () => {
-    if (!showColdStartInfo) return null;
-
-    return (
-      <motion.div
-        initial={{ opacity: 0, height: 0 }}
-        animate={{ opacity: 1, height: "auto" }}
-        exit={{ opacity: 0, height: 0 }}
-        className="mb-6 p-4 bg-gradient-to-r from-yellow-50 to-orange-50 dark:from-yellow-900/20 dark:to-orange-900/20 rounded-2xl border border-yellow-200 dark:border-yellow-700"
-      >
-        <div className="flex items-start gap-3">
-          <span className="text-2xl">🚀</span>
-          <div>
-            <h4 className="font-semibold text-yellow-800 dark:text-yellow-300 mb-2">
-              Server Starting Up (Cold Start)
-            </h4>
-            <p className="text-sm text-yellow-700 dark:text-yellow-400 mb-3">
-              Free hosting services put servers to "sleep" after inactivity. The
-              first connection can take 15-45 seconds to "wake up" the server.
-              Subsequent requests will be much faster!
-            </p>
-
-            {connectionProgress && (
-              <div className="space-y-2">
-                <div className="flex items-center justify-between text-xs">
-                  <span>Connection Progress:</span>
-                  <span>
-                    {connectionProgress.phase} (attempt{" "}
-                    {connectionProgress.attempt})
-                  </span>
-                </div>
-                <div className="w-full bg-yellow-200 dark:bg-yellow-800 rounded-full h-2">
-                  <motion.div
-                    className="h-2 bg-gradient-to-r from-yellow-500 to-orange-500 rounded-full"
-                    initial={{ width: 0 }}
-                    animate={{
-                      width:
-                        connectionProgress.phase === "completed"
-                          ? "100%"
-                          : connectionProgress.phase === "failed"
-                          ? "0%"
-                          : `${
-                              ((connectionProgress.attempt - 1) /
-                                connectionProgress.maxAttempts) *
-                                100 +
-                              20
-                            }%`,
-                    }}
-                    transition={{ duration: 0.5 }}
-                  />
-                </div>
-              </div>
-            )}
-          </div>
-        </div>
-      </motion.div>
-    );
   };
 
   return (
@@ -745,12 +596,18 @@ const AISection = ({ variant = "light" }: AISectionProps) => {
           </motion.div>
         )}
 
-        {/* Cold Start Information */}
-        <ColdStartInfo />
-
-        {/* header dengan status dan controls - simplified */}
+        {/* Simplified header dengan hanya Mode Online/Offline */}
         <div className="mb-8 flex items-center justify-between flex-wrap gap-4">
-          <ConnectionStatus />
+          <div className="flex items-center gap-3">
+            <span
+              className={`inline-block h-3 w-3 rounded-full ${
+                useMock ? "bg-amber-500" : "bg-green-500"
+              } animate-pulse`}
+            ></span>
+            <span className={`text-sm font-medium ${textColor}`}>
+              Mode: {useMock ? "Offline" : "Online"}
+            </span>
+          </div>
 
           <div className="flex items-center gap-3 flex-wrap">
             <Button
@@ -759,12 +616,7 @@ const AISection = ({ variant = "light" }: AISectionProps) => {
               onClick={() => setUseMock(!useMock)}
               className={`text-xs ${badgeClass} hover:scale-105 transition-transform`}
             >
-              <span
-                className={`mr-2 inline-block h-2 w-2 rounded-full ${
-                  useMock ? "bg-amber-500" : "bg-green-500"
-                }`}
-              ></span>
-              Mode: {useMock ? "Offline" : "Online"}
+              {useMock ? "📴 Switch to Online" : "🌐 Switch to Offline"}
             </Button>
 
             {backendStatus === "error" && (
@@ -778,7 +630,7 @@ const AISection = ({ variant = "light" }: AISectionProps) => {
                     : "text-blue-600 hover:text-blue-800 bg-blue-50/50 border-blue-300/30 hover:bg-blue-100/50"
                 } hover:scale-105 transition-transform`}
               >
-                🔄 Retry
+                🔄 Retry Connection
               </Button>
             )}
 
@@ -1126,8 +978,7 @@ const AISection = ({ variant = "light" }: AISectionProps) => {
             <div className="mt-3 text-sm font-medium">{errorMessage}</div>
             <div className="mt-4 text-xs opacity-75">
               Troubleshooting: Check browser console (F12) for detailed error
-              logs. This might be due to Render server cold start (first
-              connection can take 60+ seconds).
+              logs. This might be due to server cold start.
             </div>
           </motion.div>
         )}

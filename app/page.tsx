@@ -15,7 +15,8 @@ const portfolioData = {
       "Data Science Enthusiast",
       "Algorithm Problem Solver",
       "ITB Computer Science Student",
-      "AI Assistant Developer",
+      "AI Engineering Explorer",
+      "Front-End Developer",
     ],
     description:
       "Student of Informatics Engineering at ITB with a deep passion for coding and continuous learning. Experienced in web development, data science, and algorithm design with a commitment to making meaningful contributions in every endeavor.",
