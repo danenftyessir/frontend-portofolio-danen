@@ -9,6 +9,9 @@ import { AIResponseCard } from "@/components/AIResponseCard";
 
 // debug: coba beberapa kemungkinan URL backend
 const BACKEND_URLS = [
+  "https://portofolio-danen-backend.up.railway.app",
+  "https://portofolio-danen-backend.railway.app",
+  "https://portfolio-danen-backend.up.railway.app",
   "http://localhost:8000", // untuk development
 ];
 
