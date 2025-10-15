@@ -13,7 +13,6 @@ const portfolioData = {
     title: "Hi, I'm Danendra Shafi Athallah 👋",
     typingTexts: [
       "Data Science Enthusiast",
-      "Algorithm Problem Solver",
       "ITB Computer Science Student",
       "AI Engineering Explorer",
       "Front-End Developer",
@@ -66,7 +65,7 @@ const portfolioData = {
         icon: "bx bx-book",
       },
       { label: "Major", value: "Computer Science", icon: "bx bx-code-alt" },
-      { label: "Semester", value: "4", icon: "bx bx-calendar" },
+      { label: "Semester", value: "5", icon: "bx bx-calendar" },
       {
         label: "Focus",
         value: "Data Science & Algorithms",
