@@ -16,7 +16,7 @@ interface TimelineItemData {
   tech: string[];
   type: "education" | "work" | "project" | "achievement";
   color: string;
-  icon: string;
+  icon: React.ReactNode;
 }
 
 const timelineData: TimelineItemData[] = [
