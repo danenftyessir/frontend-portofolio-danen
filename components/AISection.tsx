@@ -17,11 +17,6 @@ const BACKEND_URLS = [
 
 const API_URL = process.env.NEXT_PUBLIC_BACKEND_URL || BACKEND_URLS[0];
 
-console.log("🔍 Debug Info:");
-console.log("API_URL:", API_URL);
-console.log("Environment:", process.env.NODE_ENV);
-console.log("NEXT_PUBLIC_BACKEND_URL:", process.env.NEXT_PUBLIC_BACKEND_URL);
-
 interface ConversationItem {
   question: string;
   response: string;
@@ -67,7 +62,6 @@ const AISection = ({ variant = "light" }: AISectionProps) => {
 
   // fungsi untuk menambah debug info
   const addDebugInfo = (message: string) => {
-    console.log("🔍", message);
     setDebugInfo((prev) =>
       [...prev, `${new Date().toLocaleTimeString()}: ${message}`].slice(-10)
     );
@@ -493,8 +487,11 @@ const AISection = ({ variant = "light" }: AISectionProps) => {
             animate={{ opacity: 1, height: "auto" }}
             className="mb-6 p-4 bg-yellow-50 border-l-4 border-yellow-400 rounded-lg"
           >
-            <h4 className="text-sm font-bold text-yellow-800 mb-2">
-              🔧 Debug Info
+            <h4 className="text-sm font-bold text-yellow-800 mb-2 flex items-center gap-2">
+              <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M22.7 19l-9.1-9.1c.9-2.3.4-5-1.5-6.9-2-2-5-2.4-7.4-1.3L9 6 6 9 1.6 4.7C.4 7.1.9 10.1 2.9 12.1c1.9 1.9 4.6 2.4 6.9 1.5l9.1 9.1c.4.4 1 .4 1.4 0l2.3-2.3c.5-.4.5-1.1.1-1.4z"/>
+              </svg>
+              Debug Info
             </h4>
             <div className="text-xs font-mono text-yellow-700 space-y-1 max-h-32 overflow-y-auto">
               {debugInfo.map((info, i) => (
@@ -524,13 +521,13 @@ const AISection = ({ variant = "light" }: AISectionProps) => {
                     : "bg-yellow-500 animate-pulse"
                 }`}
               ></span>
-              <span className={`text-sm font-medium ${textSecondary}`}>
+              <span className={`text-sm font-medium ${textSecondary} flex items-center gap-1`}>
                 Backend Status:{" "}
                 {backendStatus === "connected"
-                  ? "Connected ✅"
+                  ? <>Connected <svg className="w-4 h-4 text-green-500" viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></>
                   : backendStatus === "error"
-                  ? "Offline ❌"
-                  : "Checking... ⏳"}
+                  ? <>Offline <svg className="w-4 h-4 text-red-500" viewBox="0 0 24 24" fill="currentColor"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg></>
+                  : <>Checking... <svg className="w-4 h-4 text-yellow-500 animate-spin" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg></>}
               </span>
             </motion.div>
 
@@ -577,9 +574,14 @@ const AISection = ({ variant = "light" }: AISectionProps) => {
                   variant="outline"
                   size="sm"
                   onClick={exportConversation}
-                  className={`text-xs ${badgeClass} hover:scale-105 transition-transform`}
+                  className={`text-xs ${badgeClass} hover:scale-105 transition-transform flex items-center gap-1`}
                 >
-                  💾 Export
+                  <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                    <polyline points="7 10 12 15 17 10"/>
+                    <line x1="12" y1="15" x2="12" y2="3"/>
+                  </svg>
+                  Export
                 </Button>
 
                 <Button
@@ -590,9 +592,13 @@ const AISection = ({ variant = "light" }: AISectionProps) => {
                     variant === "dark"
                       ? "text-red-300 hover:text-red-100 bg-red-900/20 border-red-500/30 hover:bg-red-800/30"
                       : "text-red-600 hover:text-red-800 bg-red-50/50 border-red-300/30 hover:bg-red-100/50"
-                  } hover:scale-105 transition-transform`}
+                  } hover:scale-105 transition-transform flex items-center gap-1`}
                 >
-                  🗑️ Clear
+                  <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <polyline points="3 6 5 6 21 6"/>
+                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+                  </svg>
+                  Clear
                 </Button>
               </>
             )}
@@ -613,7 +619,10 @@ const AISection = ({ variant = "light" }: AISectionProps) => {
               <p
                 className={`text-sm ${textColor} font-semibold mb-3 flex items-center gap-2`}
               >
-                💭 Conversation Context:
+                <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10c1.1 0 2-.9 2-2v-.21c0-.45-.54-.67-.85-.35l-1.78 1.78c-.2.2-.2.51 0 .71.39.39 1.01.39 1.41 0l2.59-2.59c.63-.63.18-1.71-.71-1.71H14c-1.1 0-2-.9-2-2s.9-2 2-2h.66c.89 0 1.34-1.08.71-1.71L12.7 9.71c-.39-.39-1.02-.39-1.41 0-.2.2-.2.51 0 .71l1.78 1.78c.31.31.09.85-.35.85H12c-1.1 0-2-.9-2-2V5c0-1.1.9-2 2-2zm0 2c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6 2.69-6 6-6z"/>
+                </svg>
+                Conversation Context:
                 <span
                   className={`px-2 py-1 ${badgeClass} rounded-full text-xs`}
                 >
@@ -682,11 +691,14 @@ const AISection = ({ variant = "light" }: AISectionProps) => {
               className="mb-8"
             >
               <p
-                className={`mb-4 text-sm ${textMuted} flex items-center font-medium`}
+                className={`mb-4 text-sm ${textMuted} flex items-center font-medium gap-2`}
               >
-                🏷️{" "}
+                <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/>
+                  <line x1="7" y1="7" x2="7.01" y2="7"/>
+                </svg>
                 <span
-                  className={`ml-2 ${
+                  className={`${
                     variant === "dark" ? "text-gray-300" : "text-gray-600"
                   }`}
                 >
@@ -726,8 +738,15 @@ const AISection = ({ variant = "light" }: AISectionProps) => {
               animate={{ opacity: 1, y: 0 }}
               className="mb-8"
             >
-              <p className={`mb-4 text-sm ${textMuted} font-medium`}>
-                📝 Recent Questions:
+              <p className={`mb-4 text-sm ${textMuted} font-medium flex items-center gap-2`}>
+                <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                  <polyline points="14 2 14 8 20 8"/>
+                  <line x1="16" y1="13" x2="8" y2="13"/>
+                  <line x1="16" y1="17" x2="8" y2="17"/>
+                  <polyline points="10 9 9 9 8 9"/>
+                </svg>
+                Recent Questions:
               </p>
               <div className="flex flex-wrap gap-3">
                 {previousQuestions.slice(0, 4).map((q, i) => (
@@ -756,11 +775,13 @@ const AISection = ({ variant = "light" }: AISectionProps) => {
               className="mb-8"
             >
               <p
-                className={`mb-4 text-sm ${textMuted} flex items-center font-medium`}
+                className={`mb-4 text-sm ${textMuted} flex items-center font-medium gap-2`}
               >
-                💡{" "}
+                <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M9 21c0 .55.45 1 1 1h4c.55 0 1-.45 1-1v-1H9v1zm3-19C8.14 2 5 5.14 5 9c0 2.38 1.19 4.47 3 5.74V17c0 .55.45 1 1 1h6c.55 0 1-.45 1-1v-2.26c1.81-1.27 3-3.36 3-5.74 0-3.86-3.14-7-7-7zm2.85 11.1l-.85.6V16h-4v-2.3l-.85-.6C7.8 12.16 7 10.63 7 9c0-2.76 2.24-5 5-5s5 2.24 5 5c0 1.63-.8 3.16-2.15 4.1z"/>
+                </svg>
                 <span
-                  className={`ml-2 ${
+                  className={`${
                     variant === "dark" ? "text-gray-300" : "text-gray-600"
                   }`}
                 >
@@ -795,8 +816,12 @@ const AISection = ({ variant = "light" }: AISectionProps) => {
 
         {/* recommended questions - hanya 2 pertanyaan */}
         <div className="mb-8">
-          <p className={`mb-6 text-sm ${textMuted} font-medium`}>
-            💼 Recommended Questions:
+          <p className={`mb-6 text-sm ${textMuted} font-medium flex items-center gap-2`}>
+            <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <rect x="2" y="7" width="20" height="14" rx="2" ry="2"/>
+              <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
+            </svg>
+            Recommended Questions:
           </p>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -828,9 +853,13 @@ const AISection = ({ variant = "light" }: AISectionProps) => {
           <Button
             variant="outline"
             onClick={() => setHistoryVisible(!historyVisible)}
-            className={`${borderColor} ${badgeClass} hover:scale-105 transition-all duration-300 font-medium`}
+            className={`${borderColor} ${badgeClass} hover:scale-105 transition-all duration-300 font-medium flex items-center gap-1`}
           >
-            📚 History ({conversationHistory.length})
+            <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
+              <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
+            </svg>
+            History ({conversationHistory.length})
           </Button>
 
           <div className="flex-1"></div>
@@ -839,9 +868,13 @@ const AISection = ({ variant = "light" }: AISectionProps) => {
             variant="outline"
             onClick={() => setUserPrompt("")}
             disabled={isLoading || !userPrompt}
-            className={`${borderColor} ${badgeClass} hover:scale-105 transition-all duration-300 font-medium`}
+            className={`${borderColor} ${badgeClass} hover:scale-105 transition-all duration-300 font-medium flex items-center gap-1`}
           >
-            🔄 Reset
+            <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <polyline points="23 4 23 10 17 10"/>
+              <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/>
+            </svg>
+            Reset
           </Button>
 
           <Button
@@ -855,18 +888,25 @@ const AISection = ({ variant = "light" }: AISectionProps) => {
           >
             {isLoading ? (
               <span className="flex items-center">
-                <motion.div
+                <motion.svg
                   animate={{ rotate: 360 }}
                   transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
                   className="mr-3 h-5 w-5"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
                 >
-                  ⚡
-                </motion.div>
+                  <path d="M7 10l5 5 5-5H7z"/>
+                  <path d="M12 2l2 4 4 2-4 2-2 4-2-4-4-2 4-2z"/>
+                </motion.svg>
                 Processing...
               </span>
             ) : (
-              <span className="flex items-center">
-                🚀 {conversationHistory.length > 0 ? "Continue" : "Start"}
+              <span className="flex items-center gap-2">
+                <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M7.33 24l-2.83-2.83 9.17-9.17-9.17-9.17 2.83-2.83 12 12z"/>
+                  <path d="M2 12c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2s-.9 2-2 2H4c-1.1 0-2-.9-2-2z"/>
+                </svg>
+                {conversationHistory.length > 0 ? "Continue" : "Start"}
               </span>
             )}
           </Button>
@@ -909,7 +949,9 @@ const AISection = ({ variant = "light" }: AISectionProps) => {
             } border-2 p-6`}
           >
             <div className="flex items-center gap-3 font-semibold">
-              <span className="text-2xl">⚠️</span>
+              <svg className="w-6 h-6" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"/>
+              </svg>
               <h3>Connection Error:</h3>
             </div>
             <div className="mt-3 text-sm font-medium">{errorMessage}</div>
@@ -943,8 +985,12 @@ const AISection = ({ variant = "light" }: AISectionProps) => {
                   variant === "dark" ? "bg-slate-800/50" : "bg-gray-50/80"
                 }`}
               >
-                <h3 className={`text-lg font-semibold ${textColor}`}>
-                  📚 Conversation History ({conversationHistory.length})
+                <h3 className={`text-lg font-semibold ${textColor} flex items-center gap-2`}>
+                  <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
+                    <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
+                  </svg>
+                  Conversation History ({conversationHistory.length})
                 </h3>
                 <Button
                   variant="outline"
@@ -952,14 +998,19 @@ const AISection = ({ variant = "light" }: AISectionProps) => {
                   onClick={() => setHistoryVisible(false)}
                   className={`${badgeClass} hover:scale-105 transition-transform`}
                 >
-                  ✕
+                  <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <line x1="18" y1="6" x2="6" y2="18"/>
+                    <line x1="6" y1="6" x2="18" y2="18"/>
+                  </svg>
                 </Button>
               </div>
 
               <div className="max-h-96 overflow-y-auto p-6 custom-scrollbar">
                 {conversationHistory.length === 0 ? (
                   <div className="text-center py-12">
-                    <div className="text-6xl mb-4 opacity-50">💭</div>
+                    <svg className="w-16 h-16 mx-auto mb-4 opacity-50" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10c1.1 0 2-.9 2-2v-.21c0-.45-.54-.67-.85-.35l-1.78 1.78c-.2.2-.2.51 0 .71.39.39 1.01.39 1.41 0l2.59-2.59c.63-.63.18-1.71-.71-1.71H14c-1.1 0-2-.9-2-2s.9-2 2-2h.66c.89 0 1.34-1.08.71-1.71L12.7 9.71c-.39-.39-1.02-.39-1.41 0-.2.2-.2.51 0 .71l1.78 1.78c.31.31.09.85-.35.85H12c-1.1 0-2-.9-2-2V5c0-1.1.9-2 2-2zm0 2c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6 2.69-6 6-6z"/>
+                    </svg>
                     <p className={`${textMuted}`}>Conversation Empty</p>
                   </div>
                 ) : (

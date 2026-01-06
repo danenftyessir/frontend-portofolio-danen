@@ -42,7 +42,11 @@ const timelineData: TimelineItemData[] = [
     tech: ["Python", "Algorithm Design", "Teaching", "Problem Solving"],
     type: "work",
     color: "from-blue-500 to-indigo-600",
-    icon: "🎓",
+    icon: (
+      <svg viewBox="0 0 24 24" fill="currentColor" className="w-8 h-8">
+        <path d="M12 3L1 9L5 11.18V17.18L12 21L19 17.18V11.18L21 10.09V17H23V9L12 3ZM18.82 9L12 12.72L5.18 9L12 5.28L18.82 9ZM17 15.99L12 18.72L7 15.99V12.27L12 15L17 12.27V15.99Z"/>
+      </svg>
+    ),
   },
   {
     id: "arkavidia-academy",
@@ -66,7 +70,12 @@ const timelineData: TimelineItemData[] = [
     tech: ["Data Science", "Python", "Machine Learning", "Event Management"],
     type: "work",
     color: "from-purple-500 to-pink-600",
-    icon: "🚀",
+    icon: (
+      <svg viewBox="0 0 24 24" fill="currentColor" className="w-8 h-8">
+        <path d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M12,4A8,8 0 0,1 20,12A8,8 0 0,1 12,20A8,8 0 0,1 4,12A8,8 0 0,1 12,4M13.5,6V11.5L17,15L15.6,16.5L11.5,12.5V6H13.5Z"/>
+        <path d="M9,1V7L7,8.5L9,10V16H7V10L4,7.5L7,5V1H9M17,1V5L20,7.5L17,10V16H15V10L17,8.5L15,7V1H17Z"/>
+      </svg>
+    ),
   },
   {
     id: "datathon-ui",
@@ -96,7 +105,11 @@ const timelineData: TimelineItemData[] = [
     ],
     type: "achievement",
     color: "from-green-500 to-teal-600",
-    icon: "📊",
+    icon: (
+      <svg viewBox="0 0 24 24" fill="currentColor" className="w-8 h-8">
+        <path d="M4,11H6V17H4V11M9,7H11V17H9V7M16,13H18V17H16V13M22,3H2V21H22V3M20,19H4V5H20V19Z"/>
+      </svg>
+    ),
   },
   {
     id: "rush-hour-project",
@@ -126,7 +139,11 @@ const timelineData: TimelineItemData[] = [
     ],
     type: "project",
     color: "from-orange-500 to-red-600",
-    icon: "🧩",
+    icon: (
+      <svg viewBox="0 0 24 24" fill="currentColor" className="w-8 h-8">
+        <path d="M20.5,11H19V7C19,5.89 18.1,5 17,5H13V3.5A2.5,2.5 0 0,0 10.5,1A2.5,2.5 0 0,0 8,3.5V5H4A2,2 0 0,0 2,7V10.8H3.5C5,10.8 6.2,12 6.2,13.5C6.2,15 5,16.2 3.5,16.2H2V20A2,2 0 0,0 4,22H7.8V20.5C7.8,19 9,17.8 10.5,17.8C12,17.8 13.2,19 13.2,20.5V22H17A2,2 0 0,0 19,20V16H20.5A2.5,2.5 0 0,0 23,13.5A2.5,2.5 0 0,0 20.5,11Z"/>
+      </svg>
+    ),
   },
   {
     id: "itb-start",
@@ -150,7 +167,11 @@ const timelineData: TimelineItemData[] = [
     tech: ["Python", "Java", "Algorithm", "Data Structure", "Mathematics"],
     type: "education",
     color: "from-cyan-500 to-blue-600",
-    icon: "🏫",
+    icon: (
+      <svg viewBox="0 0 24 24" fill="currentColor" className="w-8 h-8">
+        <path d="M12,3L1,9L12,15L21,10.09V17H23V9M5,13.18V17.18L12,21L19,17.18V13.18L12,17L5,13.18Z"/>
+      </svg>
+    ),
   },
 ];
 
@@ -302,7 +323,10 @@ const TimelineDetails = ({ item }: { item: TimelineItemData }) => {
           {/* details */}
           <div>
             <h4 className="text-lg font-bold text-indigo-300 mb-4 flex items-center gap-2">
-              📋 detail aktivitas
+              <svg viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5">
+                <path d="M19,3H14.82C14.4,1.84 13.3,1 12,1C10.7,1 9.6,1.84 9.18,3H5A2,2 0 0,0 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V5A2,2 0 0,0 19,3M12,3A1,1 0 0,1 13,4A1,1 0 0,1 12,5A1,1 0 0,1 11,4A1,1 0 0,1 12,3Z"/>
+              </svg>
+              detail aktivitas
             </h4>
             <ul className="space-y-2">
               {item.details.map((detail, i) => (
@@ -323,7 +347,10 @@ const TimelineDetails = ({ item }: { item: TimelineItemData }) => {
           {/* achievements */}
           <div>
             <h4 className="text-lg font-bold text-green-300 mb-4 flex items-center gap-2">
-              🏆 pencapaian
+              <svg viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5">
+                <path d="M12,15.39L8.24,17.66L9.23,13.38L5.91,10.5L10.29,10.13L12,6.09L13.71,10.13L18.09,10.5L14.77,13.38L15.76,17.66M22,9.24L14.81,8.63L12,2L9.19,8.63L2,9.24L7.45,13.97L5.82,21L12,17.27L18.18,21L16.54,13.97L22,9.24Z"/>
+              </svg>
+              pencapaian
             </h4>
             <ul className="space-y-2">
               {item.achievements.map((achievement, i) => (
@@ -345,7 +372,10 @@ const TimelineDetails = ({ item }: { item: TimelineItemData }) => {
         {/* all tech stack */}
         <div className="mt-8 pt-6 border-t border-white/10">
           <h4 className="text-lg font-bold text-purple-300 mb-4 flex items-center gap-2">
-            🛠️ teknologi yang digunakan
+            <svg viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5">
+              <path d="M13.78,15.3L19.78,21.3L21.89,19.14L15.89,13.14L13.78,15.3M17.5,10.1C17.11,10.1 16.69,10.05 16.36,9.91L4.97,21.25L2.86,19.14L10.27,11.74L8.5,9.96L7.78,10.66L6.33,9.25V12.11L5.63,12.81L2.11,9.25L2.81,8.55H5.62L4.22,7.14L7.78,3.58C8.95,2.41 10.83,2.41 12,3.58L9.89,5.74L11.3,7.14L10.59,7.85L12.38,9.63L14.2,7.75C14.06,7.42 14,7 14,6.63C14,4.66 15.56,3.11 17.5,3.11C18,3.11 18.5,3.23 18.97,3.44L16.64,5.77L17.85,7L20.17,4.68C20.38,5.15 20.5,5.65 20.5,6.13C20.5,8.11 18.94,9.66 17,9.66C16.63,9.66 16.2,9.6 15.87,9.46L13.78,15.3Z"/>
+            </svg>
+            teknologi yang digunakan
           </h4>
           <div className="flex flex-wrap gap-3">
             {item.tech.map((tech, i) => (

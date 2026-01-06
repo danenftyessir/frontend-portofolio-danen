@@ -74,7 +74,7 @@ export const ConversationHistory = ({
         >
           <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
         </svg>
-        riwayat ({history.length})
+        <span>riwayat ({history.length})</span>
       </Button>
     );
   }
@@ -106,7 +106,9 @@ export const ConversationHistory = ({
             onClick={onToggle}
             className="h-6 px-2 text-xs"
           >
-            ✕
+            <svg viewBox="0 0 24 24" fill="currentColor" className="w-3 h-3">
+              <path d="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z"/>
+            </svg>
           </Button>
         </div>
       </div>

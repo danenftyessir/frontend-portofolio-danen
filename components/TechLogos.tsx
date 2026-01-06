@@ -175,14 +175,22 @@ export const TechLogosContainer = () => {
       delay: 2.1,
     },
     {
-      icon: <div className="text-2xl">🧠</div>,
+      icon: (
+        <svg viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6 text-white">
+          <path d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M12,4A8,8 0 0,1 20,12A8,8 0 0,1 12,20A8,8 0 0,1 4,12A8,8 0 0,1 12,4M12,6A6,6 0 0,0 6,12A6,6 0 0,0 12,18A6,6 0 0,0 18,12A6,6 0 0,0 12,6M12,8A4,4 0 0,1 16,12A4,4 0 0,1 12,16A4,4 0 0,1 8,12A4,4 0 0,1 12,8M12,10A2,2 0 0,0 10,12A2,2 0 0,0 12,14A2,2 0 0,0 14,12A2,2 0 0,0 12,10Z"/>
+        </svg>
+      ),
       name: "Machine Learning",
       color: "bg-purple-500/20 border border-purple-300/30",
       position: { top: "70%", right: "20%" },
       delay: 2.3,
     },
     {
-      icon: <div className="text-2xl">📊</div>,
+      icon: (
+        <svg viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6 text-white">
+          <path d="M4,11H6V17H4V11M9,7H11V17H9V7M16,13H18V17H16V13M22,3H2V21H22V3M20,19H4V5H20V19Z"/>
+        </svg>
+      ),
       name: "Data Science",
       color: "bg-blue-600/20 border border-blue-300/30",
       position: { top: "5%", right: "30%" },

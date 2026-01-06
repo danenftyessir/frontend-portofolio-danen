@@ -10,7 +10,13 @@ import { ParticlesBackground } from "@/components/ParticlesBackground";
 // data portfolio
 const portfolioData = {
   hero: {
-    title: "Hi, I'm Danendra Shafi Athallah 👋",
+    title: "Hi, I'm Danendra Shafi Athallah",
+    titleIcon: (
+      <svg className="inline-block w-12 h-12 ml-2" viewBox="0 0 36 36" fill="currentColor">
+        <path fill="#FFDC5D" d="M4.861 9.147c.94-.657 2.357-.531 3.201.166l-.968-1.407c-.779-1.111-.5-2.313.612-3.093 1.112-.777 4.263 1.312 4.263 1.312-.786-1.122-.639-2.544.483-3.331 1.122-.784 2.67-.513 3.456.611l10.42 14.72L25 19l-11.083-4.042c-1.229-.485-2.556.253-3.041 1.482-.485 1.229.253 2.556 1.482 3.041l7.932 3.244-4.106 5.738-13.948-8.303c-.916-.452-1.428-1.41-1.428-2.417-.011-1.023.5-2.017 1.053-2.595z"/>
+        <path fill="#EE9547" d="M2.695 17.336s-1.132-1.65.519-2.781c1.649-1.131 2.78.518 2.78.518l5.251 7.658c.181.26-.016.615-.339.615-.109 0-.216-.037-.305-.107l-7.906-6.903z"/>
+      </svg>
+    ),
     typingTexts: [
       "Data Science Enthusiast",
       "ITB Computer Science Student",
@@ -215,8 +221,9 @@ export default function Portfolio() {
                 transition={{ duration: 0.8 }}
                 className="space-y-4"
               >
-                <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-800">
+                <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-800 flex items-center">
                   {portfolioData.hero.title}
+                  {portfolioData.hero.titleIcon}
                 </h1>
                 <h2 className="text-xl sm:text-2xl lg:text-3xl font-semibold text-gray-700 flex items-center">
                   <span className="typing-text">
@@ -281,7 +288,13 @@ export default function Portfolio() {
                   className="interactive bg-gray-800 hover:bg-gray-700 text-white px-8 py-4 rounded-xl text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
                 >
                   <span className="flex items-center gap-2">
-                    🤖 Ask My AI Assistant
+                    <svg className="w-6 h-6" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/>
+                      <circle cx="8.5" cy="10.5" r="1.5"/>
+                      <circle cx="15.5" cy="10.5" r="1.5"/>
+                      <path d="M12 17.5c2.33 0 4.31-1.46 5.11-3.5H6.89c.8 2.04 2.78 3.5 5.11 3.5z"/>
+                    </svg>
+                    Ask My AI Assistant
                     <motion.div
                       animate={{ x: [0, 5, 0] }}
                       transition={{ duration: 1.5, repeat: Infinity }}
@@ -299,7 +312,14 @@ export default function Portfolio() {
                   className="interactive border-2 border-gray-800 text-gray-800 hover:bg-gray-800 hover:text-white px-8 py-4 rounded-xl text-lg font-semibold transition-all duration-300 transform hover:scale-105 bg-transparent"
                 >
                   <span className="flex items-center gap-2">
-                    📄 Learn More
+                    <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                      <polyline points="14 2 14 8 20 8"/>
+                      <line x1="16" y1="13" x2="8" y2="13"/>
+                      <line x1="16" y1="17" x2="8" y2="17"/>
+                      <polyline points="10 9 9 9 8 9"/>
+                    </svg>
+                    Learn More
                     <motion.div
                       animate={{ y: [0, -2, 0] }}
                       transition={{ duration: 1.5, repeat: Infinity }}
@@ -671,20 +691,27 @@ export default function Portfolio() {
             {/* credits */}
             <div className="pt-12 border-t border-gray-700 text-gray-400 space-y-4">
               <p className="text-lg">&copy; 2024 Danendra Shafi Athallah</p>
-              <p className="text-sm">
-                Dibuat dengan ❤️ menggunakan{" "}
+              <p className="text-sm flex items-center justify-center gap-1">
+                Dibuat dengan
+                <svg className="w-4 h-4 text-red-500" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                </svg>
+                menggunakan{" "}
                 <span className="text-blue-400 font-semibold">Next.js</span> +{" "}
                 <span className="text-purple-400 font-semibold">FastAPI</span> •
                 Powered by{" "}
                 <span className="text-green-400 font-semibold">AI</span>
               </p>
-              <motion.div
-                className="inline-block text-2xl"
+              <motion.svg
+                className="inline-block w-6 h-6 text-yellow-400"
+                viewBox="0 0 24 24"
+                fill="currentColor"
                 animate={{ rotate: [0, 10, -10, 0] }}
                 transition={{ duration: 2, repeat: Infinity }}
               >
-                ✨
-              </motion.div>
+                <path d="M12 0l2.4 7.2h7.6l-6 4.8 2.4 7.2-6-4.8-6 4.8 2.4-7.2-6-4.8h7.6z"/>
+                <path d="M12 4l1.5 4.5h4.5l-3.5 2.8 1.5 4.7-3.5-2.8-3.5 2.8 1.5-4.7-3.5-2.8h4.5z" opacity="0.7"/>
+              </motion.svg>
             </div>
           </motion.div>
         </div>
