@@ -129,6 +129,128 @@ const portfolioData = {
       { name: "Problem Solving", level: "Advanced", icon: "bx bx-bulb" },
     ],
   },
+  projects: [
+    {
+      title: "MBG - Makan Bergizi Ga Bocor",
+      link: "https://makanbergizigabocor.vercel.app/",
+      image: "/ss-mbg-1-project.png",
+      techStack: ["Solidity", "Next.js", "Tailwind CSS", "Ethereum", "Supabase"],
+      description: "Web-based app for transparent monitoring of the distribution of Makan Bergizi Gratis (MBG) using blockchain and mapping of priority areas using AI",
+      features: ["Blockchain Integration", "AI-Powered Mapping"],
+    },
+    {
+      title: "MBG Background Analysis",
+      link: "https://github.com/danenftyessir/Nama-Ntaran",
+      image: "/ss-mbg-2-project.png",
+      techStack: ["Python", "Pandas", "NumPy", "NLTK", "Scikit-Learn", "Matplotlib"],
+      description: "A data analysis project exploring public perception of the Makan Bergizi Gratis (MBG) program by processing social media comments and extracting sentiment insights using text preprocessing and machine learning classification",
+      features: ["Sentiment Analysis", "Text Preprocessing"],
+    },
+    {
+      title: "E-Facility ITB",
+      link: "https://e-facility.itb.ac.id/v2/beranda",
+      image: "/ss-efacility-project.png",
+      techStack: ["PHP", "Laravel", "Node.js", "Oracle"],
+      description: "E-Facility is a system that integrates ITB facility services, both tariff-based (rental based) and non-tariff-based (resource sharing based), for ITB academics",
+      features: ["Service Integration", "Resource Sharing"],
+    },
+    {
+      title: "MPM UPNVJ Official Website",
+      link: "https://mpm.upnvj.ac.id/",
+      image: "/ss-mpmupnvj-official-website-project.png",
+      techStack: ["WordPress"],
+      description: "Official website for Majelis Permusyawaratan Mahasiswa (MPM) UPN Veteran Jakarta, the highest student legislative body representing faculties and managing student aspirations and organizational transparency",
+      features: ["Content Management", "Responsive Design"],
+    },
+    {
+      title: "Little Alchemy 2 Recipe Finder",
+      link: "https://github.com/danenftyessir/Tubes2_EldenBoys.git",
+      image: "/ss-eldenboys-project.png",
+      techStack: ["Golang", "Next.js", "TypeScript", "Tailwind CSS"],
+      description: "Website to search for recipes of an element in the game little alchemy 2 using 3 approaches namely: BFS (Breadth First Search), DFS (Depth First Search), & Bidirectional",
+      features: ["Algorithm Visualization", "Multiple Search Methods"],
+    },
+    {
+      title: "Rick ASOYY",
+      link: "https://github.com/danenftyessir/IF2150-2024-K03-G07-HalalHub",
+      image: "/ss-rickasoyy-project.png",
+      techStack: ["React.js", "TypeScript", "Flask", "Python", "PCA", "NumPy"],
+      description: "Rick ASOYY is a website designed as an audio and image finder, utilizing linear algebra and geometry concepts such as the PCA method from scratch for image searching and Query by Humming for audio searching",
+      features: ["PCA Image Search", "Audio Recognition"],
+    },
+    {
+      title: "Pascal S Compiler",
+      link: "https://github.com/danenftyessir/pascal-s-compiler-from-scratch",
+      image: "/ss-pascal-compiler-project.jpeg",
+      techStack: ["Python"],
+      description: "A Python-based Pascal-S compiler featuring DFA lexical analysis, recursive descent parsing, and semantic checks, highlighting structured problem solving and formal language processing",
+      features: ["Lexical Analysis", "Semantic Checking"],
+    },
+    {
+      title: "Local Search for Class Scheduling",
+      link: "https://github.com/danenftyessir/Hambapenat_Tubes-1_IF3170_Weekly_Class_Schedulling_Local_Search.git",
+      image: "/ss-local-search-project.png",
+      techStack: ["Python", "NumPy", "Pandas", "Matplotlib"],
+      description: "A scheduling system that applies heuristic local search optimization to generate weekly university class timetables. It assigns courses to rooms and time slots while minimizing conflicts and capacity issues",
+      features: ["Optimization Algorithm", "Constraint Solving"],
+    },
+    {
+      title: "Sentiment Analysis on Retina Data",
+      link: "https://github.com/danenftyessir/Support-Vector-Machine-Implementation-for-YouTube-Sentiment-Analysis-on-Retina-Data-Trade.git",
+      image: "/ss-sentiment-analysis-retina-project.png",
+      techStack: ["Python", "Pandas", "NumPy", "Scikit-Learn", "Matplotlib"],
+      description: "A sentiment analysis system for YouTube comments on retina data trade, utilizing text preprocessing and Support Vector Machine classification to categorize opinions into positive, negative, and neutral sentiments",
+      features: ["SVM Classification", "YouTube Data Analysis"],
+    },
+    {
+      title: "Predicting Student Success",
+      link: "https://github.com/danenftyessir/student-success-prediction-from-scratch-ml-models.git",
+      image: "/ss-predict-student-success-project.png",
+      techStack: ["Python", "Pandas", "NumPy", "Scikit-Learn", "Matplotlib"],
+      description: "A student success prediction system using Decision Tree Learning, Logistic Regression, and SVM, featuring custom from-scratch implementations that are benchmarked against scikit-learn models",
+      features: ["Custom ML Models", "Performance Benchmarking"],
+    },
+    {
+      title: "O.W.C.A Logistics",
+      link: "https://github.com/danenftyessir/if2010-tubes-2-2425-dkn",
+      image: "/ss-owca-logistic-project.png",
+      techStack: ["Java", "JavaFX", "Maven", "JSON/XML"],
+      description: "A desktop logistics management system for handling shipments, couriers, parcels, and real-time tracking with a modular and extensible architecture",
+      features: ["Real-time Tracking", "Modular Architecture"],
+    },
+    {
+      title: "HalalHub",
+      link: "https://github.com/danenftyessir/IF2150-2024-K03-G07-HalalHub",
+      image: "/ss-halalhub-umkm-project.png",
+      techStack: ["Python", "Tkinter"],
+      description: "HalalHub is a GUI-based software developed using Python, designed specifically for small and medium-sized enterprises (SMEs/UMKM) to manage businesses selling Muslim clothing and accessories",
+      features: ["Inventory Management", "Sales Tracking"],
+    },
+    {
+      title: "KIZUNA",
+      link: "https://github.com/danenftyessir/Tucil2_13523136",
+      image: "/ss-kizuna-project.png",
+      techStack: ["C++", "OpenCV", "CMake", "FFmpeg"],
+      description: "A quadtree-driven image compression system that applies divide-and-conquer segmentation to efficiently represent visual data, reinforcing foundations in spatial data structures and image processing logic",
+      features: ["Quadtree Compression", "Image Processing"],
+    },
+    {
+      title: "ATS CV Search Application",
+      link: "https://github.com/danenftyessir/Tubes3_StimaSukses",
+      image: "/ss-ats-search-application-project.png",
+      techStack: ["Python", "Docker", "MySQL", "PDF Processing"],
+      description: "An ATS-style CV search application that extracts and matches keywords from PDF resumes using multiple pattern-matching algorithms including KMP, Boyer-Moore, Aho-Corasick, and Levenshtein Distance",
+      features: ["Multiple Algorithms", "Fuzzy Search"],
+    },
+    {
+      title: "Nimonspedia",
+      link: "https://github.com/danenftyessir/Nimonspedia",
+      image: "/ss-nimonspedia-project.png",
+      techStack: ["PHP", "Node.js", "React", "PostgreSQL", "Docker", "WebSocket"],
+      description: "A web-based e-commerce platform that supports multi-role users, product management, balance handling, shopping cart, checkout, and order tracking, developed using a hybrid architecture",
+      features: ["Multi-role System", "Real-time Updates"],
+    },
+  ],
 };
 
 // typewriter effect hook
@@ -175,6 +297,7 @@ const useTypewriter = (texts: string[], speed: number = 100) => {
 
 export default function Portfolio() {
   const [mounted, setMounted] = useState(false);
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
   const { currentText, showCursor } = useTypewriter(
     portfolioData.hero.typingTexts,
@@ -184,6 +307,24 @@ export default function Portfolio() {
   useEffect(() => {
     setMounted(true);
   }, []);
+
+  useEffect(() => {
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setSelectedImage(null);
+      }
+    };
+
+    if (selectedImage) {
+      document.addEventListener("keydown", handleEscape);
+      document.body.style.overflow = "hidden";
+    }
+
+    return () => {
+      document.removeEventListener("keydown", handleEscape);
+      document.body.style.overflow = "unset";
+    };
+  }, [selectedImage]);
 
   if (!mounted) {
     return (
@@ -561,6 +702,165 @@ export default function Portfolio() {
             </div>
           </motion.div>
 
+          {/* featured projects section */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            className="mb-16"
+          >
+            <div className="text-center mb-12">
+              <h3 className="text-4xl font-bold text-gray-800 mb-4">
+                Featured Projects
+              </h3>
+              <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+                A continuously flowing showcase of my expertise in machine learning, web development, and data science.
+              </p>
+            </div>
+
+            {/* carousel container */}
+            <div className="relative overflow-hidden mb-12">
+              <motion.div
+                className="flex gap-8"
+                animate={{
+                  x: [0, -3840], // Move based on total width of all cards
+                }}
+                transition={{
+                  x: {
+                    repeat: Infinity,
+                    repeatType: "loop",
+                    duration: 60,
+                    ease: "linear",
+                  },
+                }}
+              >
+                {/* duplicate projects for seamless loop */}
+                {[...portfolioData.projects, ...portfolioData.projects].map((project, index) => (
+                  <motion.div
+                    key={index}
+                    className="flex-shrink-0 w-[480px] bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 flex flex-col"
+                    whileHover={{ scale: 1.02 }}
+                  >
+                    {/* project image */}
+                    <div
+                      className="relative h-64 bg-gradient-to-br from-gray-100 to-gray-200 overflow-hidden group cursor-pointer"
+                      onClick={() => setSelectedImage(project.image)}
+                    >
+                      <img
+                        src={project.image}
+                        alt={project.title}
+                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                        <div className="bg-white/90 backdrop-blur-sm rounded-full p-3 transform scale-0 group-hover:scale-100 transition-transform duration-300">
+                          <svg className="w-6 h-6 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7" />
+                          </svg>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* project content */}
+                    <div className="p-6 flex-1 flex flex-col">
+                      <h4 className="text-xl font-bold text-gray-800 mb-3">
+                        {project.title}
+                      </h4>
+
+                      {/* tech stack tags */}
+                      <div className="flex flex-wrap gap-2 mb-4">
+                        {project.techStack.slice(0, 3).map((tech, techIndex) => (
+                          <span
+                            key={techIndex}
+                            className="px-3 py-1 bg-gray-800 text-white text-sm rounded-full font-medium"
+                          >
+                            {tech}
+                          </span>
+                        ))}
+                        {project.techStack.length > 3 && (
+                          <span className="px-3 py-1 bg-gray-700 text-white text-sm rounded-full font-medium">
+                            +{project.techStack.length - 3}
+                          </span>
+                        )}
+                      </div>
+
+                      {/* description */}
+                      <p className="text-gray-600 leading-relaxed mb-4 flex-1 line-clamp-3">
+                        {project.description}
+                      </p>
+
+                      {/* features */}
+                      <ul className="space-y-2 mb-6">
+                        {project.features.map((feature, featureIndex) => (
+                          <li
+                            key={featureIndex}
+                            className="flex items-center text-sm text-gray-700"
+                          >
+                            <svg
+                              className="w-5 h-5 text-green-500 mr-2 flex-shrink-0"
+                              fill="currentColor"
+                              viewBox="0 0 20 20"
+                            >
+                              <path
+                                fillRule="evenodd"
+                                d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                                clipRule="evenodd"
+                              />
+                            </svg>
+                            {feature}
+                          </li>
+                        ))}
+                      </ul>
+
+                      {/* view project button */}
+                      <a
+                        href={project.link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="w-full bg-gray-800 text-white py-3 px-6 rounded-xl font-semibold hover:bg-gray-700 transition-all duration-300 flex items-center justify-center gap-2 group"
+                      >
+                        <span>View Project</span>
+                        <svg
+                          className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+                          />
+                        </svg>
+                      </a>
+                    </div>
+                  </motion.div>
+                ))}
+              </motion.div>
+            </div>
+
+            {/* view all projects button */}
+            <div className="text-center">
+              <motion.a
+                href="https://github.com/danenftyessir"
+                target="_blank"
+                rel="noopener noreferrer"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="inline-flex items-center gap-3 px-8 py-4 bg-white border-2 border-gray-800 text-gray-800 rounded-2xl font-semibold hover:bg-gray-800 hover:text-white transition-all duration-300 shadow-lg"
+              >
+                <svg
+                  className="w-6 h-6"
+                  fill="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                </svg>
+                View All Projects
+              </motion.a>
+            </div>
+          </motion.div>
+
           {/* skills section */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -624,6 +924,38 @@ export default function Portfolio() {
           </motion.div>
         </div>
       </section>
+
+      {/* image modal */}
+      {selectedImage && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4 cursor-pointer"
+          onClick={() => setSelectedImage(null)}
+        >
+          <motion.div
+            initial={{ scale: 0.8, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            exit={{ scale: 0.8, opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className="relative max-w-7xl max-h-[90vh] w-full"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              onClick={() => setSelectedImage(null)}
+              className="absolute -top-12 right-0 text-white hover:text-gray-300 transition-colors duration-200"
+              aria-label="Close modal"
+            >
+              <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+            <img
+              src={selectedImage}
+              alt="Project preview"
+              className="w-full h-full object-contain rounded-lg shadow-2xl"
+            />
+          </motion.div>
+        </div>
+      )}
 
       {/* footer/contact section */}
       <footer id="contact" className="bg-gray-800 text-white py-16">
