@@ -88,6 +88,27 @@ const projectsData = [
     status: "in progress",
     color: "from-blue-500 to-indigo-600",
   },
+  {
+    icon: (
+      <svg viewBox="0 0 24 24" fill="currentColor" className="w-8 h-8">
+        <path d="M12,18H6V14H12M21,14V12L20,7H4L3,12V14H4V20H14V14H18V20H20V14M20,4H4V6H20V4Z"/>
+      </svg>
+    ),
+    title: "pakansuper marketplace",
+    type: "e-commerce platform",
+    description:
+      "online platform that connects farmers who produce animal feed with livestock owners who need quality feed products. the marketplace streamlines the supply chain by enabling direct transactions between producers and consumers in the animal husbandry sector",
+    tech: ["WordPress", "PHP", "MySQL", "WooCommerce"],
+    features: [
+      "direct farmer-to-consumer transactions",
+      "product catalog management",
+      "secure payment integration",
+      "user-friendly interface",
+    ],
+    year: "2024",
+    status: "completed",
+    color: "from-amber-500 to-orange-600",
+  },
 ];
 
 interface ProjectHighlightsProps {
