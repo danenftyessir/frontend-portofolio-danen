@@ -3,8 +3,8 @@
 @tailwind utilities;
 
 /* import google fonts dan boxicons */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
-@import url('https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css');
+@import url("https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500;700&display=swap");
+@import url("https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css");
 
 @layer base {
   :root {
@@ -151,7 +151,12 @@
 
   /* text effects untuk clean theme */
   .text-shimmer {
-    background: linear-gradient(90deg, rgba(107,114,128,0.5) 25%, rgba(31,41,55,1) 50%, rgba(107,114,128,0.5) 75%);
+    background: linear-gradient(
+      90deg,
+      rgba(107, 114, 128, 0.5) 25%,
+      rgba(31, 41, 55, 1) 50%,
+      rgba(107, 114, 128, 0.5) 75%
+    );
     background-size: 200% 100%;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -185,7 +190,12 @@
 
   /* loading effects untuk clean theme */
   .skeleton {
-    background: linear-gradient(90deg, rgba(243,244,246,0.4) 25%, rgba(229,231,235,0.6) 50%, rgba(243,244,246,0.4) 75%);
+    background: linear-gradient(
+      90deg,
+      rgba(243, 244, 246, 0.4) 25%,
+      rgba(229, 231, 235, 0.6) 50%,
+      rgba(243, 244, 246, 0.4) 75%
+    );
     background-size: 200% 100%;
     animation: skeleton 1.5s ease-in-out infinite;
   }
@@ -196,14 +206,20 @@
 
   /* grid patterns untuk clean theme */
   .grid-bg {
-    background-image: 
-      linear-gradient(rgba(156, 163, 175, 0.1) 1px, transparent 1px),
+    background-image: linear-gradient(
+        rgba(156, 163, 175, 0.1) 1px,
+        transparent 1px
+      ),
       linear-gradient(90deg, rgba(156, 163, 175, 0.1) 1px, transparent 1px);
     background-size: 20px 20px;
   }
 
   .dots-bg {
-    background-image: radial-gradient(circle, rgba(156, 163, 175, 0.15) 1px, transparent 1px);
+    background-image: radial-gradient(
+      circle,
+      rgba(156, 163, 175, 0.15) 1px,
+      transparent 1px
+    );
     background-size: 20px 20px;
   }
 
@@ -318,7 +334,7 @@
     -ms-overflow-style: none;
     scrollbar-width: none;
   }
-  
+
   .scrollbar-hide::-webkit-scrollbar {
     display: none;
   }
@@ -347,11 +363,49 @@
   .hover-scale-105:hover {
     transform: scale(1.05);
   }
+
+  /* Custom Ubuntu Font Utilities */
+  .font-ubuntu-500 {
+    font-family: Ubuntu, "Ubuntu Fallback", system-ui, sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    color: rgb(17, 24, 39);
+    font-size: 60px;
+    line-height: 60px;
+  }
+
+  .font-ubuntu-300 {
+    font-family: Ubuntu, "Ubuntu Fallback", system-ui, sans-serif;
+    font-style: normal;
+    font-weight: 300;
+    color: rgb(17, 24, 39);
+    font-size: 60px;
+    line-height: 60px;
+  }
+
+  .font-ubuntu-400 {
+    font-family: Ubuntu, "Ubuntu Fallback", system-ui, sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    color: rgb(75, 85, 99);
+    font-size: 20px;
+    line-height: 33px;
+  }
+
+  .font-ubuntu-600 {
+    font-family: Ubuntu, "Ubuntu Fallback", system-ui, sans-serif;
+    font-style: normal;
+    font-weight: 600;
+    color: rgb(23, 23, 23);
+    font-size: 12px;
+    line-height: 16px;
+  }
 }
 
 /* keyframes untuk clean animations */
 @keyframes floatClean {
-  0%, 100% {
+  0%,
+  100% {
     transform: translateY(0px);
   }
   50% {
@@ -391,7 +445,7 @@
   .mobile-only {
     display: block;
   }
-  
+
   .mobile-hidden {
     display: none;
   }
@@ -401,7 +455,7 @@
   .mobile-only {
     display: none;
   }
-  
+
   .mobile-hidden {
     display: block;
   }
@@ -431,7 +485,7 @@
   .no-print {
     display: none !important;
   }
-  
+
   * {
     background: white !important;
     color: black !important;

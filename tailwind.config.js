@@ -58,7 +58,7 @@ module.exports = {
       },
       fontFamily: {
         mono: ["JetBrains Mono", "Fira Code", "monospace"],
-        sans: ["Inter", "system-ui", "sans-serif"],
+        sans: ["var(--font-ubuntu)", "Ubuntu", "system-ui", "sans-serif"],
       },
       animation: {
         // advanced gradient animations

@@ -1,11 +1,12 @@
 import type { Metadata, Viewport } from "next";
-import { Inter } from "next/font/google";
+import { Ubuntu } from "next/font/google";
 import { Toaster } from "@/components/ui/toast";
 import "./globals.css";
 
-const inter = Inter({
+const ubuntu = Ubuntu({
   subsets: ["latin"],
-  variable: "--font-inter",
+  weight: ["300", "400", "500", "700"],
+  variable: "--font-ubuntu",
   display: "swap",
 });
 
@@ -177,7 +178,7 @@ export default function RootLayout({
         />
       </head>
       <body
-        className={`${inter.variable} font-sans antialiased bg-gray-50 text-gray-800 min-h-screen selection:bg-gray-200 selection:text-gray-800`}
+        className={`${ubuntu.variable} font-sans antialiased bg-gray-50 text-gray-800 min-h-screen selection:bg-gray-200 selection:text-gray-800`}
       >
         {/* skip to main content untuk accessibility */}
         <a
