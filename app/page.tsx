@@ -719,6 +719,18 @@ export default function Portfolio() {
 
             {/* carousel container */}
             <div className="relative overflow-hidden mb-12">
+              {/* fade overlay gradients */}
+              <div className="absolute inset-0 pointer-events-none z-10">
+                {/* top fade */}
+                <div className="absolute top-0 left-0 right-0 h-24 bg-gradient-to-b from-gray-50 to-transparent"></div>
+                {/* bottom fade */}
+                <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-gray-50 to-transparent"></div>
+                {/* left fade */}
+                <div className="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-gray-50 to-transparent"></div>
+                {/* right fade */}
+                <div className="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-gray-50 to-transparent"></div>
+              </div>
+
               <motion.div
                 className="flex gap-8"
                 animate={{
