@@ -613,11 +613,8 @@ const AISection = ({ variant = "light" }: AISectionProps) => {
           <div
             className={`border-t-2 ${borderColor} ${
               variant === "dark" ? "bg-slate-800/30" : "bg-gray-50/50"
-            } px-6 py-4 text-xs ${textMuted} flex justify-between items-center`}
+            } px-6 py-4 text-xs ${textMuted} flex justify-end items-center`}
           >
-            <span className="font-medium">
-              Ctrl+Enter to send || Cmd+Enter to send
-            </span>
             <span className="font-medium">{userPrompt.length}/500</span>
           </div>
         </div>
