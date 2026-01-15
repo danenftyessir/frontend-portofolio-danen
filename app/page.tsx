@@ -723,7 +723,7 @@ export default function Portfolio() {
               <motion.div
                 className="flex gap-8"
                 animate={{
-                  x: [0, -3840], // Move based on total width of all cards
+                  x: [0, -7680], // Move exactly one full set (15 projects × 512px each)
                 }}
                 transition={{
                   x: {
@@ -734,8 +734,8 @@ export default function Portfolio() {
                   },
                 }}
               >
-                {/* duplicate projects for seamless loop */}
-                {[...portfolioData.projects, ...portfolioData.projects].map((project, index) => (
+                {/* duplicate projects for seamless loop - use 4 sets for smoother experience */}
+                {[...portfolioData.projects, ...portfolioData.projects, ...portfolioData.projects, ...portfolioData.projects].map((project, index) => (
                   <motion.div
                     key={index}
                     className="flex-shrink-0 w-[480px] bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 flex flex-col"

@@ -89,12 +89,6 @@ const AISection = ({ variant = "light" }: AISectionProps) => {
       ? "bg-slate-800/60 text-gray-300 border-slate-600/40"
       : "bg-gray-100/80 text-gray-600 border-gray-200/60";
 
-  // sample questions - hanya 2 pertanyaan
-  const recommendedQuestions = [
-    "Ceritakan tentang pengalamanmu selama ini!",
-    "Ceritakan tentang project apa saja yang sudah kamu kerjakan!",
-  ];
-
   // enhanced backend checker dengan multiple URLs
   const checkBackendHealth = async (url: string): Promise<boolean> => {
     try {
@@ -504,48 +498,9 @@ const AISection = ({ variant = "light" }: AISectionProps) => {
           </motion.div>
         )}
 
-        {/* header dengan status dan controls */}
+        {/* header dengan controls */}
         <div className="mb-8 flex items-center justify-between flex-wrap gap-4">
           <div className="flex items-center gap-4 flex-wrap">
-            <motion.div
-              className="flex items-center gap-3"
-              animate={{ scale: [1, 1.05, 1] }}
-              transition={{ duration: 2, repeat: Infinity }}
-            >
-              <span
-                className={`inline-block h-3 w-3 rounded-full ${
-                  backendStatus === "connected"
-                    ? "bg-green-500 shadow-lg"
-                    : backendStatus === "error"
-                    ? "bg-red-500"
-                    : "bg-yellow-500 animate-pulse"
-                }`}
-              ></span>
-              <span className={`text-sm font-medium ${textSecondary} flex items-center gap-1`}>
-                Backend Status:{" "}
-                {backendStatus === "connected"
-                  ? <>Connected <svg className="w-4 h-4 text-green-500" viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></>
-                  : backendStatus === "error"
-                  ? <>Offline <svg className="w-4 h-4 text-red-500" viewBox="0 0 24 24" fill="currentColor"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg></>
-                  : <>Checking... <svg className="w-4 h-4 text-yellow-500 animate-spin" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg></>}
-              </span>
-            </motion.div>
-
-            {ragStatus && ragStatus !== "unknown" && (
-              <div className="flex items-center gap-2">
-                <span
-                  className={`inline-block h-2 w-2 rounded-full ${
-                    ragStatus === "healthy" || ragStatus === "initialized"
-                      ? "bg-blue-500"
-                      : "bg-orange-500"
-                  }`}
-                ></span>
-                <span className={`text-xs ${textMuted}`}>
-                  RAG Status: {ragStatus}
-                </span>
-              </div>
-            )}
-
             {conversationHistory.length > 0 && (
               <span className={`text-xs ${textMuted}`}>
                 Messages: {conversationHistory.length}
@@ -554,20 +509,6 @@ const AISection = ({ variant = "light" }: AISectionProps) => {
           </div>
 
           <div className="flex items-center gap-3 flex-wrap">
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => setUseMock(!useMock)}
-              className={`text-xs ${badgeClass} hover:scale-105 transition-transform`}
-            >
-              <span
-                className={`mr-2 inline-block h-2 w-2 rounded-full ${
-                  useMock ? "bg-amber-500" : "bg-green-500"
-                }`}
-              ></span>
-              Mode: {useMock ? "Offline" : "Online"}
-            </Button>
-
             {conversationHistory.length > 0 && (
               <>
                 <Button
@@ -813,40 +754,6 @@ const AISection = ({ variant = "light" }: AISectionProps) => {
             </motion.div>
           )}
         </AnimatePresence>
-
-        {/* recommended questions - hanya 2 pertanyaan */}
-        <div className="mb-8">
-          <p className={`mb-6 text-sm ${textMuted} font-medium flex items-center gap-2`}>
-            <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <rect x="2" y="7" width="20" height="14" rx="2" ry="2"/>
-              <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
-            </svg>
-            Recommended Questions:
-          </p>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {recommendedQuestions.map((question, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.1 }}
-              >
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => {
-                    setUserPrompt(question);
-                    askAI(question);
-                  }}
-                  className={`text-sm ${borderColor} ${badgeClass} hover:scale-105 transition-all duration-300 text-left justify-start h-auto py-4 px-4 w-full`}
-                >
-                  <span className="truncate font-medium">{question}</span>
-                </Button>
-              </motion.div>
-            ))}
-          </div>
-        </div>
 
         {/* action buttons */}
         <div className="flex items-center justify-between w-full gap-4 flex-wrap">
