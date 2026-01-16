@@ -149,6 +149,15 @@
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
   }
 
+  /* glow effects untuk timeline cards */
+  .shadow-glow {
+    box-shadow: 0 0 20px rgba(99, 102, 241, 0.3);
+  }
+
+  .shadow-glow-lg {
+    box-shadow: 0 0 40px rgba(99, 102, 241, 0.5);
+  }
+
   /* text effects untuk clean theme */
   .text-shimmer {
     background: linear-gradient(
