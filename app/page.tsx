@@ -299,6 +299,7 @@ const useTypewriter = (texts: string[], speed: number = 100) => {
 export default function Portfolio() {
   const [mounted, setMounted] = useState(false);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [showAllProjects, setShowAllProjects] = useState(false);
 
   const { currentText, showCursor } = useTypewriter(
     portfolioData.hero.typingTexts,
@@ -695,39 +696,141 @@ export default function Portfolio() {
 
             {/* carousel container */}
             <div className="relative overflow-hidden mb-12">
-              {/* fade overlay gradients */}
-              <div className="absolute inset-0 pointer-events-none z-10">
-                {/* top fade */}
-                <div className="absolute top-0 left-0 right-0 h-24 bg-gradient-to-b from-gray-50 to-transparent"></div>
-                {/* bottom fade */}
-                <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-gray-50 to-transparent"></div>
-                {/* left fade */}
-                <div className="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-gray-50 to-transparent"></div>
-                {/* right fade */}
-                <div className="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-gray-50 to-transparent"></div>
-              </div>
+              {showAllProjects ? (
+                /* Grid view for all projects */
+                <div className="space-y-8">
+                  {portfolioData.projects.map((project, index) => (
+                    <motion.div
+                      key={index}
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: index * 0.05, duration: 0.3 }}
+                      className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-sm overflow-hidden hover:shadow-md transition-all duration-300 transform hover:-translate-y-1 flex flex-col md:flex-row border border-gray-100"
+                    >
+                      {/* project image */}
+                      <div
+                        className="relative h-64 md:h-auto md:w-96 bg-gradient-to-br from-gray-100 to-gray-200 overflow-hidden group cursor-pointer flex-shrink-0"
+                        onClick={() => setSelectedImage(project.image)}
+                      >
+                        <img
+                          src={project.image}
+                          alt={project.title}
+                          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                        />
+                      </div>
 
-              <motion.div
-                className="flex gap-8"
-                animate={{
-                  x: [0, -7680], // Move exactly one full set (15 projects × 512px each)
-                }}
-                transition={{
-                  x: {
-                    repeat: Infinity,
-                    repeatType: "loop",
-                    duration: 60,
-                    ease: "linear",
-                  },
-                }}
-              >
-                {/* duplicate projects for seamless loop - use 4 sets for smoother experience */}
-                {[...portfolioData.projects, ...portfolioData.projects, ...portfolioData.projects, ...portfolioData.projects].map((project, index) => (
+                      {/* project content */}
+                      <div className="p-6 flex-1 flex flex-col">
+                        <h4 className="text-xl font-bold text-gray-800 mb-3">
+                          {project.title}
+                        </h4>
+
+                        {/* tech stack tags */}
+                        <div className="flex flex-wrap gap-2 mb-4">
+                          {project.techStack.slice(0, 4).map((tech, techIndex) => (
+                            <span
+                              key={techIndex}
+                              className="px-3 py-1 bg-gray-800 text-white text-sm rounded-full font-medium"
+                            >
+                              {tech}
+                            </span>
+                          ))}
+                          {project.techStack.length > 4 && (
+                            <span className="px-3 py-1 bg-gray-700 text-white text-sm rounded-full font-medium">
+                              +{project.techStack.length - 4}
+                            </span>
+                          )}
+                        </div>
+
+                        {/* description */}
+                        <p className="text-gray-600 leading-relaxed mb-4 flex-1">
+                          {project.description}
+                        </p>
+
+                        {/* features */}
+                        <ul className="space-y-2 mb-6">
+                          {project.features.map((feature, featureIndex) => (
+                            <li
+                              key={featureIndex}
+                              className="flex items-center text-sm text-gray-700"
+                            >
+                              <svg
+                                className="w-5 h-5 text-green-500 mr-2 flex-shrink-0"
+                                fill="currentColor"
+                                viewBox="0 0 20 20"
+                              >
+                                <path
+                                  fillRule="evenodd"
+                                  d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                                  clipRule="evenodd"
+                                />
+                              </svg>
+                              {feature}
+                            </li>
+                          ))}
+                        </ul>
+
+                        {/* view project button */}
+                        <a
+                          href={project.link}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="w-full md:w-auto bg-gray-800 text-white py-3 px-6 rounded-xl font-semibold hover:bg-gray-700 transition-all duration-300 flex items-center justify-center gap-2 group"
+                        >
+                          <span>View Project</span>
+                          <svg
+                            className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+                            />
+                          </svg>
+                        </a>
+                      </div>
+                    </motion.div>
+                  ))}
+                </div>
+              ) : (
+                <>
+                  {/* fade overlay gradients */}
+                  <div className="absolute inset-0 pointer-events-none z-10">
+                    {/* top fade */}
+                    <div className="absolute top-0 left-0 right-0 h-24 bg-gradient-to-b from-gray-50 to-transparent"></div>
+                    {/* bottom fade */}
+                    <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-gray-50 to-transparent"></div>
+                    {/* left fade */}
+                    <div className="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-gray-50 to-transparent"></div>
+                    {/* right fade */}
+                    <div className="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-gray-50 to-transparent"></div>
+                  </div>
+
                   <motion.div
-                    key={index}
-                    className="flex-shrink-0 w-[480px] bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 flex flex-col"
-                    whileHover={{ scale: 1.02 }}
+                    className="flex gap-8"
+                    animate={{
+                      x: [0, -7680], // Move exactly one full set (15 projects × 512px each)
+                    }}
+                    transition={{
+                      x: {
+                        repeat: Infinity,
+                        repeatType: "loop",
+                        duration: 60,
+                        ease: "linear",
+                      },
+                    }}
                   >
+                    {/* duplicate projects for seamless loop - use 4 sets for smoother experience */}
+                    {[...portfolioData.projects, ...portfolioData.projects, ...portfolioData.projects, ...portfolioData.projects].map((project, index) => (
+                      <motion.div
+                        key={index}
+                        className="flex-shrink-0 w-[480px] bg-white/80 backdrop-blur-sm rounded-2xl shadow-sm overflow-hidden hover:shadow-md transition-all duration-300 transform hover:-translate-y-2 flex flex-col border border-gray-100"
+                        whileHover={{ scale: 1.02 }}
+                      >
                     {/* project image */}
                     <div
                       className="relative h-64 bg-gradient-to-br from-gray-100 to-gray-200 overflow-hidden group cursor-pointer"
@@ -824,6 +927,8 @@ export default function Portfolio() {
                   </motion.div>
                 ))}
               </motion.div>
+                </>
+              )}
             </div>
 
             {/* view all projects button */}
@@ -845,6 +950,27 @@ export default function Portfolio() {
                 </svg>
                 View All Projects
               </motion.a>
+
+              {/* expand/collapse button */}
+              <motion.button
+                onClick={() => setShowAllProjects(!showAllProjects)}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="mt-4 inline-flex items-center gap-2 px-6 py-3 bg-gray-100 hover:bg-gray-200 text-gray-800 rounded-xl font-semibold transition-all duration-300 shadow-md"
+              >
+                <span>{showAllProjects ? "Show Less" : "View All Projects on This Page"}</span>
+                <svg
+                  className={`w-5 h-5 transition-transform duration-300 ${!showAllProjects ? "animate-bounce" : ""}`}
+                  fill="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  {showAllProjects ? (
+                    <path d="M7.41,15.41L12,10.83L16.59,15.41L18,14L12,8L6,14L7.41,15.41Z"/>
+                  ) : (
+                    <path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z"/>
+                  )}
+                </svg>
+              </motion.button>
             </div>
           </motion.div>
 

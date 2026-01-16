@@ -256,19 +256,26 @@ export const ProjectHighlights = ({
           <span>tanya ai assistant saya!</span>
         </motion.button>
 
-        {!showAllProjects && remainingCount > 0 && (
-          <motion.button
-            onClick={() => setShowAllProjects(true)}
-            className="mt-6 inline-flex items-center gap-2 px-4 py-2 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg font-mono text-sm transition-all duration-300 hover:scale-105 hover:bg-gray-200 dark:hover:bg-gray-600"
-            whileHover={{ y: -2 }}
-            whileTap={{ y: 0 }}
+        {/* expand/collapse button */}
+        <motion.button
+          onClick={() => setShowAllProjects(!showAllProjects)}
+          className="mt-6 inline-flex items-center gap-2 px-6 py-3 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-xl font-mono font-semibold transition-all duration-300 hover:scale-105 hover:bg-gray-200 dark:hover:bg-gray-600"
+          whileHover={{ y: -2 }}
+          whileTap={{ y: 0 }}
+        >
+          <span>{showAllProjects ? "Show Less" : `View All Projects on This Page (${remainingCount} more)`}</span>
+          <svg
+            viewBox="0 0 24 24"
+            fill="currentColor"
+            className={`w-5 h-5 transition-transform duration-300 ${!showAllProjects ? "animate-bounce" : ""}`}
           >
-            <span>View All Projects ({remainingCount} more)</span>
-            <svg viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5 animate-bounce">
+            {showAllProjects ? (
+              <path d="M7.41,15.41L12,10.83L16.59,15.41L18,14L12,8L6,14L7.41,15.41Z"/>
+            ) : (
               <path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z"/>
-            </svg>
-          </motion.button>
-        )}
+            )}
+          </svg>
+        </motion.button>
       </motion.div>
     </motion.div>
   );
