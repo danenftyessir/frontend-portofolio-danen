@@ -374,6 +374,10 @@
   }
 
   /* Custom Ubuntu Font Utilities */
+  .font-ubuntu {
+    font-family: Ubuntu, "Ubuntu Fallback", system-ui, sans-serif;
+  }
+
   .font-ubuntu-500 {
     font-family: Ubuntu, "Ubuntu Fallback", system-ui, sans-serif;
     font-style: normal;
