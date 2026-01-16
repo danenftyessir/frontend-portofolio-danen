@@ -150,7 +150,7 @@ export const ProjectHighlights = ({
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: index * 0.1, duration: 0.3 }}
             whileHover={{ scale: showAllProjects ? 1.01 : 1.02, y: -5 }}
-            className="bg-gray-50/50 dark:bg-gray-700/30 rounded-2xl p-6 cursor-pointer group h-full flex flex-col"
+            className="bg-white/30 dark:bg-gray-700/20 backdrop-blur-sm rounded-2xl p-6 cursor-pointer group h-full flex flex-col hover:bg-white/50 dark:hover:bg-gray-700/30 transition-all duration-300"
           >
             {/* project header */}
             <div className="flex items-start gap-4 mb-4">
@@ -240,42 +240,44 @@ export const ProjectHighlights = ({
         <p className="text-gray-600 dark:text-gray-300 font-mono mb-4">
           tertarik untuk mengetahui lebih detail tentang project-project ini?
         </p>
-        <motion.button
-          onClick={() =>
-            document
-              .getElementById("ai-section")
-              ?.scrollIntoView({ behavior: "smooth" })
-          }
-          className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-indigo-500 to-purple-600 text-white rounded-xl font-semibold font-mono transition-all duration-300 hover:scale-105 hover:shadow-lg"
-          whileHover={{ y: -2 }}
-          whileTap={{ y: 0 }}
-        >
-          <svg viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5">
-            <path d="M17.5,15.5C17.5,16.61 16.61,17.5 15.5,17.5C14.39,17.5 13.5,16.61 13.5,15.5C13.5,14.39 14.39,13.5 15.5,13.5C16.61,13.5 17.5,14.39 17.5,15.5M8.5,15.5C8.5,16.61 7.61,17.5 6.5,17.5C5.39,17.5 4.5,16.61 4.5,15.5C4.5,14.39 5.39,13.5 6.5,13.5C7.61,13.5 8.5,14.39 8.5,15.5M12,0C7,0 2.73,3.11 1.23,7.39C0.46,7.39 0,8.11 0,9V11.5C0,12.39 0.46,13.11 1.23,13.11C1.83,15.92 3.71,18.28 6.21,19.64L6.5,19.11C6.5,19.11 7,18 8.5,18H13.5C15,18 15.5,19.11 15.5,19.11L15.79,19.64C18.29,18.28 20.17,15.92 20.77,13.11C21.54,13.11 22,12.39 22,11.5V9C22,8.11 21.54,7.39 20.77,7.39C19.27,3.11 15,0 12,0Z"/>
-          </svg>
-          <span>tanya ai assistant saya!</span>
-        </motion.button>
-
-        {/* expand/collapse button */}
-        <motion.button
-          onClick={() => setShowAllProjects(!showAllProjects)}
-          className="mt-6 inline-flex items-center gap-2 px-6 py-3 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-xl font-mono font-semibold transition-all duration-300 hover:scale-105 hover:bg-gray-200 dark:hover:bg-gray-600"
-          whileHover={{ y: -2 }}
-          whileTap={{ y: 0 }}
-        >
-          <span>{showAllProjects ? "Show Less" : `View All Projects on This Page (${remainingCount} more)`}</span>
-          <svg
-            viewBox="0 0 24 24"
-            fill="currentColor"
-            className={`w-5 h-5 transition-transform duration-300 ${!showAllProjects ? "animate-bounce" : ""}`}
+        <div className="flex items-center justify-center gap-4">
+          <motion.button
+            onClick={() =>
+              document
+                .getElementById("ai-section")
+                ?.scrollIntoView({ behavior: "smooth" })
+            }
+            className="inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-indigo-500 to-purple-600 text-white rounded-2xl font-semibold font-mono transition-all duration-300 hover:scale-105 hover:shadow-lg"
+            whileHover={{ y: -2 }}
+            whileTap={{ y: 0 }}
           >
-            {showAllProjects ? (
-              <path d="M7.41,15.41L12,10.83L16.59,15.41L18,14L12,8L6,14L7.41,15.41Z"/>
-            ) : (
-              <path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z"/>
-            )}
-          </svg>
-        </motion.button>
+            <svg viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6">
+              <path d="M17.5,15.5C17.5,16.61 16.61,17.5 15.5,17.5C14.39,17.5 13.5,16.61 13.5,15.5C13.5,14.39 14.39,13.5 15.5,13.5C16.61,13.5 17.5,14.39 17.5,15.5M8.5,15.5C8.5,16.61 7.61,17.5 6.5,17.5C5.39,17.5 4.5,16.61 4.5,15.5C4.5,14.39 5.39,13.5 6.5,13.5C7.61,13.5 8.5,14.39 8.5,15.5M12,0C7,0 2.73,3.11 1.23,7.39C0.46,7.39 0,8.11 0,9V11.5C0,12.39 0.46,13.11 1.23,13.11C1.83,15.92 3.71,18.28 6.21,19.64L6.5,19.11C6.5,19.11 7,18 8.5,18H13.5C15,18 15.5,19.11 15.5,19.11L15.79,19.64C18.29,18.28 20.17,15.92 20.77,13.11C21.54,13.11 22,12.39 22,11.5V9C22,8.11 21.54,7.39 20.77,7.39C19.27,3.11 15,0 12,0Z"/>
+            </svg>
+            <span>tanya ai assistant saya!</span>
+          </motion.button>
+
+          {/* expand/collapse button */}
+          <motion.button
+            onClick={() => setShowAllProjects(!showAllProjects)}
+            className="inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-indigo-500 to-purple-600 text-white rounded-2xl font-semibold font-mono transition-all duration-300 hover:scale-105 hover:shadow-lg"
+            whileHover={{ y: -2 }}
+            whileTap={{ y: 0 }}
+          >
+            <span>{showAllProjects ? "Show Less" : `View All (${remainingCount} more)`}</span>
+            <svg
+              viewBox="0 0 24 24"
+              fill="currentColor"
+              className={`w-6 h-6 transition-transform duration-300 ${!showAllProjects ? "animate-bounce" : ""}`}
+            >
+              {showAllProjects ? (
+                <path d="M7.41,15.41L12,10.83L16.59,15.41L18,14L12,8L6,14L7.41,15.41Z"/>
+              ) : (
+                <path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z"/>
+              )}
+            </svg>
+          </motion.button>
+        </div>
       </motion.div>
     </motion.div>
   );
