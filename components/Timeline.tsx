@@ -23,16 +23,16 @@ const timelineData: TimelineItemData[] = [
   {
     id: "direktorat-spsi-itb",
     year: "2025",
-    period: "oktober 2025 - sekarang",
+    period: "october 2025 - present",
     title: "software engineer (contract)",
     organization: "direktorat sarana prasarana & sistem informasi itb",
     description:
-      "mengembangkan end-to-end reporting system dan data visualization dashboard untuk eFacility web platform dengan merancang comprehensive report workflow engine menggunakan state machine pattern yang handle submission-to-resolution lifecycle secara atomik dan reliable, mengimplementasikan dynamic task assignment system yang memungkinkan admin-driven technician allocation berdasarkan priority, workload, dan expertise matching, membangun data visualization dashboard dengan category-based aggregations, time-series trend analysis, dan real-time status monitoring untuk actionable insights, serta mengembangkan analytical features termasuk funnel analysis, conversion tracking, dan performance metrics yang support operational decision making.",
+      "developed end-to-end reporting system and data visualization dashboard for eFacility web platform by designing comprehensive report workflow engine using state machine pattern to handle submission-to-resolution lifecycle atomically and reliably, implementing dynamic task assignment system enabling admin-driven technician allocation based on priority, workload, and expertise matching, building data visualization dashboard with category-based aggregations, time-series trend analysis, and real-time status monitoring for actionable insights, and developing analytical features including funnel analysis, conversion tracking, and performance metrics to support operational decision making.",
     details: [],
     achievements: [
-      "berhasil mengimplementasikan scalable reporting workflow yang handle ribuan facility reports dengan proper state management dan audit trail",
-      "menciptakan data-driven dashboard yang membantu administrative users dalam monitoring operational performance dan identifying bottleneck areas",
-      "contributing ke digital transformation initiative yang meningkatkan operational efficiency dan service delivery quality",
+      "successfully implemented scalable reporting workflow handling thousands of facility reports with proper state management and audit trail",
+      "created data-driven dashboard helping administrative users monitor operational performance and identify bottleneck areas",
+      "contributed to digital transformation initiative improving operational efficiency and service delivery quality",
     ],
     tech: ["Workflow Automation", "Data Visualization", "Dashboard Development", "State Management", "Analytics", "Full-Stack Development"],
     type: "work",
@@ -46,16 +46,16 @@ const timelineData: TimelineItemData[] = [
   {
     id: "ralat-ind",
     year: "2025",
-    period: "juli - november 2025",
+    period: "july - november 2025",
     title: "frontend engineer (internship)",
     organization: "ralat.ind",
     description:
-      "membangun adaptive learning platform untuk personalized UTBK preparation experience dengan mengembangkan daily flashcard system menggunakan spaced repetition algorithm yang adaptively adjust difficulty berdasarkan user performance dan retention patterns, mengimplementasikan comprehensive progress tracking engine dengan multi-dimensional gamification (streaks, badges, XP, leaderboards) untuk drive sustained user engagement, membangun analytics-ready event tracking system yang collect granular behavioral data untuk future recommendation engine dan personalized learning paths, serta collaborating dengan product team untuk translate learning science principles ke engaging interactive features yang balance fun dengan educational effectiveness.",
+      "built adaptive learning platform for personalized UTBK preparation experience by developing daily flashcard system using spaced repetition algorithm that adaptively adjusts difficulty based on user performance and retention patterns, implementing comprehensive progress tracking engine with multi-dimensional gamification (streaks, badges, XP, leaderboards) to drive sustained user engagement, building analytics-ready event tracking system collecting granular behavioral data for future recommendation engine and personalized learning paths, and collaborating with product team to translate learning science principles into engaging interactive features balancing fun with educational effectiveness.",
     details: [],
     achievements: [
-      "berhasil men-develop foundation gamification infrastructure yang enables data-driven personalization untuk thousands of users",
-      "mengimplementasikan scalable user engagement system yang capture behavioral insights untuk future ML-driven recommendation features",
-      "contributing ke product evolution dari MVP ke production-ready platform dengan measurable improvements di user retention dan completion rates",
+      "successfully developed gamification infrastructure foundation enabling data-driven personalization for thousands of users",
+      "implemented scalable user engagement system capturing behavioral insights for future ML-driven recommendation features",
+      "contributed to product evolution from MVP to production-ready platform with measurable improvements in user retention and completion rates",
     ],
     tech: ["React.js", "State Management", "Gamification", "Behavioral Analytics", "User Engagement", "Product Development"],
     type: "work",
@@ -69,16 +69,16 @@ const timelineData: TimelineItemData[] = [
   {
     id: "bengkel-code",
     year: "2025",
-    period: "juni - oktober 2025",
+    period: "june - october 2025",
     title: "software engineer (freelance)",
     organization: "bengkel code",
     description:
-      "melakukan end-to-end website modernization untuk organisasi MPM UPNVJ dengan memimpin complete website redesign menggunakan mobile-first responsive architecture yang ensure seamless experience di semua device sizes dan orientations, mengimplementasikan custom Google Sheets API integration yang enable real-time data collection dengan automatic sync, error recovery, dan data validation, membangun downloadable digital booklet generation system dengan dynamic content rendering, PDF export capabilities, dan asset optimization, serta conducting comprehensive testing termasuk edge case simulation, load testing, dan error handling validation untuk ensure production-ready reliability.",
+      "executed end-to-end website modernization for MPM UPNVJ organization by leading complete website redesign using mobile-first responsive architecture ensuring seamless experience across all device sizes and orientations, implementing custom Google Sheets API integration enabling real-time data collection with automatic sync, error recovery, and data validation, building downloadable digital booklet generation system with dynamic content rendering, PDF export capabilities, and asset optimization, and conducting comprehensive testing including edge case simulation, load testing, and error handling validation to ensure production-ready reliability.",
     details: [],
     achievements: [
-      "berhasil delivering modernized website yang significantly improve user engagement dan organizational digital presence",
-      "mengimplementasikan reliable data collection system yang streamline operational workflows dan reduce manual data processing overhead",
-      "establishing robust testing methodology yang catch critical edge cases sebelum production deployment",
+      "successfully delivered modernized website significantly improving user engagement and organizational digital presence",
+      "implemented reliable data collection system streamlining operational workflows and reducing manual data processing overhead",
+      "established robust testing methodology catching critical edge cases before production deployment",
     ],
     tech: ["Responsive Design", "API Integration", "Google Sheets API", "PDF Generation", "Testing & QA", "Production Deployment"],
     type: "work",
@@ -92,16 +92,16 @@ const timelineData: TimelineItemData[] = [
   {
     id: "arkavidia",
     year: "2024",
-    period: "november 2024 - mei 2025",
+    period: "november 2024 - may 2025",
     title: "data science academy staff",
     organization: "arkavidia",
     description:
-      "berperan sebagai liaison officer dan master of ceremony dalam 6-hari intensive data science bootcamp dengan managing end-to-end participant support journey untuk 8 groups (24 participants) termasuk technical guidance, progress monitoring, dan bottleneck resolution, facilitating effective communication antara participants, mentors, dan expert speakers dengan proactive issue identification dan rapid resolution protocols, delivering engaging master of ceremony duties yang maintain high energy level, ensure smooth session transitions, dan create positive learning environment, serta coordinating logistical aspects dari multi-day bootcamp termasuk schedule management, resource allocation, dan contingency planning untuk seamless execution.",
+      "served as liaison officer and master of ceremony in 6-day intensive data science bootcamp by managing end-to-end participant support journey for 8 groups (24 participants) including technical guidance, progress monitoring, and bottleneck resolution, facilitating effective communication between participants, mentors, and expert speakers with proactive issue identification and rapid resolution protocols, delivering engaging master of ceremony duties maintaining high energy level, ensuring smooth session transitions, and creating positive learning environment, and coordinating logistical aspects of multi-day bootcamp including schedule management, resource allocation, and contingency planning for seamless execution.",
     details: [],
     achievements: [
-      "berhasil memfasilitasi positive learning experience yang menerima strong participant feedback dan high completion rate",
-      "mengembangkan strong communication dan leadership skills dalam fast-paced, high-stakes environment dengan multiple stakeholders",
-      "contributing ke data science community building dengan creating engaging, informative sessions yang inspire continued learning",
+      "successfully facilitated positive learning experience receiving strong participant feedback and high completion rate",
+      "developed strong communication and leadership skills in fast-paced, high-stakes environment with multiple stakeholders",
+      "contributed to data science community building by creating engaging, informative sessions inspiring continued learning",
     ],
     tech: ["Leadership", "Communication", "Event Coordination", "Participant Support", "Community Building", "Problem Solving"],
     type: "work",
@@ -115,16 +115,16 @@ const timelineData: TimelineItemData[] = [
   {
     id: "comlabs-itb",
     year: "2024",
-    period: "oktober - desember 2024",
+    period: "october - december 2024",
     title: "computational thinking assistant",
     organization: "comlabs-usdi itb",
     description:
-      "membimbing dan mengases practicum computational thinking dengan memfasilitasi 2 sessions praktikum berbasis Python dengan duration equivalent 2 credit hours yang mengkombinasikan theoretical explanation dengan hands-on problem solving, memberikan comprehensive code assessments untuk ~70 participants across 3 sessions dengan focus pada algorithmic thinking, code readability, dan best practices, mengembangkan rubric-based evaluation system yang assess problem-solving approach, code efficiency, dan programming fundamentals secara objective dan consistent, serta memberikan personalized feedback yang help students understand weaknesses dan improve computational thinking skills secara structured.",
+      "mentored and assessed computational thinking practicum by facilitating 2 Python-based practicum sessions with duration equivalent 2 credit hours combining theoretical explanation with hands-on problem solving, providing comprehensive code assessments for ~70 participants across 3 sessions with focus on algorithmic thinking, code readability, and best practices, developing rubric-based evaluation system assessing problem-solving approach, code efficiency, and programming fundamentals objectively and consistently, and giving personalized feedback helping students understand weaknesses and improve computational thinking skills in structured manner.",
     details: [],
     achievements: [
-      "berhasil membimbing 70+ students dalam developing foundational programming skills dengan measurable improvements di code quality dan problem-solving abilities",
-      "mengimplementasikan fair assessment methodology yang provide actionable feedback untuk student growth",
-      "contributing ke academic mission dengan ensuring students develop strong computational thinking fundamentals untuk advanced CS coursework",
+      "successfully mentored 70+ students in developing foundational programming skills with measurable improvements in code quality and problem-solving abilities",
+      "implemented fair assessment methodology providing actionable feedback for student growth",
+      "contributed to academic mission by ensuring students develop strong computational thinking fundamentals for advanced CS coursework",
     ],
     tech: ["Python", "Teaching", "Code Assessment", "Algorithmic Thinking", "Pedagogy", "Problem Solving"],
     type: "work",
@@ -138,16 +138,16 @@ const timelineData: TimelineItemData[] = [
   {
     id: "pakansuper",
     year: "2023",
-    period: "agustus - desember 2023",
+    period: "august - december 2023",
     title: "software engineer",
     organization: "pakansuper marketplace",
     description:
-      "memimpin development end-to-end web-based marketplace untuk farmers dan breeders dengan merancang dan mengimplementasikan full-stack marketplace solution dari ground up dengan focus pada user experience untuk less tech-savvy agricultural community, memimpin cross-functional team dengan responsibilities spanning technical architecture, product design, project management, dan go-to-market strategy, mengembangkan innovative features yang address real agricultural supply chain challenges dan create tangible economic impact untuk farming communities, serta managing end-to-end product lifecycle dari ideation, development, testing, hingga deployment dengan focus pada quality, scalability, dan user adoption.",
+      "led development of end-to-end web-based marketplace for farmers and breeders by designing and implementing full-stack marketplace solution from ground up with focus on user experience for less tech-savvy agricultural community, leading cross-functional team with responsibilities spanning technical architecture, product design, project management, and go-to-market strategy, developing innovative features addressing real agricultural supply chain challenges and creating tangible economic impact for farming communities, and managing end-to-end product lifecycle from ideation, development, testing, to deployment with focus on quality, scalability, and user adoption.",
     details: [],
     achievements: [
-      "berhasil mencapai selection sebagai ONLY project representing ITB di campus fair dari 9 competing teams",
-      "membangun high-performing team culture yang delivered production-ready application dalam tight timeline",
-      "menciptakan measurable social impact dengan addressing real-world agricultural challenges melalui technology innovation",
+      "successfully achieved selection as ONLY project representing ITB at campus fair from 9 competing teams",
+      "built high-performing team culture delivering production-ready application within tight timeline",
+      "created measurable social impact by addressing real-world agricultural challenges through technology innovation",
     ],
     tech: ["Full-Stack Development", "Product Leadership", "Team Management", "System Design", "User-Centered Design", "Go-to-Market"],
     type: "work",
@@ -155,29 +155,6 @@ const timelineData: TimelineItemData[] = [
     icon: (
       <svg viewBox="0 0 24 24" fill="currentColor" className="w-8 h-8">
         <path d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M12,4A8,8 0 0,1 20,12A8,8 0 0,1 12,20A8,8 0 0,1 4,12A8,8 0 0,1 12,4M15,12A3,3 0 0,1 12,15A3,3 0 0,1 9,12A3,3 0 0,1 12,9A3,3 0 0,1 15,12Z"/>
-      </svg>
-    ),
-  },
-  {
-    id: "itb-education",
-    year: "2023",
-    period: "agustus 2023 - sekarang",
-    title: "bachelor of computer science",
-    organization: "institut teknologi bandung",
-    description:
-      "pursuing rigorous computer science education dengan dual focus pada artificial intelligence dan software engineering dengan mastering fundamental cs concepts termasuk algorithms, data structures, dan software engineering principles dengan academic rigor, specializing di ai/ml domains dengan coursework di machine learning, computer vision, dan natural language processing, applying theoretical knowledge melalui competitive programming, hackathons, dan diverse portfolio projects, serta building strong technical foundation yang enables effective problem-solving di complex, real-world scenarios.",
-    details: [],
-    achievements: [
-      "maintaining excellent academic performance while balancing dengan multiple professional work commitments",
-      "developing comprehensive, industry-relevant skill set yang spans ai engineering dan software development",
-      "establishing strong network dengan peers, faculty, dan tech community untuk continuous growth dan collaboration",
-    ],
-    tech: ["Python", "Java", "Machine Learning", "Algorithms", "Data Structures", "Software Engineering"],
-    type: "education",
-    color: "from-indigo-500 to-purple-600",
-    icon: (
-      <svg viewBox="0 0 24 24" fill="currentColor" className="w-8 h-8">
-        <path d="M12,3L1,9L12,15L21,10.09V17H23V9M5,13.18V17.18L12,21L19,17.18V13.18L12,17L5,13.18Z"/>
       </svg>
     ),
   },

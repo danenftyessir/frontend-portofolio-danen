@@ -6,6 +6,7 @@ import { AISection } from "@/components/AISection";
 import { ProfileImage } from "@/components/ui/profile-image";
 import { Button } from "@/components/ui/button";
 import { ParticlesBackground } from "@/components/ParticlesBackground";
+import { Timeline } from "@/components/Timeline";
 
 // data portfolio
 const portfolioData = {
@@ -663,42 +664,12 @@ export default function Portfolio() {
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="mb-16"
+            className="mb-16 bg-slate-900 -mx-4 px-4 py-12 rounded-3xl"
           >
-            <h3 className="text-3xl font-bold text-gray-800 text-center mb-12">
+            <h3 className="text-3xl font-bold text-white text-center mb-12">
               Experience & Timeline
             </h3>
-            <div className="space-y-8">
-              {portfolioData.about.experience.map((exp, index) => (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, x: index % 2 === 0 ? -50 : 50 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  transition={{ delay: index * 0.2, duration: 0.6 }}
-                  className="bg-gray-50 rounded-xl p-6 shadow-lg hover:shadow-xl transition-all duration-300"
-                >
-                  <div className="flex items-start gap-4">
-                    <div className="w-12 h-12 bg-gray-800 text-white rounded-full flex items-center justify-center font-bold text-lg">
-                      {index + 1}
-                    </div>
-                    <div className="flex-1">
-                      <h4 className="text-xl font-bold text-gray-800 mb-1">
-                        {exp.title}
-                      </h4>
-                      <p className="text-gray-600 font-semibold mb-1">
-                        {exp.company}
-                      </p>
-                      <p className="text-gray-500 text-sm mb-3 font-medium">
-                        {exp.period}
-                      </p>
-                      <p className="text-gray-700 leading-relaxed">
-                        {exp.description}
-                      </p>
-                    </div>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
+            <Timeline />
           </motion.div>
 
           {/* featured projects section */}
