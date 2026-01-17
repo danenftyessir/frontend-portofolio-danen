@@ -19,7 +19,6 @@ const portfolioData = {
       </svg>
     ),
     typingTexts: [
-      "Data Science Enthusiast",
       "ITB Computer Science Student",
       "AI Engineering Explorer",
       "Front-End Developer",
@@ -75,7 +74,7 @@ const portfolioData = {
       { label: "Semester", value: "5", icon: "bx bx-calendar" },
       {
         label: "Focus",
-        value: "Data Science & Algorithms",
+        value: "AI Engineering & Software Development",
         icon: "bx bx-brain",
       },
       {
@@ -1021,19 +1020,51 @@ export default function Portfolio() {
           </motion.div>
 
           {/* content grid */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-16">
-            {/* profile image */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start mb-16">
+            {/* photo gallery */}
             <motion.div
               initial={{ opacity: 0, x: -50 }}
               whileInView={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8 }}
-              className="w-full flex justify-center lg:justify-start"
+              className="w-full"
             >
-              <img
-                src={portfolioData.about.image}
-                alt="About Me"
-                className="w-full max-w-md rounded-xl shadow-lg object-cover border-8 border-gray-100 hover:shadow-2xl hover:-translate-y-2 transition-all duration-300"
-              />
+              <div className="grid grid-cols-2 grid-rows-[200px_200px_200px] gap-3">
+                {/* FOTO A - Top Left (spans 2 rows - Portrait/Tinggi) */}
+                <div className="relative overflow-hidden rounded-xl shadow-lg hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 row-span-2">
+                  <img
+                    src="/profile3.png"
+                    alt="About Me - Portrait"
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+
+                {/* FOTO B - Top Right (Landscape/Grup) */}
+                <div className="relative overflow-hidden rounded-xl shadow-lg hover:shadow-2xl hover:-translate-y-1 transition-all duration-300">
+                  <img
+                    src="/profile2.jpg"
+                    alt="About Me - Group"
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+
+                {/* FOTO C - Right (spans 2 rows - Portrait/Tinggi) */}
+                <div className="relative overflow-hidden rounded-xl shadow-lg hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 row-span-2">
+                  <img
+                    src="/profile4.jpg"
+                    alt="About Me - Portrait 2"
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+
+                {/* FOTO D - Bottom Left (Landscape) */}
+                <div className="relative overflow-hidden rounded-xl shadow-lg hover:shadow-2xl hover:-translate-y-1 transition-all duration-300">
+                  <img
+                    src="/profile5.jpg"
+                    alt="About Me - Hiking"
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+              </div>
             </motion.div>
 
             {/* biodata section */}
@@ -1045,9 +1076,10 @@ export default function Portfolio() {
             >
               {/* about narrative */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-8">
-                <div className="flex flex-col gap-2">
-                  <div className="flex items-center gap-2 mb-2">
-                    <div className="w-12 h-12 p-4 flex items-center justify-center rounded-lg shadow-lg bg-gray-800 text-white">
+                {/* Who Am I Card */}
+                <div className="bg-white rounded-xl p-6 shadow-md border border-gray-200 hover:shadow-lg transition-all duration-300">
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="w-12 h-12 flex items-center justify-center rounded-full bg-gray-800 text-white shadow-md">
                       <i
                         className={`bx ${portfolioData.about.aboutNarrative.whoAmI.icon} text-xl`}
                       ></i>
@@ -1056,14 +1088,15 @@ export default function Portfolio() {
                       Who Am I
                     </h3>
                   </div>
-                  <p className="text-gray-600">
+                  <p className="text-gray-600 text-sm leading-relaxed">
                     {portfolioData.about.aboutNarrative.whoAmI.text}
                   </p>
                 </div>
 
-                <div className="flex flex-col gap-2">
-                  <div className="flex items-center gap-2 mb-2">
-                    <div className="w-12 h-12 flex items-center justify-center rounded-lg bg-gray-800 p-4 shadow-lg text-white">
+                {/* My Approach Card */}
+                <div className="bg-white rounded-xl p-6 shadow-md border border-gray-200 hover:shadow-lg transition-all duration-300">
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="w-12 h-12 flex items-center justify-center rounded-full bg-gray-800 text-white shadow-md">
                       <i
                         className={`bx ${portfolioData.about.aboutNarrative.approach.icon} text-xl`}
                       ></i>
@@ -1072,37 +1105,41 @@ export default function Portfolio() {
                       My Approach
                     </h3>
                   </div>
-                  <p className="text-gray-600">
+                  <p className="text-gray-600 text-sm leading-relaxed">
                     {portfolioData.about.aboutNarrative.approach.text}
                   </p>
                 </div>
               </div>
 
               {/* personal info */}
-              <div className="flex items-center gap-2 mb-4">
-                <i className="bx bx-info-circle text-2xl text-gray-800"></i>
-                <h2 className="text-2xl font-semibold text-gray-800">
-                  Personal Info
-                </h2>
-              </div>
+              <div className="bg-white rounded-xl p-6 shadow-md border border-gray-200">
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="w-12 h-12 flex items-center justify-center rounded-full bg-gray-800 text-white shadow-md">
+                    <i className="bx bx-info-circle text-xl"></i>
+                  </div>
+                  <h3 className="text-xl font-bold text-gray-800">
+                    Personal Info
+                  </h3>
+                </div>
 
-              <ul className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8 max-w-lg mx-auto lg:mx-0">
-                {portfolioData.about.biodata.map((item, index) => (
-                  <li key={index} className="flex items-center gap-4">
-                    <div className="flex items-center justify-center w-12 h-12 p-4 rounded-lg bg-gray-800 shadow-lg text-white">
-                      <i className={`${item.icon} text-xl`}></i>
-                    </div>
-                    <div>
-                      <span className="font-semibold text-sm text-gray-800">
-                        {item.label}:
-                      </span>
-                      <span className="text-sm text-gray-600 block">
-                        {item.value}
-                      </span>
-                    </div>
-                  </li>
-                ))}
-              </ul>
+                <ul className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  {portfolioData.about.biodata.map((item, index) => (
+                    <li key={index} className="flex items-center gap-3">
+                      <div className="flex items-center justify-center w-10 h-10 rounded-full bg-gray-800 shadow-md text-white flex-shrink-0">
+                        <i className={`${item.icon} text-lg`}></i>
+                      </div>
+                      <div className="flex-1">
+                        <span className="font-semibold text-xs text-gray-800 block">
+                          {item.label}:
+                        </span>
+                        <span className="text-sm text-gray-600 block">
+                          {item.value}
+                        </span>
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              </div>
             </motion.div>
           </div>
 

@@ -51,7 +51,7 @@ export const metadata: Metadata = {
         url: "/profile.jpg",
         width: 1200,
         height: 630,
-        alt: "Danendra Shafi Athallah - Data Science Enthusiast & Algorithm Problem Solver",
+        alt: "Danendra Shafi Athallah - Software Engineer & AI Enthusiast",
       },
     ],
     locale: "id_ID",
