@@ -373,17 +373,16 @@ export function subscribeToTable<T>(
   callback: (payload: T) => void,
   filter?: { column: string; value: any }
 ) {
-  let query = supabase
+  const options = filter
+    ? { event: '*' as const, schema: 'public', table, filter: `${filter.column}=eq.${filter.value}` }
+    : { event: '*' as const, schema: 'public', table }
+
+  return supabase
     .channel(`table-changes-${table}`)
-    .on('postgres_changes', { event: '*', schema: 'public', table }, (payload) => {
+    .on('postgres_changes', options, (payload) => {
       callback(payload.new as T)
     })
-
-  if (filter) {
-    query = query.eq(filter.column, filter.value)
-  }
-
-  return query.subscribe()
+    .subscribe()
 }
 
 /**
