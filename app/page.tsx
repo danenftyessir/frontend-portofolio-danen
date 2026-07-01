@@ -562,6 +562,7 @@ const portfolioData = {
       techStack: ["Solidity", "Next.js", "Tailwind CSS", "Ethereum", "Supabase"],
       description: "Web-based app for transparent monitoring of the distribution of Makan Bergizi Gratis (MBG) using blockchain and mapping of priority areas using AI",
       features: ["Blockchain Integration", "AI-Powered Mapping"],
+      role: "both",
     },
     {
       title: "MBG Background Analysis",
@@ -570,6 +571,7 @@ const portfolioData = {
       techStack: ["Python", "Pandas", "NumPy", "NLTK", "Scikit-Learn", "Matplotlib"],
       description: "A data analysis project exploring public perception of the Makan Bergizi Gratis (MBG) program by processing social media comments and extracting sentiment insights using text preprocessing and machine learning classification",
       features: ["Sentiment Analysis", "Text Preprocessing"],
+      role: "ai",
     },
     {
       title: "E-Facility ITB",
@@ -578,6 +580,7 @@ const portfolioData = {
       techStack: ["PHP", "Laravel", "Node.js", "Oracle"],
       description: "E-Facility is a system that integrates ITB facility services, both tariff-based (rental based) and non-tariff-based (resource sharing based), for ITB academics",
       features: ["Service Integration", "Resource Sharing"],
+      role: "se",
     },
     {
       title: "MPM UPNVJ Official Website",
@@ -586,6 +589,7 @@ const portfolioData = {
       techStack: ["WordPress", "Advanced Custom Fields", "Contact Form 7", "Yoast SEO", "Polylang", "Slider Revolution", "Jetpack"],
       description: "Official website for Majelis Permusyawaratan Mahasiswa (MPM) UPN Veteran Jakarta, the highest student legislative body representing faculties and managing student aspirations and organizational transparency",
       features: ["Content Management", "Responsive Design"],
+      role: "se",
     },
     {
       title: "Little Alchemy 2 Recipe Finder",
@@ -594,6 +598,7 @@ const portfolioData = {
       techStack: ["Golang", "Next.js", "TypeScript", "Tailwind CSS"],
       description: "Website to search for recipes of an element in the game little alchemy 2 using 3 approaches namely: BFS (Breadth First Search), DFS (Depth First Search), & Bidirectional",
       features: ["Algorithm Visualization", "Multiple Search Methods"],
+      role: "both",
     },
     {
       title: "Rick ASOYY",
@@ -602,22 +607,25 @@ const portfolioData = {
       techStack: ["React.js", "TypeScript", "Flask", "Python", "PCA", "NumPy"],
       description: "Rick ASOYY is a website designed as an audio and image finder, utilizing linear algebra and geometry concepts such as the PCA method from scratch for image searching and Query by Humming for audio searching",
       features: ["PCA Image Search", "Audio Recognition"],
+      role: "both",
     },
     {
       title: "Pascal S Compiler",
       link: "https://github.com/danenftyessir/pascal-s-compiler-from-scratch",
-      image: "/ss-pascal-compiler-project.jpeg",
+      image: "/ss-pascal-compiler-project.jpg",
       techStack: ["Python"],
       description: "A Python-based Pascal-S compiler featuring DFA lexical analysis, recursive descent parsing, and semantic checks, highlighting structured problem solving and formal language processing",
       features: ["Lexical Analysis", "Semantic Checking"],
+      role: "se",
     },
     {
       title: "Local Search for Class Scheduling",
       link: "https://github.com/danenftyessir/Hambapenat_Tubes-1_IF3170_Weekly_Class_Schedulling_Local_Search.git",
-      image: "/ss-local-search-project.png",
+      image: "/ss-local-search-project.jpg",
       techStack: ["Python", "NumPy", "Pandas", "Matplotlib"],
       description: "A scheduling system that applies heuristic local search optimization to generate weekly university class timetables. It assigns courses to rooms and time slots while minimizing conflicts and capacity issues",
       features: ["Optimization Algorithm", "Constraint Solving"],
+      role: "ai",
     },
     {
       title: "Sentiment Analysis on Retina Data",
@@ -626,14 +634,16 @@ const portfolioData = {
       techStack: ["Python", "Pandas", "NumPy", "Scikit-Learn", "Matplotlib"],
       description: "A sentiment analysis system for YouTube comments on retina data trade, utilizing text preprocessing and Support Vector Machine classification to categorize opinions into positive, negative, and neutral sentiments",
       features: ["SVM Classification", "YouTube Data Analysis"],
+      role: "ai",
     },
     {
       title: "Predicting Student Success",
       link: "https://github.com/danenftyessir/student-success-prediction-from-scratch-ml-models.git",
-      image: "/ss-predict-student-success-project.png",
+      image: "/ss-predict-student-success-project.jpg",
       techStack: ["Python", "Pandas", "NumPy", "Scikit-Learn", "Matplotlib"],
       description: "A student success prediction system using Decision Tree Learning, Logistic Regression, and SVM, featuring custom from-scratch implementations that are benchmarked against scikit-learn models",
       features: ["Custom ML Models", "Performance Benchmarking"],
+      role: "ai",
     },
     {
       title: "O.W.C.A Logistics",
@@ -642,6 +652,7 @@ const portfolioData = {
       techStack: ["Java", "JavaFX", "Maven", "JSON/XML"],
       description: "A desktop logistics management system for handling shipments, couriers, parcels, and real-time tracking with a modular and extensible architecture",
       features: ["Real-time Tracking", "Modular Architecture"],
+      role: "se",
     },
     {
       title: "HalalHub",
@@ -650,6 +661,7 @@ const portfolioData = {
       techStack: ["Python", "Tkinter"],
       description: "HalalHub is a GUI-based software developed using Python, designed specifically for small and medium-sized enterprises (SMEs/UMKM) to manage businesses selling Muslim clothing and accessories",
       features: ["Inventory Management", "Sales Tracking"],
+      role: "se",
     },
     {
       title: "KIZUNA",
@@ -658,6 +670,7 @@ const portfolioData = {
       techStack: ["C++", "OpenCV", "CMake", "FFmpeg"],
       description: "A quadtree-driven image compression system that applies divide-and-conquer segmentation to efficiently represent visual data, reinforcing foundations in spatial data structures and image processing logic",
       features: ["Quadtree Compression", "Image Processing"],
+      role: "both",
     },
     {
       title: "ATS CV Search Application",
@@ -666,6 +679,7 @@ const portfolioData = {
       techStack: ["Python", "Docker", "MySQL", "PDF Processing"],
       description: "An ATS-style CV search application that extracts and matches keywords from PDF resumes using multiple pattern-matching algorithms including KMP, Boyer-Moore, Aho-Corasick, and Levenshtein Distance",
       features: ["Multiple Algorithms", "Fuzzy Search"],
+      role: "se",
     },
     {
       title: "Nimonspedia",
@@ -674,6 +688,7 @@ const portfolioData = {
       techStack: ["PHP", "Node.js", "React", "PostgreSQL", "Docker", "WebSocket"],
       description: "A web-based e-commerce platform that supports multi-role users, product management, balance handling, shopping cart, checkout, and order tracking, developed using a hybrid architecture",
       features: ["Multi-role System", "Real-time Updates"],
+      role: "se",
     },
     {
       title: "Pakansuper Marketplace",
@@ -682,6 +697,70 @@ const portfolioData = {
       techStack: ["WordPress", "WooCommerce", "Dokan", "PHP", "MySQL", "Stripe"],
       description: "An online platform that connects farmers who produce animal feed with livestock owners who need quality feed products. The marketplace streamlines the supply chain by enabling direct transactions between producers and consumers in the animal husbandry sector",
       features: ["Multi-vendor Marketplace", "Direct Farmer-Consumer Transactions", "Supply Chain Optimization", "Payment Integration"],
+      role: "se",
+    },
+    {
+      title: "Loan Risk Prediction Ensemble",
+      link: "https://github.com/danenftyessir/loan-risk-prediction-ensemble",
+      image: "/ss-loan-risk-prediction-ensemble-project.jpg",
+      techStack: ["Python", "Pandas", "NumPy", "Scikit-Learn", "Matplotlib", "Seaborn", "RandomizedSearchCV"],
+      description: "A machine learning project for loan decision support that predicts approval status from applicant financial and demographic data. The system compares ensemble strategies such as Random Forest, Gradient Boosting, Stacking, and Soft Voting, applies hyperparameter tuning, and uses Macro F1 plus error analysis to understand credit-risk trade-offs between false approvals and lost approval opportunities.",
+      features: ["Ensemble Methods", "Hyperparameter Tuning"],
+      role: "ai",
+    },
+    {
+      title: "Dry Bean Classification Neural Network",
+      link: "https://github.com/danenftyessir/dry-bean-classification-neural-network",
+      image: "/ss-dry-bean-classification-neural-network-project.jpg",
+      techStack: ["Python", "PyTorch", "Scikit-Learn", "Pandas", "NumPy", "Matplotlib", "Seaborn"],
+      description: "A multiclass tabular classification project that identifies seven dry bean varieties using morphological features. The workflow compares a linear Perceptron baseline with Feedforward Neural Networks, supported by EDA, feature importance analysis, stratified splitting, train-only scaling, PCA exploration, learning-curve diagnostics, and Macro F1 evaluation.",
+      features: ["Neural Network", "Multiclass Classification"],
+      role: "ai",
+    },
+    {
+      title: "Marine Mammal Image Classification CNN",
+      link: "https://github.com/danenftyessir/marine-mammal-image-classification-cnn",
+      image: "/ss-marine-mammal-image-classification-cnn-project.png",
+      techStack: ["Python", "PyTorch", "Torchvision", "PIL", "OpenCV", "Scikit-Learn", "NumPy", "Pandas", "Matplotlib", "Seaborn"],
+      description: "A computer vision project that classifies dolphin and whale images using CNN modeling and transfer learning. It compares an AlexNet-style model trained from scratch with EfficientNet-B0 fine-tuning, demonstrates why pretrained visual features are effective for small image datasets, and evaluates generalization through Macro F1, accuracy, confusion matrix, and bias-variance analysis.",
+      features: ["CNN & Transfer Learning", "Computer Vision"],
+      role: "ai",
+    },
+    {
+      title: "Air Quality Forecasting RNN LSTM",
+      link: "https://github.com/danenftyessir/air-quality-forecasting-rnn-lstm",
+      image: "/ss-air-quality-forecasting-rnn-lstm-project.jpg",
+      techStack: ["Python", "PyTorch", "Pandas", "NumPy", "Scikit-Learn", "Statsmodels", "Matplotlib", "Seaborn"],
+      description: "A deep learning time-series forecasting project for predicting PM2.5 concentration seven days ahead using RNN and LSTM variants. The pipeline applies time-aware preprocessing, pollutant and temporal feature engineering, train-only scaling to avoid future leakage, sliding-window generation, direct multi-output forecasting, and horizon-based RMSE/MAE diagnostics for air-quality early warning.",
+      features: ["RNN & LSTM", "Time-Series Forecasting"],
+      role: "ai",
+    },
+    {
+      title: "Karsa",
+      link: "https://github.com/danenftyessir/karsa",
+      image: "/ss-karsa-project.png",
+      techStack: ["PHP", "Laravel 13", "TailwindCSS", "PostgreSQL", "Supabase", "Cohere", "RAG", "LLM"],
+      description: "An AI-powered platform connecting university students with KKN and internship opportunities, featuring an AI assistant built on a RAG pipeline with hybrid retrieval (Cohere multilingual embeddings + keyword search) and an LLM (Anthropic Claude) for contextual, grounded answers with source citations. Additional AI features include semantic document verification and automated institution classification.",
+      features: ["RAG Pipeline", "AI Assistant"],
+      role: "both",
+    },
+    {
+      title: "Feedforward Neural Network from Scratch",
+      link: "https://github.com/danenftyessir/feedforward-neural-network-from-scratch",
+      image: "/ss-ffnn-from-scratch-project.png",
+      techStack: ["Python", "NumPy", "Pandas", "Matplotlib", "Scikit-Learn"],
+      description: "A complete Feedforward Neural Network implementation built entirely from scratch without TensorFlow or PyTorch, featuring manual backpropagation, automatic differentiation, multiple optimization algorithms, normalization techniques, regularization methods, and flexible network architectures. Benchmarked against scikit-learn, demonstrating competitive performance and a deep understanding of neural network internals.",
+      features: ["Manual Backpropagation", "Custom Implementation"],
+      role: "ai",
+    },
+    {
+      title: "Vision-Language Lab from Scratch",
+      link: "https://github.com/danenftyessir/vision-language-lab-from-scratch",
+      image: "/ss-vision-language-lab-project.png",
+      techStack: ["Python", "NumPy", "TensorFlow/Keras", "OpenCV", "PIL", "Scikit-Learn", "NLTK", "Matplotlib"],
+      description: "An end-to-end deep learning project implementing CNN, RNN, and LSTM inference engines entirely from scratch using NumPy, covering image classification and image captioning. Validates custom implementations against Keras models with feature visualization, Grad-CAM, beam search decoding, and evaluation using Macro F1, BLEU, and METEOR.",
+      features: ["CNN & RNN from Scratch", "Image Captioning"],
+      role: "ai",
     },
   ],
 };
@@ -732,7 +811,12 @@ export default function Portfolio() {
   const [mounted, setMounted] = useState(false);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [showAllProjects, setShowAllProjects] = useState(false);
+  const [projectFilter, setProjectFilter] = useState<"all" | "se" | "ai">("all");
   const [expandedTechStacks, setExpandedTechStacks] = useState<Set<string>>(new Set());
+
+  const filteredProjects = portfolioData.projects.filter(
+    (p) => projectFilter === "all" || p.role === projectFilter || p.role === "both"
+  );
 
   const { currentText, showCursor } = useTypewriter(
     portfolioData.hero.typingTexts,
@@ -1168,13 +1252,38 @@ export default function Portfolio() {
             transition={{ duration: 0.8 }}
             className="mb-16"
           >
-            <div className="text-center mb-12">
+            <div className="text-center mb-10">
               <h3 className="text-4xl font-bold text-gray-800 mb-4">
                 Featured Projects
               </h3>
               <p className="text-lg text-gray-600 max-w-3xl mx-auto">
                 A continuously flowing showcase of my expertise in machine learning, web development, and data science.
               </p>
+            </div>
+
+            {/* role filter buttons */}
+            <div className="flex items-center justify-center gap-3 mb-10">
+              {(
+                [
+                  { key: "all", label: "All Projects" },
+                  { key: "se", label: "Software Engineer" },
+                  { key: "ai", label: "AI Engineer" },
+                ] as const
+              ).map(({ key, label }) => (
+                <motion.button
+                  key={key}
+                  onClick={() => setProjectFilter(key)}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  className={`px-6 py-2.5 rounded-2xl border-2 border-gray-800 font-semibold text-sm transition-all duration-300 ${
+                    projectFilter === key
+                      ? "bg-gray-800 text-white"
+                      : "bg-white text-gray-800 hover:bg-gray-800 hover:text-white"
+                  }`}
+                >
+                  {label}
+                </motion.button>
+              ))}
             </div>
 
             {/* carousel container */}
@@ -1320,7 +1429,10 @@ export default function Portfolio() {
             {/* Grid view for all projects - shown below carousel when button is clicked */}
             {showAllProjects && (
               <div className="mb-12 space-y-6">
-                {portfolioData.projects.map((project, index) => (
+                {filteredProjects.length === 0 && (
+                  <p className="text-center text-gray-500 py-10">No projects found for this category.</p>
+                )}
+                {filteredProjects.map((project, index) => (
                   <motion.div
                     key={`grid-${index}`}
                     initial={{ opacity: 0, y: 20 }}
