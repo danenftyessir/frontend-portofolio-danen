@@ -370,8 +370,8 @@ export async function testConnection(): Promise<boolean> {
  */
 export function subscribeToTable<T>(
   table: string,
-  filter?: { column: string; value: any },
-  callback: (payload: T) => void
+  callback: (payload: T) => void,
+  filter?: { column: string; value: any }
 ) {
   let query = supabase
     .channel(`table-changes-${table}`)
