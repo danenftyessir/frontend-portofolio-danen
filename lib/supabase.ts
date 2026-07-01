@@ -241,7 +241,7 @@ export const skillsAPI = {
     if (error) throw error
 
     // Extract unique categories
-    const categories = [...new Set(data?.map(item => item.category) || [])]
+    const categories = Array.from(new Set(data?.map(item => item.category) || []))
     return categories
   },
 }
