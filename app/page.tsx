@@ -13,12 +13,6 @@ import { Achievements } from "@/components/Achievements";
 const portfolioData = {
   hero: {
     title: "Hi, I'm Danendra Shafi Athallah",
-    titleIcon: (
-      <svg className="inline-block w-12 h-12 ml-2" viewBox="0 0 36 36" fill="currentColor">
-        <path fill="#FFDC5D" d="M4.861 9.147c.94-.657 2.357-.531 3.201.166l-.968-1.407c-.779-1.111-.5-2.313.612-3.093 1.112-.777 4.263 1.312 4.263 1.312-.786-1.122-.639-2.544.483-3.331 1.122-.784 2.67-.513 3.456.611l10.42 14.72L25 19l-11.083-4.042c-1.229-.485-2.556.253-3.041 1.482-.485 1.229.253 2.556 1.482 3.041l7.932 3.244-4.106 5.738-13.948-8.303c-.916-.452-1.428-1.41-1.428-2.417-.011-1.023.5-2.017 1.053-2.595z"/>
-        <path fill="#EE9547" d="M2.695 17.336s-1.132-1.65.519-2.781c1.649-1.131 2.78.518 2.78.518l5.251 7.658c.181.26-.016.615-.339.615-.109 0-.216-.037-.305-.107l-7.906-6.903z"/>
-      </svg>
-    ),
     typingTexts: [
       "ITB Computer Science Student",
       "AI Engineering Explorer",
@@ -27,12 +21,6 @@ const portfolioData = {
     description:
       "Student of Informatics Engineering at ITB with a deep passion for coding and continuous learning. Experienced in web development, data science, and algorithm design with a commitment to making meaningful contributions in every endeavor.",
     img: "/profile.jpg",
-    stats: [
-      { label: "Experience", value: "2+ Years", icon: "bx bx-briefcase" },
-      { label: "Projects", value: "15+", icon: "bx bx-code-alt" },
-      { label: "Certifications", value: "5+", icon: "bx bx-award" },
-      { label: "Deployed Apps", value: "2+", icon: "bx bx-rocket" },
-    ],
     socialMedia: [
       {
         platform: "GitHub",
@@ -886,7 +874,6 @@ export default function Portfolio() {
               >
                 <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-800 flex items-center">
                   {portfolioData.hero.title}
-                  {portfolioData.hero.titleIcon}
                 </h1>
                 <h2 className="text-xl sm:text-2xl lg:text-3xl font-semibold text-gray-700 flex items-center">
                   <span className="typing-text">
@@ -991,28 +978,6 @@ export default function Portfolio() {
                 </Button>
               </motion.div>
 
-              {/* quick stats */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 1.2, duration: 0.8 }}
-                className="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-8"
-              >
-                {portfolioData.hero.stats.map((stat, index) => (
-                  <div
-                    key={index}
-                    className="bg-white/80 backdrop-blur-sm rounded-2xl p-4 shadow-lg border border-gray-200 text-center hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1"
-                  >
-                    <div className="text-2xl mb-2">
-                      <i className={`${stat.icon} text-gray-800`}></i>
-                    </div>
-                    <div className="text-2xl font-bold text-gray-800 mb-1">
-                      {stat.value}
-                    </div>
-                    <div className="text-sm text-gray-600">{stat.label}</div>
-                  </div>
-                ))}
-              </motion.div>
             </div>
 
             {/* profile image dengan floating icons */}
