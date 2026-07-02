@@ -373,6 +373,10 @@
     transform: scale(1.05);
   }
 
+  .text-accent {
+    color: #c2410c; /* orange-700 — warm accent for story emphasis */
+  }
+
   /* Custom Ubuntu Font Utilities */
   .font-ubuntu {
     font-family: Ubuntu, "Ubuntu Fallback", system-ui, sans-serif;

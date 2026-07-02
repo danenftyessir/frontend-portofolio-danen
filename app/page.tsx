@@ -7,6 +7,7 @@ import { ProfileImage } from "@/components/ui/profile-image";
 import { Button } from "@/components/ui/button";
 import { ParticlesBackground } from "@/components/ParticlesBackground";
 import { Timeline } from "@/components/Timeline";
+import { Achievements } from "@/components/Achievements";
 
 // data portfolio
 const portfolioData = {
@@ -83,16 +84,6 @@ const portfolioData = {
         icon: "bx bx-user",
       },
     ],
-    aboutNarrative: {
-      whoAmI: {
-        text: "I am a student of Informatics Engineering at ITB, driven by a deep passion for coding and a relentless commitment to continuous learning. My journey in technology has allowed me to acquire diverse skills in web development, data science, and algorithm design.",
-        icon: "bx-info-circle",
-      },
-      approach: {
-        text: "I believe that growth comes from embracing challenges and never settling for the status quo. My involvement in various activities from technical projects to event management has taught me the importance of teamwork, leadership, and adaptability.",
-        icon: "bx-bulb",
-      },
-    },
     experience: [
       {
         title: "Web Development Participant",
@@ -1095,12 +1086,12 @@ export default function Portfolio() {
             transition={{ duration: 0.8 }}
             className="text-center mb-16"
           >
-            <h2 className="text-5xl font-bold text-gray-800 mb-4">
-              {portfolioData.about.title}
-            </h2>
-            <p className="text-lg text-gray-600">
-              {portfolioData.about.subtitle}
+            <p className="text-[11px] font-bold text-gray-400 uppercase tracking-[0.3em] mb-3">
+              About
             </p>
+            <h2 className="text-5xl sm:text-6xl font-bold text-gray-800 font-ubuntu">
+              My Story<span className="text-accent">.</span>
+            </h2>
           </motion.div>
 
           {/* content grid */}
@@ -1158,73 +1149,127 @@ export default function Portfolio() {
               transition={{ duration: 0.8 }}
               className="w-full"
             >
-              {/* about narrative */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-8">
-                {/* Who Am I Card */}
-                <div className="bg-white rounded-xl p-6 shadow-md border border-gray-200 hover:shadow-lg transition-all duration-300">
-                  <div className="flex items-center gap-3 mb-4">
-                    <div className="w-12 h-12 flex items-center justify-center rounded-full bg-gray-800 text-white shadow-md">
-                      <i
-                        className={`bx ${portfolioData.about.aboutNarrative.whoAmI.icon} text-xl`}
-                      ></i>
-                    </div>
-                    <h3 className="text-xl font-bold text-gray-800">
-                      Who Am I
-                    </h3>
-                  </div>
-                  <p className="text-gray-600 text-sm leading-relaxed">
-                    {portfolioData.about.aboutNarrative.whoAmI.text}
+              {/* story opening — how it started */}
+              <div className="space-y-10 lg:pt-4">
+
+                <div>
+                  <p className="text-[11px] font-bold text-gray-400 uppercase tracking-[0.25em] mb-5">
+                    How It Started
+                  </p>
+                  <p className="text-2xl sm:text-3xl font-medium italic text-gray-800 leading-snug font-ubuntu">
+                    &ldquo;I didn&apos;t start with answers.
+                    <br />
+                    I started with one question —
+                    <br />
+                    <span className="text-accent">how does this actually work?&rdquo;</span>
                   </p>
                 </div>
 
-                {/* My Approach Card */}
-                <div className="bg-white rounded-xl p-6 shadow-md border border-gray-200 hover:shadow-lg transition-all duration-300">
-                  <div className="flex items-center gap-3 mb-4">
-                    <div className="w-12 h-12 flex items-center justify-center rounded-full bg-gray-800 text-white shadow-md">
-                      <i
-                        className={`bx ${portfolioData.about.aboutNarrative.approach.icon} text-xl`}
-                      ></i>
-                    </div>
-                    <h3 className="text-xl font-bold text-gray-800">
-                      My Approach
-                    </h3>
-                  </div>
-                  <p className="text-gray-600 text-sm leading-relaxed">
-                    {portfolioData.about.aboutNarrative.approach.text}
+                <div>
+                  <p className="text-[11px] font-bold text-gray-400 uppercase tracking-[0.25em] mb-4">
+                    Driven By
                   </p>
-                </div>
-              </div>
-
-              {/* personal info */}
-              <div className="bg-white rounded-xl p-6 shadow-md border border-gray-200">
-                <div className="flex items-center gap-3 mb-6">
-                  <div className="w-12 h-12 flex items-center justify-center rounded-full bg-gray-800 text-white shadow-md">
-                    <i className="bx bx-info-circle text-xl"></i>
+                  <p className="text-3xl font-bold text-gray-800 mb-5 font-ubuntu">
+                    Curiosity<span className="text-accent">.</span>
+                  </p>
+                  <div className="text-gray-600 text-[15px] leading-relaxed space-y-1">
+                    <p>That question became a habit.</p>
+                    <p>A Pascal compiler, written from scratch.</p>
+                    <p>A neural network with backpropagation done by hand.</p>
+                    <p>An image compressor built on quadtrees.</p>
+                    <p className="pt-2">
+                      None of them started as assignments I loved —
+                      <br />
+                      they started as black boxes I wanted to open.
+                    </p>
                   </div>
-                  <h3 className="text-xl font-bold text-gray-800">
-                    Personal Info
-                  </h3>
                 </div>
 
-                <ul className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  {portfolioData.about.biodata.map((item, index) => (
-                    <li key={index} className="flex items-center gap-3">
-                      <div className="flex items-center justify-center w-10 h-10 rounded-full bg-gray-800 shadow-md text-white flex-shrink-0">
-                        <i className={`${item.icon} text-lg`}></i>
-                      </div>
-                      <div className="flex-1">
-                        <span className="font-semibold text-xs text-gray-800 block">
-                          {item.label}:
-                        </span>
-                        <span className="text-sm text-gray-600 block">
-                          {item.value}
-                        </span>
-                      </div>
-                    </li>
-                  ))}
-                </ul>
               </div>
             </motion.div>
+          </div>
+
+          {/* story continuation — full width scroll narrative */}
+          <div className="max-w-2xl mx-auto text-center space-y-24 mb-28">
+
+            {/* perspective shift */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+            >
+              <p className="text-[11px] font-bold text-gray-400 uppercase tracking-[0.25em] mb-6">
+                Perspective Shift
+              </p>
+              <p className="text-2xl sm:text-3xl font-medium italic text-gray-800 mb-6 font-ubuntu">
+                Over time, I stopped seeing problems as tasks to finish.
+              </p>
+              <div className="text-gray-600 text-[15px] leading-relaxed space-y-1">
+                <p>I started seeing them as systems —</p>
+                <p>things that can be taken apart,</p>
+                <p>understood piece by piece,</p>
+                <p>and rebuilt into something that works.</p>
+                <p className="pt-3">Not perfectly.</p>
+                <p>But meaningfully.</p>
+              </div>
+            </motion.div>
+
+            {/* right now */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+              className="text-left bg-white rounded-2xl border border-gray-100 shadow-sm p-8 sm:p-10"
+            >
+              <p className="text-2xl sm:text-3xl font-bold text-gray-800 mb-6 font-ubuntu">
+                Right now, I&apos;m deep in <span className="text-accent">AI engineering.</span>
+              </p>
+              <div className="text-gray-600 text-[15px] leading-relaxed space-y-1">
+                <p>Not just how models work —</p>
+                <p>but where they fail,</p>
+                <p>and where they&apos;re actually useful.</p>
+                <p className="pt-3">RAG pipelines grounded in real documents.</p>
+                <p>Forecasting models for air quality.</p>
+                <p>Classifiers benchmarked against the libraries I once treated as magic.</p>
+                <p className="pt-3">
+                  I care less about the hype,
+                  <br />
+                  and more about building things that run, scale,
+                  <br />
+                  and make sense.
+                </p>
+              </div>
+            </motion.div>
+
+            {/* closing statement */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+            >
+              <p className="text-3xl sm:text-4xl font-medium italic text-gray-800 leading-snug font-ubuntu">
+                And someday, I want to build things
+                <br />
+                that don&apos;t just work —
+                <br />
+                <span className="text-accent">but actually matter.</span>
+              </p>
+            </motion.div>
+
+            {/* name reveal */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+            >
+              <p className="text-lg text-gray-500 italic mb-4">
+                So, there you have it —
+              </p>
+              <p className="text-4xl sm:text-5xl font-bold text-gray-800 font-ubuntu">
+                Danendra Shafi Athallah<span className="text-accent">.</span>
+              </p>
+            </motion.div>
+
           </div>
 
           {/* experience timeline */}
@@ -1243,6 +1288,24 @@ export default function Portfolio() {
               </p>
             </div>
             <Timeline />
+          </motion.div>
+
+          {/* achievements section */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            className="mb-16"
+          >
+            <div className="text-center mb-12">
+              <h3 className="text-4xl font-bold text-gray-800 mb-4 font-ubuntu">
+                Achievements
+              </h3>
+              <p className="text-lg text-gray-600 max-w-3xl mx-auto font-ubuntu">
+                Recognitions and awards earned through competitions and impactful projects.
+              </p>
+            </div>
+            <Achievements />
           </motion.div>
 
           {/* featured projects section */}
@@ -1301,21 +1364,22 @@ export default function Portfolio() {
               </div>
 
               <motion.div
+                key={projectFilter}
                 className="flex gap-8"
                 animate={{
-                  x: [0, -7680], // Move exactly one full set (15 projects × 512px each)
+                  x: [0, -(filteredProjects.length * 512)], // Move exactly one full set (each card is 480px + 32px gap)
                 }}
                 transition={{
                   x: {
                     repeat: Infinity,
                     repeatType: "loop",
-                    duration: 60,
+                    duration: filteredProjects.length * 4,
                     ease: "linear",
                   },
                 }}
               >
                 {/* duplicate projects for seamless loop - use 4 sets for smoother experience */}
-                {[...portfolioData.projects, ...portfolioData.projects, ...portfolioData.projects, ...portfolioData.projects].map((project, index) => (
+                {[...filteredProjects, ...filteredProjects, ...filteredProjects, ...filteredProjects].map((project, index) => (
                   <motion.div
                     key={`carousel-${index}`}
                     className="flex-shrink-0 w-[480px] bg-white/30 backdrop-blur-sm rounded-2xl overflow-hidden hover:bg-white/50 transition-all duration-300 flex flex-col"

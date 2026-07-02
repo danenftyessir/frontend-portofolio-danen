@@ -1,0 +1,154 @@
+﻿KUMPULAN PROJECT
+
+
+Dokumentasi ini diperuntukkan sebagai konten dari personal website saya yang menjadi petunjuk dari berbagai hasil project yang sudah pernah dilalui dan sudah di filter yang menurut saya adalah yang terbaik dan sejalan dengan path career saya sebagai AI Engineer ataupun Software Engineer dengan detail-detail yang sudah dirangkum sebagai format berikut:
+Nama Project - Link github project/Link web (Jika Masih Aktif Hosting) FOTO: [NAMA ALAMAT FOTO]
+[DESKRIPSI]
+Silahkan anda sesuaikan README yang diberikan agar project tersebut cukup sesuai dengan career sebagai AI Engineer/Software Engineer secara tersirat!
+================================================================
+========
+
+
+1. MBG - Makan Bergizi Ga Bocor
+MBG - Makan Bergizi Ga Bocor - https://makanbergizigabocor.vercel.app/ FOTO: ss-mbg-1-project
+Web-based app for transparent monitoring of the distribution of Makan Bergizi Gratis (MBG) using blockchain and mapping of priority areas using AI
+Tech Stack: Solidity, Next.js, Tailwind CSS, Ethereum, Supabase
+
+
+2. E-Facility
+HalalHub - https://e-facility.itb.ac.id/v2/beranda FOTO: ss-efacility-project
+E-Facility is a system that integrates ITB facility services, both tariff-based (rental based) and non-tariff-based (resource sharing based), for ITB academics.
+Tech Stack: PHP, Laravel, Node.js, Oracle
+
+
+3. MPM UPNVJ Official Website
+MPM UPNVJ Official Website - https://mpm.upnvj.ac.id/ FOTO: ss-mpmupnvj-official-website-project
+Official website for Majelis Permusyawaratan Mahasiswa (MPM) UPN “Veteran” Jakarta, the highest student legislative body representing faculties and managing student aspirations
+and organizational transparency. The site centralizes legislative updates, event information, and institutional resources for the UPNVJ student, with attention to structured content delivery, responsive performance, and sustainable maintainability to ensure reliable access and communication for diverse users.
+Tech Stack: Wordpress
+
+
+4. Little Alchemy 2 Recipe Finder
+Little Alchemy 2 Recipe Finder - https://github.com/danenftyessir/Tubes2_EldenBoys.git FOTO: ss-eldenboys-project
+Website to search for recipes of an element in the game little alchemy 2 using 3 approaches namely: BFS (Breadth First Search), DFS (Depth First Search), & Bidirectional.
+Tech Stack: Golang, Next.js, Typescript, Tailwind CSS
+
+
+5. Rick ASOYY
+Rick ASOYY - https://github.com/danenftyessir/IF2150-2024-K03-G07-HalalHub FOTO: ss-rickasoyy-project
+Rick ASOYY is a website designed as an audio and image finder, utilizing linear algebra and geometry concepts such as the PCA method from scratch for image searching and Query by Humming for audio searching.
+Tech Stack: React.js, TypeScript, Flask, Python, Tailwind CSS, NumPy, PCA
+
+
+6. Pascal S Compiler
+Pascal S Compiler - https://github.com/danenftyessir/pascal-s-compiler-from-scratch FOTO: ss-pascal-compiler-project
+A Python-based Pascal-S compiler featuring DFA lexical analysis, recursive descent parsing, and semantic checks, highlighting structured problem solving, formal language processing, and robust rule-based system design relevant to analytical and engineering workflows.
+Tech Stack: Python
+
+
+7. O.W.C.A Logistics
+O.W.C.A Logistics - https://github.com/danenftyessir/if2010-tubes-2-2425-dkn FOTO: ss-owca-logistic-project
+A desktop logistics management system for handling shipments, couriers, parcels, and real-time tracking with a modular and extensible architecture.
+Tech Stack: Java, JavaFX, Maven, JSON/XML Data Storage
+
+
+8. HalalHub
+HalalHub - https://github.com/danenftyessir/IF2150-2024-K03-G07-HalalHub FOTO: ss-halalhub-umkm-project
+HalalHub is a GUI-based software developed using Python, designed specifically for small and medium-sized enterprises (SMEs/UMKM) to manage businesses selling Muslim clothing and accessories.
+Tech Stack: Python, Tkinter
+
+
+9. KIZUNA
+KIZUNA - https://github.com/danenftyessir/Tucil2_13523136 FOTO: ss-kizuna-project
+A quadtree-driven image compression system that applies divide-and-conquer segmentation to efficiently represent visual data, reinforcing foundations in spatial data structures, image processing logic, and performance-oriented algorithm design.
+Tech Stack: C++, OpenCV, CMake, FFmpeg
+
+
+10. ATS CV Search Application
+ATS CV Search Application - https://github.com/danenftyessir/Tubes3_StimaSukses FOTO: ss-ats-search-application-project
+An ATS-style CV search application that extracts and matches keywords from PDF resumes using multiple pattern-matching algorithms including KMP, Boyer-Moore, Aho-Corasick, and Levenshtein Distance, supporting exact and fuzzy search with database integration for structured CV management.
+Tech Stack: Python, Docker, MySQL, uv, PDF Processing
+
+
+11. Nimonspedia
+Nimonspedia - https://github.com/danenftyessir/Nimonspedia 
+FOTO: ss-nimonspedia-project
+A web-based e-commerce platform that supports multi-role users, product management, balance handling, shopping cart, checkout, and order tracking, developed using a hybrid architecture combining PHP, Node.js, and React for structured, reliable, and scalable marketplace operations.
+Tech Stack: PHP, Node.js, React, PostgreSQL, Nginx, Docker, WebSocket
+AI ENGINEER PROJECTS
+Section ini merangkum project AI/ML yang paling relevan untuk path career sebagai AI Engineer, mencakup data analytics, heuristic optimization, NLP, tabular machine learning, neural network classification, computer vision, dan time-series forecasting. Setiap project ditulis dengan fokus pada problem, pendekatan model, evaluasi, dan nilai engineering yang dapat ditampilkan pada personal website.
+
+
+12. MBG - Makan Bergizi Ga Bocor Background
+MBG - Makan Bergizi Ga Bocor Background - https://github.com/danenftyessir/Nama-Nta ran
+FOTO: ss-mbg-2-project
+A data analysis project exploring public perception of the Makan Bergizi Gratis (MBG) program by processing social media comments and extracting sentiment insights using text preprocessing and machine learning classification to understand community responses and discussion patterns.
+Tech Stack: Python, Notebook, Pandas, NumPy, NLTK / Sastrawi, Scikit-Learn, Matplotlib / Seaborn
+
+
+13. Local Search for Weekly Class Schedulling
+Local Search for Weekly Class Schedulling - https://github.com/danenftyessir/Hambapenat
+_Tubes-1_IF3170_Weekly_Class_Schedulling_Local_Search.git FOTO: ss-local-search-project
+A scheduling system that applies heuristic local search optimization to generate weekly university class timetables. It assigns courses to rooms and time slots while minimizing conflicts, capacity issues, and penalty constraints, producing practical and well-structured schedules through iterative improvement strategies.
+Tech Stack: Python, NumPy, Pandas, Matplotlib
+
+
+14. Sentiment Analysis on Retina Data Trade
+Sentiment Analysis on Retina Data Trade - https://github.com/danenftyessir/Support-Vecto r-Machine-Implementation-for-YouTube-Sentiment-Analysis-on-Retina-Data-Trade.git
+FOTO: ss-sentiment-analysis-retina-project
+A sentiment analysis system for YouTube comments on retina data trade, utilizing text preprocessing and Support Vector Machine classification to categorize opinions into positive, negative, and neutral sentiments.
+Tech Stack: Python, Notebook, Pandas, NumPy, Scikit-Learn, Matplotlib
+
+
+15. Predicting Student Success using Machine Learning (DTL, Logistic Regression, SVM)
+Predicting Student Success using ML Models from Scratch - https://github.com/danenftyessir/student-success-prediction-from-scratch-ml-models.git
+FOTO: ss-predict-student-success-project
+A student success prediction system using Decision Tree Learning, Logistic Regression, and SVM, featuring custom from-scratch implementations that are benchmarked against scikit-learn models to evaluate performance consistency and effectiveness.
+Tech Stack: Python, Notebook, Pandas, NumPy, Scikit-Learn, Matplotlib
+
+
+16. Loan Risk Prediction Ensemble
+Loan Risk Prediction Ensemble - https://github.com/danenftyessir/loan-risk-prediction-ens emble
+FOTO: ss-loan-risk-prediction-ensemble-project
+A machine learning project for loan decision support that predicts approval status from applicant financial and demographic data. The system compares ensemble strategies such as Random Forest, Gradient Boosting, Stacking, and Soft Voting, applies hyperparameter tuning, and uses Macro F1 plus error analysis to understand credit-risk trade-offs between false approvals and lost approval opportunities.
+Tech Stack: Python, Pandas, NumPy, Scikit-Learn, Matplotlib, Seaborn, RandomizedSearchCV
+
+
+17. Dry Bean Classification Neural Network
+Dry Bean Classification Neural Network - https://github.com/danenftyessir/dry-bean-classi fication-neural-network
+FOTO: ss-dry-bean-classification-neural-network-project
+A multiclass tabular classification project that identifies seven dry bean varieties using morphological features. The workflow compares a linear Perceptron baseline with Feedforward Neural Networks, supported by EDA, feature importance analysis, stratified splitting, train-only scaling, PCA exploration, learning-curve diagnostics, and Macro F1 evaluation.
+Tech Stack: Python, PyTorch, Scikit-Learn, Pandas, NumPy, Matplotlib, Seaborn
+18. Marine Mammal Image Classification CNN
+Marine Mammal Image Classification CNN - https://github.com/danenftyessir/marine-ma mmal-image-classification-cnn
+FOTO: ss-marine-mammal-image-classification-cnn-project
+A computer vision project that classifies dolphin and whale images using CNN modeling and transfer learning. It compares an AlexNet-style model trained from scratch with EfficientNet-B0 fine-tuning, demonstrates why pretrained visual features are effective for small image datasets, and evaluates generalization through Macro F1, accuracy, confusion matrix, and bias-variance analysis.
+Tech Stack: Python, PyTorch, Torchvision, PIL, OpenCV, Scikit-Learn, NumPy, Pandas, Matplotlib, Seaborn
+
+
+19. Air Quality Forecasting RNN LSTM
+Air Quality Forecasting RNN LSTM - https://github.com/danenftyessir/air-quality-forecast ing-rnn-lstm
+FOTO: ss-air-quality-forecasting-rnn-lstm-project
+A deep learning time-series forecasting project for predicting PM2.5 concentration seven days ahead using RNN and LSTM variants. The pipeline applies time-aware preprocessing, pollutant and temporal feature engineering, train-only scaling to avoid future leakage, sliding-window generation, direct multi-output forecasting, and horizon-based RMSE/MAE diagnostics for air-quality early warning.
+Tech Stack: Python, PyTorch, Pandas, NumPy, Scikit-Learn, Statsmodels, Matplotlib, Seaborn
+
+
+20. Karsa
+Karsa - https://github.com/danenftyessir/karsa  
+FOTO: ss-karsa-project
+An AI-powered platform that connects university students with community-service (KKN) and internship opportunities across institutions such as village governments, public agencies, NGOs, health centers, and schools, while also enabling company–talent recruitment. The platform features an AI assistant built on a Retrieval-Augmented Generation (RAG) pipeline: it performs hybrid retrieval (semantic similarity via Cohere multilingual embeddings combined with keyword search) over a curated knowledge repository of KKN documents, and uses a large language model (Anthropic Claude) to generate contextual, grounded answers with source citations and content moderation. Additional AI features include semantic document verification and automated institution classification.
+Tech Stack: PHP, Laravel 13, Blade, TailwindCSS, Vite, PostgreSQL, Supabase (storage), Cohere (embeddings & classification), LLM, RAG.
+
+
+21. Feedforward Neural Network from Scratch
+Feedforward Neural Network from Scratch - https://github.com/danenftyessir/feedforward-neural-network-from-scratch 
+FOTO: ss-ffnn-from-scratch-project
+A complete Feedforward Neural Network implementation built entirely from scratch without TensorFlow or PyTorch, featuring manual backpropagation, automatic differentiation, multiple optimization algorithms, normalization techniques, regularization methods, and flexible network architectures. The project benchmarks its custom implementation against scikit-learn, demonstrating competitive performance while showcasing a deep understanding of neural network internals and machine learning engineering principles.
+Tech Stack: Python, NumPy, Pandas, Matplotlib, Scikit-Learn
+
+
+22. Vision-Language Lab from Scratch (CNN, RNN & LSTM)
+Vision-Language Lab from Scratch - https://github.com/danenftyessir/vision-language-lab-from-scratch 
+FOTO: ss-vision-language-lab-project
+An end-to-end deep learning project implementing CNN, RNN, and LSTM inference engines entirely from scratch using NumPy, covering both image classification and image captioning tasks. The project validates custom implementations against Keras models while exploring convolutional architectures, recurrent networks, beam search decoding, feature visualization, Grad-CAM, and comprehensive evaluation using Macro F1, BLEU, and METEOR, highlighting both algorithmic understanding and practical AI engineering skills.
+Tech Stack: Python, NumPy, TensorFlow/Keras, OpenCV, PIL, Scikit-Learn, NLTK, Matplotlib
