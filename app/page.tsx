@@ -1103,42 +1103,12 @@ export default function Portfolio() {
               transition={{ duration: 0.8 }}
               className="w-full"
             >
-              <div className="grid grid-cols-2 grid-rows-[200px_200px_200px] gap-3">
-                {/* FOTO A - Top Left (spans 2 rows - Portrait/Tinggi) */}
-                <div className="relative overflow-hidden rounded-xl shadow-lg hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 row-span-2">
-                  <img
-                    src="/profile3.png"
-                    alt="About Me - Portrait"
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-
-                {/* FOTO B - Top Right (Landscape/Grup) */}
-                <div className="relative overflow-hidden rounded-xl shadow-lg hover:shadow-2xl hover:-translate-y-1 transition-all duration-300">
-                  <img
-                    src="/profile2.jpg"
-                    alt="About Me - Group"
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-
-                {/* FOTO C - Right (spans 2 rows - Portrait/Tinggi) */}
-                <div className="relative overflow-hidden rounded-xl shadow-lg hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 row-span-2">
-                  <img
-                    src="/profile4.jpg"
-                    alt="About Me - Portrait 2"
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-
-                {/* FOTO D - Bottom Left (Landscape) */}
-                <div className="relative overflow-hidden rounded-xl shadow-lg hover:shadow-2xl hover:-translate-y-1 transition-all duration-300">
-                  <img
-                    src="/profile5.jpg"
-                    alt="About Me - Hiking"
-                    className="w-full h-full object-cover"
-                  />
-                </div>
+              <div className="relative overflow-hidden rounded-xl shadow-lg hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 h-[420px] sm:h-[540px]">
+                <img
+                  src="/profile3.png"
+                  alt="Danendra - Portrait"
+                  className="w-full h-full object-cover"
+                />
               </div>
             </motion.div>
 
@@ -1174,13 +1144,13 @@ export default function Portfolio() {
                   </p>
                   <div className="text-gray-600 text-[15px] leading-relaxed space-y-1">
                     <p>That question became a habit.</p>
-                    <p>A Pascal compiler, written from scratch.</p>
-                    <p>A neural network with backpropagation done by hand.</p>
-                    <p>An image compressor built on quadtrees.</p>
+                    <p>How does a computer understand the code we write?</p>
+                    <p>How does a machine actually learn?</p>
+                    <p>How do systems stay reliable as they grow?</p>
                     <p className="pt-2">
-                      None of them started as assignments I loved —
+                      Every black box I met
                       <br />
-                      they started as black boxes I wanted to open.
+                      became one more thing I had to open.
                     </p>
                   </div>
                 </div>
@@ -1189,14 +1159,55 @@ export default function Portfolio() {
             </motion.div>
           </div>
 
-          {/* story continuation — full width scroll narrative */}
-          <div className="max-w-2xl mx-auto text-center space-y-24 mb-28">
+          {/* story continuation — scroll narrative with photos */}
+          <div className="space-y-24 mb-28">
+
+            {/* beyond the screen */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center max-w-5xl mx-auto">
+              <motion.div
+                initial={{ opacity: 0, x: -30 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.8 }}
+              >
+                <p className="text-[11px] font-bold text-gray-400 uppercase tracking-[0.25em] mb-6">
+                  Beyond The Screen
+                </p>
+                <p className="text-2xl sm:text-3xl font-medium italic text-gray-800 mb-6 font-ubuntu">
+                  Not every answer lives in the terminal.
+                </p>
+                <div className="text-gray-600 text-[15px] leading-relaxed space-y-1">
+                  <p>When the code stops making sense,</p>
+                  <p>I close the laptop and head outside.</p>
+                  <p className="pt-2">Some problems untangle themselves on a trail,</p>
+                  <p>far from the nearest compiler.</p>
+                  <p className="pt-3">The mountains taught me the same patience</p>
+                  <p>that debugging demands:</p>
+                  <p>
+                    one step at a time —{" "}
+                    <span className="text-accent">trust the process</span>.
+                  </p>
+                </div>
+              </motion.div>
+              <motion.div
+                initial={{ opacity: 0, x: 30 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.8 }}
+                className="relative overflow-hidden rounded-xl shadow-lg hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 h-[300px] sm:h-[380px]"
+              >
+                <img
+                  src="/profile2.jpg"
+                  alt="Danendra outdoors"
+                  className="w-full h-full object-cover"
+                />
+              </motion.div>
+            </div>
 
             {/* perspective shift */}
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
+              className="max-w-2xl mx-auto text-center"
             >
               <p className="text-[11px] font-bold text-gray-400 uppercase tracking-[0.25em] mb-6">
                 Perspective Shift
@@ -1214,7 +1225,52 @@ export default function Portfolio() {
               </div>
             </motion.div>
 
+            {/* along the way — the people */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center max-w-5xl mx-auto">
+              <motion.div
+                initial={{ opacity: 0, x: -30 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.8 }}
+                className="relative overflow-hidden rounded-xl shadow-lg hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 h-[300px] sm:h-[380px] order-2 lg:order-1"
+              >
+                <img
+                  src="/profile5.jpg"
+                  alt="Danendra with team at competition"
+                  className="w-full h-full object-cover"
+                />
+              </motion.div>
+              <motion.div
+                initial={{ opacity: 0, x: 30 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.8 }}
+                className="order-1 lg:order-2"
+              >
+                <p className="text-[11px] font-bold text-gray-400 uppercase tracking-[0.25em] mb-6">
+                  Along The Way
+                </p>
+                <p className="text-2xl sm:text-3xl font-medium italic text-gray-800 mb-6 font-ubuntu">
+                  But curiosity alone doesn&apos;t build much.
+                </p>
+                <div className="text-gray-600 text-[15px] leading-relaxed space-y-1">
+                  <p>People do.</p>
+                  <p className="pt-2">Teammates in hackathons,</p>
+                  <p>racing the clock long past midnight.</p>
+                  <p>Seventy students learning Python,</p>
+                  <p>asking questions I&apos;d never thought to ask.</p>
+                  <p>Bootcamp participants, mentors, speakers —</p>
+                  <p>each one reshaped how I see this field.</p>
+                  <p className="pt-3">
+                    The best systems, it turns out,
+                    <br />
+                    are built <span className="text-accent">with</span> people —
+                    not just for them.
+                  </p>
+                </div>
+              </motion.div>
+            </div>
+
             {/* right now */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center max-w-5xl mx-auto">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -1222,30 +1278,44 @@ export default function Portfolio() {
               className="text-left bg-white rounded-2xl border border-gray-100 shadow-sm p-8 sm:p-10"
             >
               <p className="text-2xl sm:text-3xl font-bold text-gray-800 mb-6 font-ubuntu">
-                Right now, I&apos;m deep in <span className="text-accent">AI engineering.</span>
+                Right now, I&apos;m all in on two crafts —{" "}
+                <span className="text-accent">software engineering</span> and{" "}
+                <span className="text-accent">AI engineering</span>.
               </p>
               <div className="text-gray-600 text-[15px] leading-relaxed space-y-1">
-                <p>Not just how models work —</p>
+                <p>One is the craft of building systems</p>
+                <p>that run, scale, and last.</p>
+                <p className="pt-3">The other is the craft of teaching machines —</p>
+                <p>not just how models work,</p>
                 <p>but where they fail,</p>
                 <p>and where they&apos;re actually useful.</p>
-                <p className="pt-3">RAG pipelines grounded in real documents.</p>
-                <p>Forecasting models for air quality.</p>
-                <p>Classifiers benchmarked against the libraries I once treated as magic.</p>
                 <p className="pt-3">
                   I care less about the hype,
                   <br />
-                  and more about building things that run, scale,
-                  <br />
-                  and make sense.
+                  and more about building things that make sense.
                 </p>
               </div>
             </motion.div>
+            <motion.div
+              initial={{ opacity: 0, x: 30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8 }}
+              className="relative overflow-hidden rounded-xl shadow-lg hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 h-[380px] sm:h-[460px]"
+            >
+              <img
+                src="/profile4.jpg"
+                alt="Danendra - Portrait"
+                className="w-full h-full object-cover"
+              />
+            </motion.div>
+            </div>
 
             {/* closing statement */}
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
+              className="max-w-2xl mx-auto text-center"
             >
               <p className="text-3xl sm:text-4xl font-medium italic text-gray-800 leading-snug font-ubuntu">
                 And someday, I want to build things
@@ -1261,6 +1331,7 @@ export default function Portfolio() {
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
+              className="max-w-2xl mx-auto text-center"
             >
               <p className="text-lg text-gray-500 italic mb-4">
                 So, there you have it —

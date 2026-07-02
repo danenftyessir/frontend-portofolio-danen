@@ -16,9 +16,31 @@ interface TimelineItemData {
 
 const timelineData: TimelineItemData[] = [
   {
+    id: "kat-itb",
+    year: "2026",
+    period: "Apr 2026 - Jul 2026",
+    title: "Backend Developer (Volunteer)",
+    organization: "KAT ITB",
+    description:
+      "Developed backend services for KAT ITB's e-commerce platform supporting authenticated onboarding and role-based product discovery flows by building API workflows for product catalog access, category-based filtering, and product detail retrieval, implementing structured request validation to guarantee data integrity across shopping and checkout preparation processes, and ensuring reliable data access patterns so users experience consistent catalog browsing from discovery to checkout.",
+    tech: ["Backend Development", "REST API", "Request Validation", "E-Commerce", "Role-Based Access", "Data Access Reliability"],
+    type: "work",
+  },
+  {
+    id: "imahnoong",
+    year: "2026",
+    period: "Feb 2026 - May 2026",
+    title: "Software Engineer (Internship)",
+    organization: "Imahnoong",
+    description:
+      "Developed frontend and dashboard features for C-29 Times, a desktop-based Islamic astronomy application supporting calendar generation, date conversion, and moon-visibility analysis workflows, by implementing JD/WD display integration, calendar support, real-time date handling, and moon-phase visualization, translating complex astronomical calculations into a clearer dashboard interface that helps users interpret hilal visibility and calendar conversion results with confidence.",
+    tech: ["Frontend Development", "Dashboard Development", "Data Visualization", "Desktop Application", "Real-Time Date Handling", "Astronomy Tooling"],
+    type: "work",
+  },
+  {
     id: "direktorat-spsi-itb",
     year: "2025",
-    period: "Oct 2025 - Present",
+    period: "Oct 2025 - Mar 2026",
     title: "Software Engineer (Contract)",
     organization: "Direktorat Sarana Prasarana & Sistem Informasi ITB",
     description:
@@ -29,7 +51,7 @@ const timelineData: TimelineItemData[] = [
   {
     id: "ralat-ind",
     year: "2025",
-    period: "Jul 2025 - Nov 2025",
+    period: "Aug 2025 - Nov 2025",
     title: "Frontend Engineer (Internship)",
     organization: "Ralat.ind",
     description:
@@ -41,7 +63,7 @@ const timelineData: TimelineItemData[] = [
     id: "bengkel-code",
     year: "2025",
     period: "Jun 2025 - Oct 2025",
-    title: "Software Engineer (Freelance)",
+    title: "Software Engineer (Contract)",
     organization: "Bengkel Code",
     description:
       "Executed end-to-end website modernization for MPM UPNVJ organization by leading complete website redesign using mobile-first responsive architecture ensuring seamless experience across all device sizes and orientations, implementing custom Google Sheets API integration enabling real-time data collection with automatic sync, error recovery, and data validation, building downloadable digital booklet generation system with dynamic content rendering, PDF export capabilities, and asset optimization, and conducting comprehensive testing including edge case simulation, load testing, and error handling validation to ensure production-ready reliability.",
