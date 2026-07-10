@@ -48,7 +48,7 @@ export const metadata: Metadata = {
     siteName: "Danendra Portfolio",
     images: [
       {
-        url: "/profile.jpg",
+        url: "/profile.webp",
         width: 1200,
         height: 630,
         alt: "Danendra Shafi Athallah - Software Engineer & AI Enthusiast",
@@ -62,7 +62,7 @@ export const metadata: Metadata = {
     title: "Danendra Shafi Athallah - Personal AI Portfolio",
     description:
       "Student of Informatics Engineering at ITB with a deep passion for coding and continuous learning",
-    images: ["/profile.jpg"],
+    images: ["/profile.webp"],
     creator: "@danendra_dev",
   },
   robots: {
@@ -131,7 +131,7 @@ export default function RootLayout({
         />
 
         {/* preload critical assets */}
-        <link rel="preload" href="/profile.jpg" as="image" type="image/jpeg" />
+        <link rel="preload" href="/profile.webp" as="image" type="image/webp" />
 
         {/* structured data untuk seo */}
         <script
@@ -145,7 +145,7 @@ export default function RootLayout({
               description:
                 "Student of Informatics Engineering at ITB with a deep passion for coding and continuous learning",
               url: "https://danendra-portfolio.vercel.app",
-              image: "https://danendra-portfolio.vercel.app/profile.jpg",
+              image: "https://danendra-portfolio.vercel.app/profile.webp",
               sameAs: [
                 "https://github.com/danenftyessir",
                 "https://linkedin.com/in/danendrashafiathallah",

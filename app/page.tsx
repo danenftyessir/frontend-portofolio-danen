@@ -20,7 +20,7 @@ const portfolioData = {
     ],
     description:
       "Student of Informatics Engineering at ITB with a deep passion for coding and continuous learning. Experienced in web development, data science, and algorithm design with a commitment to making meaningful contributions in every endeavor.",
-    img: "/profile.jpg",
+    img: "/profile.webp",
     socialMedia: [
       {
         platform: "GitHub",
@@ -47,7 +47,7 @@ const portfolioData = {
   about: {
     title: "About Me",
     subtitle: "Discover my journey, passions, and the story behind my work",
-    image: "/profile.jpg",
+    image: "/profile.webp",
     biodata: [
       {
         label: "Name",
@@ -537,7 +537,7 @@ const portfolioData = {
     {
       title: "MBG - Makan Bergizi Ga Bocor",
       link: "https://makanbergizigabocor.vercel.app/",
-      image: "/ss-mbg-1-project.png",
+      image: "/ss-mbg-1-project.webp",
       techStack: ["Solidity", "Next.js", "Tailwind CSS", "Ethereum", "Supabase"],
       description: "Web-based app for transparent monitoring of the distribution of Makan Bergizi Gratis (MBG) using blockchain and mapping of priority areas using AI",
       features: ["Blockchain Integration", "AI-Powered Mapping"],
@@ -546,7 +546,7 @@ const portfolioData = {
     {
       title: "MBG Background Analysis",
       link: "https://github.com/danenftyessir/Nama-Ntaran",
-      image: "/ss-mbg-2-project.png",
+      image: "/ss-mbg-2-project.webp",
       techStack: ["Python", "Pandas", "NumPy", "NLTK", "Scikit-Learn", "Matplotlib"],
       description: "A data analysis project exploring public perception of the Makan Bergizi Gratis (MBG) program by processing social media comments and extracting sentiment insights using text preprocessing and machine learning classification",
       features: ["Sentiment Analysis", "Text Preprocessing"],
@@ -555,7 +555,7 @@ const portfolioData = {
     {
       title: "E-Facility ITB",
       link: "https://e-facility.itb.ac.id/v2/beranda",
-      image: "/ss-efacility-project.png",
+      image: "/ss-efacility-project.webp",
       techStack: ["PHP", "Laravel", "Node.js", "Oracle"],
       description: "E-Facility is a system that integrates ITB facility services, both tariff-based (rental based) and non-tariff-based (resource sharing based), for ITB academics",
       features: ["Service Integration", "Resource Sharing"],
@@ -564,7 +564,7 @@ const portfolioData = {
     {
       title: "MPM UPNVJ Official Website",
       link: "https://mpm.upnvj.ac.id/",
-      image: "/ss-mpmupnvj-official-website-project.png",
+      image: "/ss-mpmupnvj-official-website-project.webp",
       techStack: ["WordPress", "Advanced Custom Fields", "Contact Form 7", "Yoast SEO", "Polylang", "Slider Revolution", "Jetpack"],
       description: "Official website for Majelis Permusyawaratan Mahasiswa (MPM) UPN Veteran Jakarta, the highest student legislative body representing faculties and managing student aspirations and organizational transparency",
       features: ["Content Management", "Responsive Design"],
@@ -573,7 +573,7 @@ const portfolioData = {
     {
       title: "Little Alchemy 2 Recipe Finder",
       link: "https://github.com/danenftyessir/Tubes2_EldenBoys.git",
-      image: "/ss-eldenboys-project.png",
+      image: "/ss-eldenboys-project.webp",
       techStack: ["Golang", "Next.js", "TypeScript", "Tailwind CSS"],
       description: "Website to search for recipes of an element in the game little alchemy 2 using 3 approaches namely: BFS (Breadth First Search), DFS (Depth First Search), & Bidirectional",
       features: ["Algorithm Visualization", "Multiple Search Methods"],
@@ -582,7 +582,7 @@ const portfolioData = {
     {
       title: "Rick ASOYY",
       link: "https://github.com/danenftyessir/IF2150-2024-K03-G07-HalalHub",
-      image: "/ss-rickasoyy-project.png",
+      image: "/ss-rickasoyy-project.webp",
       techStack: ["React.js", "TypeScript", "Flask", "Python", "PCA", "NumPy"],
       description: "Rick ASOYY is a website designed as an audio and image finder, utilizing linear algebra and geometry concepts such as the PCA method from scratch for image searching and Query by Humming for audio searching",
       features: ["PCA Image Search", "Audio Recognition"],
@@ -591,7 +591,7 @@ const portfolioData = {
     {
       title: "Pascal S Compiler",
       link: "https://github.com/danenftyessir/pascal-s-compiler-from-scratch",
-      image: "/ss-pascal-compiler-project.jpg",
+      image: "/ss-pascal-compiler-project.webp",
       techStack: ["Python"],
       description: "A Python-based Pascal-S compiler featuring DFA lexical analysis, recursive descent parsing, and semantic checks, highlighting structured problem solving and formal language processing",
       features: ["Lexical Analysis", "Semantic Checking"],
@@ -600,7 +600,7 @@ const portfolioData = {
     {
       title: "Local Search for Class Scheduling",
       link: "https://github.com/danenftyessir/Hambapenat_Tubes-1_IF3170_Weekly_Class_Schedulling_Local_Search.git",
-      image: "/ss-local-search-project.jpg",
+      image: "/ss-local-search-project.webp",
       techStack: ["Python", "NumPy", "Pandas", "Matplotlib"],
       description: "A scheduling system that applies heuristic local search optimization to generate weekly university class timetables. It assigns courses to rooms and time slots while minimizing conflicts and capacity issues",
       features: ["Optimization Algorithm", "Constraint Solving"],
@@ -609,7 +609,7 @@ const portfolioData = {
     {
       title: "Sentiment Analysis on Retina Data",
       link: "https://github.com/danenftyessir/Support-Vector-Machine-Implementation-for-YouTube-Sentiment-Analysis-on-Retina-Data-Trade.git",
-      image: "/ss-sentiment-analysis-retina-project.png",
+      image: "/ss-sentiment-analysis-retina-project.webp",
       techStack: ["Python", "Pandas", "NumPy", "Scikit-Learn", "Matplotlib"],
       description: "A sentiment analysis system for YouTube comments on retina data trade, utilizing text preprocessing and Support Vector Machine classification to categorize opinions into positive, negative, and neutral sentiments",
       features: ["SVM Classification", "YouTube Data Analysis"],
@@ -618,7 +618,7 @@ const portfolioData = {
     {
       title: "Predicting Student Success",
       link: "https://github.com/danenftyessir/student-success-prediction-from-scratch-ml-models.git",
-      image: "/ss-predict-student-success-project.jpg",
+      image: "/ss-predict-student-success-project.webp",
       techStack: ["Python", "Pandas", "NumPy", "Scikit-Learn", "Matplotlib"],
       description: "A student success prediction system using Decision Tree Learning, Logistic Regression, and SVM, featuring custom from-scratch implementations that are benchmarked against scikit-learn models",
       features: ["Custom ML Models", "Performance Benchmarking"],
@@ -627,7 +627,7 @@ const portfolioData = {
     {
       title: "O.W.C.A Logistics",
       link: "https://github.com/danenftyessir/if2010-tubes-2-2425-dkn",
-      image: "/ss-owca-logistic-project.png",
+      image: "/ss-owca-logistic-project.webp",
       techStack: ["Java", "JavaFX", "Maven", "JSON/XML"],
       description: "A desktop logistics management system for handling shipments, couriers, parcels, and real-time tracking with a modular and extensible architecture",
       features: ["Real-time Tracking", "Modular Architecture"],
@@ -636,7 +636,7 @@ const portfolioData = {
     {
       title: "HalalHub",
       link: "https://github.com/danenftyessir/IF2150-2024-K03-G07-HalalHub",
-      image: "/ss-halalhub-umkm-project.png",
+      image: "/ss-halalhub-umkm-project.webp",
       techStack: ["Python", "Tkinter"],
       description: "HalalHub is a GUI-based software developed using Python, designed specifically for small and medium-sized enterprises (SMEs/UMKM) to manage businesses selling Muslim clothing and accessories",
       features: ["Inventory Management", "Sales Tracking"],
@@ -645,7 +645,7 @@ const portfolioData = {
     {
       title: "KIZUNA",
       link: "https://github.com/danenftyessir/Tucil2_13523136",
-      image: "/ss-kizuna-project.png",
+      image: "/ss-kizuna-project.webp",
       techStack: ["C++", "OpenCV", "CMake", "FFmpeg"],
       description: "A quadtree-driven image compression system that applies divide-and-conquer segmentation to efficiently represent visual data, reinforcing foundations in spatial data structures and image processing logic",
       features: ["Quadtree Compression", "Image Processing"],
@@ -654,7 +654,7 @@ const portfolioData = {
     {
       title: "ATS CV Search Application",
       link: "https://github.com/danenftyessir/Tubes3_StimaSukses",
-      image: "/ss-ats-search-application-project.png",
+      image: "/ss-ats-search-application-project.webp",
       techStack: ["Python", "Docker", "MySQL", "PDF Processing"],
       description: "An ATS-style CV search application that extracts and matches keywords from PDF resumes using multiple pattern-matching algorithms including KMP, Boyer-Moore, Aho-Corasick, and Levenshtein Distance",
       features: ["Multiple Algorithms", "Fuzzy Search"],
@@ -663,7 +663,7 @@ const portfolioData = {
     {
       title: "Nimonspedia",
       link: "https://github.com/danenftyessir/Nimonspedia",
-      image: "/ss-nimonspedia-project.png",
+      image: "/ss-nimonspedia-project.webp",
       techStack: ["PHP", "Node.js", "React", "PostgreSQL", "Docker", "WebSocket"],
       description: "A web-based e-commerce platform that supports multi-role users, product management, balance handling, shopping cart, checkout, and order tracking, developed using a hybrid architecture",
       features: ["Multi-role System", "Real-time Updates"],
@@ -672,7 +672,7 @@ const portfolioData = {
     {
       title: "Pakansuper Marketplace",
       link: "",
-      image: "/ss-pakansuper-project.png",
+      image: "/ss-pakansuper-project.webp",
       techStack: ["WordPress", "WooCommerce", "Dokan", "PHP", "MySQL", "Stripe"],
       description: "An online platform that connects farmers who produce animal feed with livestock owners who need quality feed products. The marketplace streamlines the supply chain by enabling direct transactions between producers and consumers in the animal husbandry sector",
       features: ["Multi-vendor Marketplace", "Direct Farmer-Consumer Transactions", "Supply Chain Optimization", "Payment Integration"],
@@ -681,7 +681,7 @@ const portfolioData = {
     {
       title: "Loan Risk Prediction Ensemble",
       link: "https://github.com/danenftyessir/loan-risk-prediction-ensemble",
-      image: "/ss-loan-risk-prediction-ensemble-project.jpg",
+      image: "/ss-loan-risk-prediction-ensemble-project.webp",
       techStack: ["Python", "Pandas", "NumPy", "Scikit-Learn", "Matplotlib", "Seaborn", "RandomizedSearchCV"],
       description: "A machine learning project for loan decision support that predicts approval status from applicant financial and demographic data. The system compares ensemble strategies such as Random Forest, Gradient Boosting, Stacking, and Soft Voting, applies hyperparameter tuning, and uses Macro F1 plus error analysis to understand credit-risk trade-offs between false approvals and lost approval opportunities.",
       features: ["Ensemble Methods", "Hyperparameter Tuning"],
@@ -690,7 +690,7 @@ const portfolioData = {
     {
       title: "Dry Bean Classification Neural Network",
       link: "https://github.com/danenftyessir/dry-bean-classification-neural-network",
-      image: "/ss-dry-bean-classification-neural-network-project.jpg",
+      image: "/ss-dry-bean-classification-neural-network-project.webp",
       techStack: ["Python", "PyTorch", "Scikit-Learn", "Pandas", "NumPy", "Matplotlib", "Seaborn"],
       description: "A multiclass tabular classification project that identifies seven dry bean varieties using morphological features. The workflow compares a linear Perceptron baseline with Feedforward Neural Networks, supported by EDA, feature importance analysis, stratified splitting, train-only scaling, PCA exploration, learning-curve diagnostics, and Macro F1 evaluation.",
       features: ["Neural Network", "Multiclass Classification"],
@@ -699,7 +699,7 @@ const portfolioData = {
     {
       title: "Marine Mammal Image Classification CNN",
       link: "https://github.com/danenftyessir/marine-mammal-image-classification-cnn",
-      image: "/ss-marine-mammal-image-classification-cnn-project.png",
+      image: "/ss-marine-mammal-image-classification-cnn-project.webp",
       techStack: ["Python", "PyTorch", "Torchvision", "PIL", "OpenCV", "Scikit-Learn", "NumPy", "Pandas", "Matplotlib", "Seaborn"],
       description: "A computer vision project that classifies dolphin and whale images using CNN modeling and transfer learning. It compares an AlexNet-style model trained from scratch with EfficientNet-B0 fine-tuning, demonstrates why pretrained visual features are effective for small image datasets, and evaluates generalization through Macro F1, accuracy, confusion matrix, and bias-variance analysis.",
       features: ["CNN & Transfer Learning", "Computer Vision"],
@@ -708,7 +708,7 @@ const portfolioData = {
     {
       title: "Air Quality Forecasting RNN LSTM",
       link: "https://github.com/danenftyessir/air-quality-forecasting-rnn-lstm",
-      image: "/ss-air-quality-forecasting-rnn-lstm-project.jpg",
+      image: "/ss-air-quality-forecasting-rnn-lstm-project.webp",
       techStack: ["Python", "PyTorch", "Pandas", "NumPy", "Scikit-Learn", "Statsmodels", "Matplotlib", "Seaborn"],
       description: "A deep learning time-series forecasting project for predicting PM2.5 concentration seven days ahead using RNN and LSTM variants. The pipeline applies time-aware preprocessing, pollutant and temporal feature engineering, train-only scaling to avoid future leakage, sliding-window generation, direct multi-output forecasting, and horizon-based RMSE/MAE diagnostics for air-quality early warning.",
       features: ["RNN & LSTM", "Time-Series Forecasting"],
@@ -717,7 +717,7 @@ const portfolioData = {
     {
       title: "Karsa",
       link: "https://github.com/danenftyessir/karsa",
-      image: "/ss-karsa-project.png",
+      image: "/ss-karsa-project.webp",
       techStack: ["PHP", "Laravel 13", "TailwindCSS", "PostgreSQL", "Supabase", "Cohere", "RAG", "LLM"],
       description: "An AI-powered platform connecting university students with KKN and internship opportunities, featuring an AI assistant built on a RAG pipeline with hybrid retrieval (Cohere multilingual embeddings + keyword search) and an LLM (Anthropic Claude) for contextual, grounded answers with source citations. Additional AI features include semantic document verification and automated institution classification.",
       features: ["RAG Pipeline", "AI Assistant"],
@@ -726,7 +726,7 @@ const portfolioData = {
     {
       title: "Feedforward Neural Network from Scratch",
       link: "https://github.com/danenftyessir/feedforward-neural-network-from-scratch",
-      image: "/ss-ffnn-from-scratch-project.png",
+      image: "/ss-ffnn-from-scratch-project.webp",
       techStack: ["Python", "NumPy", "Pandas", "Matplotlib", "Scikit-Learn"],
       description: "A complete Feedforward Neural Network implementation built entirely from scratch without TensorFlow or PyTorch, featuring manual backpropagation, automatic differentiation, multiple optimization algorithms, normalization techniques, regularization methods, and flexible network architectures. Benchmarked against scikit-learn, demonstrating competitive performance and a deep understanding of neural network internals.",
       features: ["Manual Backpropagation", "Custom Implementation"],
@@ -735,7 +735,7 @@ const portfolioData = {
     {
       title: "Vision-Language Lab from Scratch",
       link: "https://github.com/danenftyessir/vision-language-lab-from-scratch",
-      image: "/ss-vision-language-lab-project.png",
+      image: "/ss-vision-language-lab-project.webp",
       techStack: ["Python", "NumPy", "TensorFlow/Keras", "OpenCV", "PIL", "Scikit-Learn", "NLTK", "Matplotlib"],
       description: "An end-to-end deep learning project implementing CNN, RNN, and LSTM inference engines entirely from scratch using NumPy, covering image classification and image captioning. Validates custom implementations against Keras models with feature visualization, Grad-CAM, beam search decoding, and evaluation using Macro F1, BLEU, and METEOR.",
       features: ["CNN & RNN from Scratch", "Image Captioning"],
@@ -786,6 +786,26 @@ const useTypewriter = (texts: string[], speed: number = 100) => {
   return { currentText, showCursor };
 };
 
+// isolated so the 10x/second typing state updates don't re-render the whole page
+const TypewriterHeading = ({ texts }: { texts: string[] }) => {
+  const { currentText, showCursor } = useTypewriter(texts, 100);
+
+  return (
+    <h2 className="text-xl sm:text-2xl lg:text-3xl font-semibold text-gray-700 flex items-center">
+      <span className="inline-block">
+        {currentText}
+        <span
+          className={`font-semibold text-gray-700 ${
+            showCursor ? "opacity-100" : "opacity-0"
+          } transition-all duration-200`}
+        >
+          |
+        </span>
+      </span>
+    </h2>
+  );
+};
+
 export default function Portfolio() {
   const [mounted, setMounted] = useState(false);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
@@ -795,11 +815,6 @@ export default function Portfolio() {
 
   const filteredProjects = portfolioData.projects.filter(
     (p) => projectFilter === "all" || p.role === projectFilter || p.role === "both"
-  );
-
-  const { currentText, showCursor } = useTypewriter(
-    portfolioData.hero.typingTexts,
-    100
   );
 
   useEffect(() => {
@@ -875,18 +890,7 @@ export default function Portfolio() {
                 <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-800 flex items-center">
                   {portfolioData.hero.title}
                 </h1>
-                <h2 className="text-xl sm:text-2xl lg:text-3xl font-semibold text-gray-700 flex items-center">
-                  <span className="typing-text">
-                    {currentText}
-                    <span
-                      className={`cursor ${
-                        showCursor ? "opacity-100" : "opacity-0"
-                      } transition-all duration-200`}
-                    >
-                      |
-                    </span>
-                  </span>
-                </h2>
+                <TypewriterHeading texts={portfolioData.hero.typingTexts} />
               </motion.div>
 
               <motion.p
@@ -1048,6 +1052,7 @@ export default function Portfolio() {
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
             transition={{ duration: 0.8 }}
             className="text-center mb-16"
           >
@@ -1065,13 +1070,16 @@ export default function Portfolio() {
             <motion.div
               initial={{ opacity: 0, x: -50 }}
               whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
               transition={{ duration: 0.8 }}
               className="w-full"
             >
               <div className="relative overflow-hidden rounded-xl shadow-lg hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 h-[420px] sm:h-[540px]">
                 <img
-                  src="/profile3.png"
+                  src="/profile3.webp"
                   alt="Danendra - Portrait"
+                  loading="lazy"
+                  decoding="async"
                   className="w-full h-full object-cover"
                 />
               </div>
@@ -1081,6 +1089,7 @@ export default function Portfolio() {
             <motion.div
               initial={{ opacity: 0, x: 50 }}
               whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
               transition={{ duration: 0.8 }}
               className="w-full"
             >
@@ -1132,6 +1141,7 @@ export default function Portfolio() {
               <motion.div
                 initial={{ opacity: 0, x: -30 }}
                 whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
                 transition={{ duration: 0.8 }}
               >
                 <p className="text-[11px] font-bold text-gray-400 uppercase tracking-[0.25em] mb-6">
@@ -1156,12 +1166,15 @@ export default function Portfolio() {
               <motion.div
                 initial={{ opacity: 0, x: 30 }}
                 whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
                 transition={{ duration: 0.8 }}
                 className="relative overflow-hidden rounded-xl shadow-lg hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 h-[300px] sm:h-[380px]"
               >
                 <img
-                  src="/profile2.jpg"
+                  src="/profile2.webp"
                   alt="Danendra outdoors"
+                  loading="lazy"
+                  decoding="async"
                   className="w-full h-full object-cover"
                 />
               </motion.div>
@@ -1171,6 +1184,7 @@ export default function Portfolio() {
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
               transition={{ duration: 0.8 }}
               className="max-w-2xl mx-auto text-center"
             >
@@ -1195,18 +1209,22 @@ export default function Portfolio() {
               <motion.div
                 initial={{ opacity: 0, x: -30 }}
                 whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
                 transition={{ duration: 0.8 }}
                 className="relative overflow-hidden rounded-xl shadow-lg hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 h-[300px] sm:h-[380px] order-2 lg:order-1"
               >
                 <img
-                  src="/profile5.jpg"
+                  src="/profile5.webp"
                   alt="Danendra with team at competition"
+                  loading="lazy"
+                  decoding="async"
                   className="w-full h-full object-cover"
                 />
               </motion.div>
               <motion.div
                 initial={{ opacity: 0, x: 30 }}
                 whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
                 transition={{ duration: 0.8 }}
                 className="order-1 lg:order-2"
               >
@@ -1239,6 +1257,7 @@ export default function Portfolio() {
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
               transition={{ duration: 0.8 }}
               className="text-left bg-white rounded-2xl border border-gray-100 shadow-sm p-8 sm:p-10"
             >
@@ -1264,11 +1283,12 @@ export default function Portfolio() {
             <motion.div
               initial={{ opacity: 0, x: 30 }}
               whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
               transition={{ duration: 0.8 }}
               className="relative overflow-hidden rounded-xl shadow-lg hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 h-[380px] sm:h-[460px]"
             >
               <img
-                src="/profile4.jpg"
+                src="/profile4.webp"
                 alt="Danendra - Portrait"
                 className="w-full h-full object-cover"
               />
@@ -1279,6 +1299,7 @@ export default function Portfolio() {
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
               transition={{ duration: 0.8 }}
               className="max-w-2xl mx-auto text-center"
             >
@@ -1295,6 +1316,7 @@ export default function Portfolio() {
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
               transition={{ duration: 0.8 }}
               className="max-w-2xl mx-auto text-center"
             >
@@ -1312,6 +1334,7 @@ export default function Portfolio() {
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
             transition={{ duration: 0.8 }}
             className="mb-16"
           >
@@ -1330,6 +1353,7 @@ export default function Portfolio() {
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
             transition={{ duration: 0.8 }}
             className="mb-16"
           >
@@ -1348,6 +1372,7 @@ export default function Portfolio() {
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
             transition={{ duration: 0.8 }}
             className="mb-16"
           >
@@ -1414,8 +1439,8 @@ export default function Portfolio() {
                   },
                 }}
               >
-                {/* duplicate projects for seamless loop - use 4 sets for smoother experience */}
-                {[...filteredProjects, ...filteredProjects, ...filteredProjects, ...filteredProjects].map((project, index) => (
+                {/* duplicate projects for seamless loop - 2 sets are enough since the loop shifts exactly one set width */}
+                {[...filteredProjects, ...filteredProjects].map((project, index) => (
                   <motion.div
                     key={`carousel-${index}`}
                     className="flex-shrink-0 w-[480px] bg-white/30 backdrop-blur-sm rounded-2xl overflow-hidden hover:bg-white/50 transition-all duration-300 flex flex-col"
@@ -1429,6 +1454,8 @@ export default function Portfolio() {
                       <img
                         src={project.image}
                         alt={project.title}
+                        loading="lazy"
+                        decoding="async"
                         className="w-full h-full object-cover object-left group-hover:scale-110 transition-transform duration-500"
                       />
                     </div>
@@ -1548,6 +1575,8 @@ export default function Portfolio() {
                       <img
                         src={project.image}
                         alt={project.title}
+                        loading="lazy"
+                        decoding="async"
                         className="w-full h-full object-cover object-left group-hover:scale-110 transition-transform duration-500"
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
@@ -1701,6 +1730,7 @@ export default function Portfolio() {
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
         transition={{ duration: 0.8 }}
         className="relative overflow-hidden border-y border-neutral-100 bg-neutral-50/50 py-5 w-screen"
       >
@@ -1764,6 +1794,7 @@ export default function Portfolio() {
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
             transition={{ duration: 0.8 }}
             className="text-center mb-16"
           >
@@ -1780,6 +1811,7 @@ export default function Portfolio() {
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
             transition={{ duration: 0.8, delay: 0.3 }}
             className="relative"
           >
@@ -1826,6 +1858,7 @@ export default function Portfolio() {
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
             transition={{ duration: 0.8 }}
             className="text-center"
           >
@@ -1892,6 +1925,7 @@ export default function Portfolio() {
                   className="flex flex-col items-center gap-2 group"
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
                   transition={{ delay: index * 0.1, duration: 0.5 }}
                   whileHover={{ y: -5 }}
                 >
@@ -1950,13 +1984,6 @@ export default function Portfolio() {
       </footer>
 
       <style jsx>{`
-        .typing-text {
-          display: inline-block;
-        }
-        .cursor {
-          font-weight: 600;
-          color: #374151;
-        }
         .shadow-3xl {
           box-shadow: 0 35px 60px -12px rgba(0, 0, 0, 0.25);
         }

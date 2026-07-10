@@ -105,20 +105,14 @@ const timelineData: TimelineItemData[] = [
   },
 ];
 
-const TimelineItem = ({
-  item,
-  index,
-}: {
-  item: TimelineItemData;
-  index: number;
-}) => {
+const TimelineItem = ({ item }: { item: TimelineItemData }) => {
   return (
     <motion.div
       className="bg-white rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow duration-200"
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: false, amount: 0.3 }}
-      transition={{ delay: index * 0.1, duration: 0.4, ease: "easeOut" }}
+      viewport={{ once: true, amount: 0.2 }}
+      transition={{ duration: 0.4, ease: "easeOut" }}
     >
       <div className="flex gap-4">
         {/* Left column - Time period */}
@@ -156,8 +150,8 @@ const TimelineItem = ({
 export const Timeline = () => {
   return (
     <div className="max-w-4xl mx-auto space-y-3">
-      {timelineData.map((item, index) => (
-        <TimelineItem key={item.id} item={item} index={index} />
+      {timelineData.map((item) => (
+        <TimelineItem key={item.id} item={item} />
       ))}
     </div>
   );

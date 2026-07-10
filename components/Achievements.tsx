@@ -61,20 +61,14 @@ const medalStyles: Record<AchievementItemData["medal"], string> = {
   special: "text-amber-600",
 };
 
-const AchievementItem = ({
-  item,
-  index,
-}: {
-  item: AchievementItemData;
-  index: number;
-}) => {
+const AchievementItem = ({ item }: { item: AchievementItemData }) => {
   return (
     <motion.div
       className="bg-white rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow duration-200"
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: false, amount: 0.3 }}
-      transition={{ delay: index * 0.1, duration: 0.4, ease: "easeOut" }}
+      viewport={{ once: true, amount: 0.2 }}
+      transition={{ duration: 0.4, ease: "easeOut" }}
     >
       <div className="flex gap-4">
         {/* Left column - Time period */}
@@ -121,8 +115,8 @@ const AchievementItem = ({
 export const Achievements = () => {
   return (
     <div className="max-w-4xl mx-auto space-y-3">
-      {achievementsData.map((item, index) => (
-        <AchievementItem key={item.id} item={item} index={index} />
+      {achievementsData.map((item) => (
+        <AchievementItem key={item.id} item={item} />
       ))}
     </div>
   );
